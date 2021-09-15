@@ -23,7 +23,7 @@
 			</div>
 			<div class="col-lg-5 col-md-12 col-sm-12 p-2">
 				
-				<div class="col-12">
+				<div class="col-12" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
 					@foreach($premiums->take(9) as $premium)
 						<div class="product-item">
 							<a class="link" href="{{route('premiums.story', ['id' =>$premium->id])}}">
@@ -34,6 +34,9 @@
 							</a>
 						</div>
 					@endforeach
+				</div>
+				<div class="col-12">
+					<a class="btn btn-sm main-color-bg"href="{{route('premiums.category',['id' => $premium->premium_category_id ])}}">See more</a>
 				</div>
 			</div>
 		</div>

@@ -33,7 +33,7 @@
 					@endforeach
 				</div>
 				<div class="col-12">
-					<a class="btn btn-sm main-color-bg"href="#">See more</a>
+					<a class="btn btn-sm main-color-bg"href="{{route('tvs.category',['id' => $tv->tv_category_id ])}}">See more</a>
 				</div>
 			</div>
 		</div>

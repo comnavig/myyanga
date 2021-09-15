@@ -203,7 +203,7 @@ class PYLController extends Controller
 										];
 
 		$validator = Validator::make($request->all(), [
-			'pyl_id' => 'required|exists:pyls,id',
+			'pyl_id' => 'required|exists:post_your_looks,id',
         ], $messages, $customAttributes);
 
         if ($validator->fails()) 
@@ -214,25 +214,25 @@ class PYLController extends Controller
 		{
 			
 			$new_pyls = PostYourLook::find($request->pyl_id);
-			$new_pyls->delete();
 			
-			$pictures = PostYourLookPicture::where('pyl_id', $request->pyl_id)->get();
+			
+			$users = UserPostYourLook::where('post_your_look_id', $request->pyl_id)->get();
 				
 			$i = 0;
-			foreach ($pictures as $picture)
+			foreach ($users as $user)
 			{
-				$pic = PostYourLookPicture::find($picture['id']);
-				
-				if (!empty($pic->id))
-					{
-						$remove_old = explode('/', $pic->url);
+				if (!empty($user->id))
+				{
+					$remove_old = explode('/', $user->photo);
 						
-						Storage::disk('do')->delete('pyls/'.last($remove_old));
+					Storage::disk('do')->delete('pyls/'.last($remove_old));
 						
-						$pic->delete();
-					}
+					$user->delete();
 				}
-				
+			}
+			
+			$new_pyls->delete();
+			
 			session()->flash('message', 'Task was successful!');
 			return redirect()->back();
 			

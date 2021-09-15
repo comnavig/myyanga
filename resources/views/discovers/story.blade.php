@@ -24,7 +24,7 @@
 			</div>
 			<div class="col-lg-5 col-md-12 col-sm-12 p-2">
 				
-				<div class="col-12">
+				<div class="col-12" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
 					@foreach($discovers->take(9) as $discover)
 						<div class="product-item">
 							<a class="link" href="{{route('discovers.story', ['slug' =>$discover->slug])}}">
@@ -35,6 +35,9 @@
 							</a>
 						</div>
 					@endforeach
+				</div>
+				<div class="col-12">
+					<a class="btn btn-sm main-color-bg"href="{{route('discovers.category',['id' => $discover->discover_category_id ])}}">See more</a>
 				</div>
 			</div>
 		</div>

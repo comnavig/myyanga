@@ -128,7 +128,55 @@ class ProductController extends Controller
 			$product->status = $action;
 			$product->save();
 		}
+		session()->flash('message', 'Task was successful!');
 		
+		return back();
+	}
+	
+	
+	public function delete(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        if ($validator->fails()) 
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+		else
+		{
+			$productsold = ProductSold::where("product_id",$request->product_id)->get()->first();
+		
+			if (empty($productsold->id))
+			{
+				$product = Product::find($request->product_id);
+				$product->delete();
+				
+				$pictures = ProductPicture::where('product_id', $request->product_id)->get();
+					
+				$i = 0;
+				foreach ($pictures as $picture)
+				{
+					$pic = ProductPicture::find($picture['id']);
+					
+					if (!empty($pic->id))
+					{
+						$remove_old = explode('/', $pic->url);
+						
+						Storage::disk('do')->delete('products/'.last($remove_old));
+						
+						$pic->delete();
+					}
+				}
+			}
+			else
+			{
+				return back()->withErrors(['Product cannot as it have been sold']);
+			}
+			
+		}
+		session()->flash('message', 'Task was successful!');
 		return back();
 	}
 	
@@ -164,11 +212,25 @@ class ProductController extends Controller
 			}
 			else
 			{
-				$fp = new FeaturedProduct();
-				$fp->featured_category_id = $request->featuredcategory;
-				$fp->product_id = $request->product_id;
-				$fp->user_id = $user_id;
-				$fp->save();
+				$fp = FeaturedProduct::where('product_id',$product->id)->get();
+				
+				if (empty($fp->last()->id))
+				{
+					$fp = new FeaturedProduct();
+					$fp->featured_category_id = $request->featuredcategory;
+					$fp->product_id = $request->product_id;
+					$fp->user_id = $user_id;
+					$fp->save();
+				}
+				else
+				{
+					$fp = FeaturedProduct::find($fp->last()->id);
+					$fp->featured_category_id = $request->featuredcategory;
+					$fp->product_id = $request->product_id;
+					$fp->user_id = $user_id;
+					$fp->save();
+					
+				}
 			}
 		}
 		

@@ -87,18 +87,23 @@
 							  {!!$product->description!!}
 						  </div>
 						  <div class="modal-footer">
-							<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-							<form method="post" action="{{route('admin.product.action')}}">
-								@csrf
-								<input type="hidden" name="product_id" value="{{$product->id}}" />
-								@if ($product->status == "PENDING")
-									<button type="submit" class="btn main-color-bg btn-sm" name="action" value="approved" >Approve</button>
-								@elseif ($product->status == "SUSPENDED")
-									<button type="submit" class="btn main-color-bg btn-sm" name="action" value="approved" >Approve</button>
-								@else
-									<button type="submit" class="btn main-color-bg btn-sm" name="action" value="suspended" >Suspend</button>
-								@endif
-							</form>
+								<form method="post" action="{{route('admin.product.delete')}}">
+									@csrf
+									<input type="hidden" name="product_id" value="{{$product->id}}" />
+									<button type="submit" class="btn btn-sm red-bg">Delete</button>
+								</form>
+								<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+								<form method="post" action="{{route('admin.product.action')}}">
+									@csrf
+									<input type="hidden" name="product_id" value="{{$product->id}}" />
+									@if ($product->status == "PENDING")
+										<button type="submit" class="btn main-color-bg btn-sm" name="action" value="approved" >Approve</button>
+									@elseif ($product->status == "SUSPENDED")
+										<button type="submit" class="btn main-color-bg btn-sm" name="action" value="approved" >Approve</button>
+									@else
+										<button type="submit" class="btn main-color-bg btn-sm" name="action" value="suspended" >Suspend</button>
+									@endif
+								</form>
 						  </div>
 						</div>
 					  </div>

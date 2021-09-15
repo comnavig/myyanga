@@ -278,5 +278,29 @@ class TvsController extends Controller
 		
     }
 
+	public function delete(Request $request)
+    {
+		$user_id = Auth::id();
+
+		$validator = Validator::make($request->all(), [
+			'tv_id' => 'required|exists:tvs,id',
+        ]);
+
+        if ($validator->fails()) 
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+		else
+		{
+			
+			$tv = Tv::find($request->tv_id);
+			$tv->delete();
+			
+			session()->flash('message', 'Task was successful!');
+			return redirect()->back();
+			
+		}
+		
+    }
 	
 }

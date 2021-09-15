@@ -35,7 +35,7 @@
 			</div>
 			<div class="col-lg-5 col-md-12 col-sm-12 p-2">
 				
-				<div class="col-12">
+				<div class="col-12" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
 					@foreach($category->posts->take(9) as $post)
 						<div class="product-item">
 							<a class="link" href="{{route('blog.post', ['slug' =>$post->slug])}}">
@@ -46,6 +46,9 @@
 							</a>
 						</div>
 					@endforeach
+				</div>
+				<div class="col-12">
+					<a class="btn btn-sm main-color-bg"href="{{route('blog.category',['id' => $post->post_category_id ])}}">See more</a>
 				</div>
 			</div>
 		</div>

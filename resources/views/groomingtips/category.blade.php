@@ -8,7 +8,7 @@
 	<h3 class="main-color">{{$category->name}}</h3>
 </div>
 
-<div class="col-12 float-left">
+<div class="col-12 float-left" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
 	
 	@foreach($groomingtips as $groomtip)
 		<div class="product-item">

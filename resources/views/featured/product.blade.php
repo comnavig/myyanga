@@ -27,7 +27,7 @@
 				<div class="col-12 my-2">
 					<h4 class="mani-color">{{$category->name}}</h4>
 				</div>
-				<div class="col-12">
+				<div class="col-12" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
 					@foreach($category->featured->sortDesc()->take(12) as $featured)
 						<div class="product-item">
 							<a class="link" href="{{route('featured.product', ['cat' =>$category->id, 'id' =>$featured->product->id] )}}">
@@ -38,7 +38,11 @@
 							</a>
 						</div>
 					@endforeach
+				</div>				
+				<div class="col-12">
+					<a class="btn btn-sm main-color-bg"href="{{route('featured.category',['cat' => $category->id ])}}">See more</a>
 				</div>
+
 			</div>
 		</div>
 	

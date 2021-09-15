@@ -6,7 +6,7 @@
 <div class="col-12 py-3">
 	<h3 class="main-color">{{$category->name}}</h3>
 </div>
-<div class="col-12 float-left" style="margin-bottom: 25%;">
+<div class="col-12 float-left" style="margin-bottom: 25%; display: flex; flex-wrap: wrap; justify-content: space-around;">
 	@foreach($category->featured->sortDesc() as $featured)
 		<div class="product-item">
 			<a class="link" href="{{route('featured.product', ['cat' =>$category->id, 'id' =>$featured->product->id] )}}">

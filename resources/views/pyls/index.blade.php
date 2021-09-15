@@ -18,24 +18,25 @@
 			<div class="col-lg-8 col-md-12 col-sm-12" style="margin-bottom: 70px;">
 				<div class="col-12 float-left p-0">
 					<h5 class="main-color-bg p-1">Latest&apos;s Competition </h5>
-					@if(!empty($latest->id))
-						@if($latest->expired())
-						<h5><a class="gold" href="{{route('pyls.competition', ['slug' => $latest->slug])}}"> {{$latest->name}}</a>  <small class="badge main-color-bg">{{$latest->status() }}</small> </h5>
-							@foreach($latest->entries->sortDesc()->take(20) as $entry)
-								<div class="product-item">
-									<a class="link" href="{{route('pyls.competition.entry', ['slug' => $latest->slug, 'id' => $entry->id ])}}">
-										<div class="img">
-											<img src="{{$entry->photo }}" width="100%" />
-										</div>
-										{{ ( strlen($entry->user->name) > 20 ? substr($entry->user->name, 0, 15)."..." : $entry->user->name ) }}
-									</a>
-								</div>
-							@endforeach
-						@else
-							
+						<div  style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+						@if(!empty($latest->id))
+							@if($latest->expired())
+							<h5><a class="gold" href="{{route('pyls.competition', ['slug' => $latest->slug])}}"> {{$latest->name}}</a>  <small class="badge main-color-bg">{{$latest->status() }}</small> </h5>
+								@foreach($latest->entries->sortDesc()->take(20) as $entry)
+									<div class="product-item">
+										<a class="link" href="{{route('pyls.competition.entry', ['slug' => $latest->slug, 'id' => $entry->id ])}}">
+											<div class="img">
+												<img src="{{$entry->photo }}" width="100%" />
+											</div>
+											{{ ( strlen($entry->user->name) > 20 ? substr($entry->user->name, 0, 15)."..." : $entry->user->name ) }}
+										</a>
+									</div>
+								@endforeach
+							@else
+								
+							@endif
 						@endif
-					@endif
-					
+					</div>
 				</div>
 			</div>
 		</div>
@@ -47,7 +48,7 @@
 			@foreach($pyls->sortDesc() as $pyl)
 				<div class="col-md-3 col-sm-12 p-1">
 					<h5><a class="gold" href="{{route('pyls.competition', ['slug' => $pyl->slug])}}"> {{$pyl->name}}</a></h5>
-					<div class="row p-0 m-0">
+					<div class="row p-0 m-0" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
 						@foreach($pyl->entries->sortByDesc('votes_no')->take(2) as $entry)
 							<div class="product-item">
 								<a class="link" href="{{route('pyls.competition.entry', ['slug' => $pyl->slug, 'id' => $entry->id ])}}">

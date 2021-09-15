@@ -222,6 +222,7 @@ Route::get('/admin/tvs/category/new', 'Admin\TVsController@category_create')->na
 Route::post('/admin/tvs/category/new', 'Admin\TVsController@category_add')->name('admin.tv.category.add');
 Route::get('/admin/tvs/category/edit/{id}', 'Admin\TVsController@category_edit')->name('admin.tv.category.edit');
 Route::post('/admin/tvs/category/update', 'Admin\TVsController@category_update')->name('admin.tv.category.update');
+Route::post('/admin/tvs/delete', 'Admin\TVsController@delete')->name('admin.tv.delete');
 
 //Admin Featured Category Section
 Route::get('/admin/featured/categories', 'Admin\FeaturedCategoryController@index')->name('admin.featured.categories');
@@ -277,6 +278,7 @@ Route::get('/admin/products/sold/{id}/delivered', 'Admin\ProductController@deliv
 Route::post('/admin/products/sold/delivered', 'Admin\ProductController@delivered')->name('admin.products.sold.delivered');
 Route::get('/admin/products/{id}/view', 'Admin\ProductController@view')->name('admin.products.view.product');
 Route::post('/admin/products/action', 'Admin\ProductController@action')->name('admin.product.action');
+Route::post('/admin/products/delete', 'Admin\ProductController@delete')->name('admin.product.delete');
 Route::post('/admin/products/featured', 'Admin\ProductController@featured')->name('admin.product.featured');
 
 //Admin Product Category Section

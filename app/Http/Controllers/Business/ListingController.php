@@ -16,6 +16,7 @@ use App\ListingEmail;
 use App\ListingPhone;
 use App\ListingUrl;
 use App\Product;
+use App\ProductSold;
 use App\ProductPicture;
 use App\ProductShipment;
 
@@ -452,25 +453,26 @@ class ListingController extends Controller
 				
 				//First Picture width 250px
 				$first_picture = $request->pictures[0];
-				$temp = $first_picture->store('public/temp');
+				$temp = $first_picture->store('public/temp','do');
 				
 				$file_name = explode("/", $temp);
-				Storage::copy($temp,  "public/temp/thumb/".last($file_name));
+				$real_file_name = last($file_name);
+				Storage::disk('do')->copy($temp,  "public/temp/thumb/".$real_file_name);
 				
-				$image_size = Storage::size($temp);
+				$image_size = Storage::disk('do')->size($temp);
 				
 				$width = 250;
 				
-				$img = Image::make(url(Storage::url($temp)));
+				$img = Image::make(Storage::disk('do')->url($temp));
 				
 				$img->resize($width, null, function ($constraint) {
 																							$constraint->aspectRatio();
 																						  });
-				$img->save(storage_path()."/app/".$temp,100);
+				$img->save(storage_path()."/app/public/temp/".$real_file_name,100);
 				
-				$path = Storage::disk('do')->putFile('products',storage_path()."/app/".$temp);
+				$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/".$real_file_name);
 				$url = Storage::disk('do')->url($path);
-				Storage::delete($temp);
+				Storage::disk('do')->delete($temp);
 				
 				$new_picture = new ProductPicture;
 				$new_picture->product_id = $new_product->id;
@@ -478,7 +480,7 @@ class ListingController extends Controller
 				$new_picture->save();
 				
 				//Second Picture width 600px
-				$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
+				$img = Image::make(Storage::disk('do')->url("public/temp/thumb/".last($file_name)));
 				
 				if ($img->width() > 600 )
 				{
@@ -491,13 +493,15 @@ class ListingController extends Controller
 					
 					$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
 					$url = Storage::disk('do')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+					Storage::disk('do')->delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 				}
 				else
 				{
+					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
+					
 					$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
 					$url = Storage::disk('do')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+					Storage::disk('do')->delete(storage_path()."public/temp/thumb/".last($file_name));
 				}
 				
 				
@@ -797,18 +801,21 @@ class ListingController extends Controller
         }
 		else
 		{
+			$productsold = ProductSold::where("product_id",$request->product_id)->get()->first();
 			
-			$new_product = Product::find($request->product_id);
-			$new_product->delete();
-			
-			$pictures = ProductPicture::where('product_id', $request->product_id)->get();
-				
-			$i = 0;
-			foreach ($pictures as $picture)
+			if (empty($productsold->id))
 			{
-				$pic = ProductPicture::find($picture['id']);
+				$new_product = Product::find($request->product_id);
+				$new_product->delete();
 				
-				if (!empty($pic->id))
+				$pictures = ProductPicture::where('product_id', $request->product_id)->get();
+					
+				$i = 0;
+				foreach ($pictures as $picture)
+				{
+					$pic = ProductPicture::find($picture['id']);
+					
+					if (!empty($pic->id))
 					{
 						$remove_old = explode('/', $pic->url);
 						
@@ -817,10 +824,15 @@ class ListingController extends Controller
 						$pic->delete();
 					}
 				}
-				
-			session()->flash('message', 'Task was successful!');
-			return redirect()->back();
+					
+				session()->flash('message', 'Task was successful!');
+				return redirect()->back();
 			
+			}
+			else
+			{
+				return back()->withErrors(['Product cannot as it have been sold']);
+			}
 		}
 		
     }

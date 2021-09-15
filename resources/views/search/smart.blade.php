@@ -9,7 +9,7 @@
 			<h3 class="main-color">Smart Search</h3>
 		</div>
 -->
-		<form class="mt-1" method="get" action="{{route('search.smart') }}" >
+		<form class="mt-1" method="get" action="{{route('search.smart') }}?#results" >
 			@csrf
 			<div class="form-row m-0 p-0">
 				<div class="col-md-6 col-sm-12 my-4">
@@ -61,11 +61,11 @@
 	</div>
 
 @else
-	<div class="col-12 float-left py-3" style="min-height: 50px;">
+	<div id="results" class="col-12 float-left py-3" style="min-height: 50px;">
 		<h4 class="main-color d-inline" >Here are {{ count($products) }} items</h4>
 	</div>
 	
-	<div class="col-12 float-left" style="margin-bottom: 70px;">
+	<div class="col-12 float-left" style="margin-bottom: 70px; display: flex; flex-wrap: wrap;  justify-content: space-around;">
 		@foreach($products as $product)
 			<div class="product-item">
 				<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug]  )}}">

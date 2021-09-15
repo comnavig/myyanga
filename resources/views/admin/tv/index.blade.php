@@ -45,12 +45,19 @@
 					  <small>Last updated at {{$tv->updated_at}}</small>
 				  </td>
 				  <td>
-					  <a class="btn btn-sm warm-blue-bg" href="{{route('admin.tv.edit', ['id' => $tv->id ] )}}">edit</a>
-						@if($tv->status == "APPROVED")
-							<a class="btn btn-sm warm-red-bg" href="{{route('admin.tv.unapprove', ['id' => $tv->id ] )}}">unapprove</a>
-						@else
-							<a class="btn btn-sm green-bg" href="{{route('admin.tv.approve', ['id' => $tv->id ] )}}">approve</a>
-						@endif
+					
+						<form class="form-inline" method="post" action="{{ route('admin.tv.delete') }}">
+							@csrf
+							<div class="btn-group">
+								<a class="btn btn-sm warm-blue-bg" href="{{route('admin.tv.edit', ['id' => $tv->id ] )}}">edit</a>
+								@if($tv->status == "APPROVED")
+									<a class="btn btn-sm warm-red-bg" href="{{route('admin.tv.unapprove', ['id' => $tv->id ] )}}">unapprove</a>
+								@else
+									<a class="btn btn-sm green-bg" href="{{route('admin.tv.approve', ['id' => $tv->id ] )}}">approve</a>
+								@endif
+								<button class="btn btn-sm warm-red-bg " name="tv_id" value="{{$tv->id}}" >delete</button>
+							</div>
+						</form>
 				  </td>
 				</tr>
 			@endforeach

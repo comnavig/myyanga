@@ -14,7 +14,7 @@
 		<div class="col-12 float-left p-0 main-color-bg">
 			<h4 class="p-2">{{$category->name}} <a class="btn btn-sm gold float-right" href="{{route('groomtips.category',['id' =>$category->id])}}">See more</a></h4>
 		</div>
-		<div class="col-12 float-left p-4" style="min-height: 300px;">
+		<div class="col-12 float-left p-4" style="min-height: 300px; display: flex; flex-wrap: wrap; justify-content: space-around;">
 		@foreach($category->groomtips->sortDesc()->take(8) as $groomtip)
 			<div class="product-item">
 				<a class="link" href="{{route('groomtips.tip', ['slug' =>$groomtip->slug])}}">

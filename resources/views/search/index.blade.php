@@ -27,7 +27,7 @@
 		<h4 class="main-color d-inline" >Here are {{ count($products) }} items for {{ $keyword }}</h4>
 	</div>
 	
-	<div class="col-12 float-left" style="margin-bottom: 26%;">
+	<div class="col-12 float-left" style="margin-bottom: 26%; display: flex; flex-wrap: wrap;  justify-content: space-around;">
 		@foreach($products as $product)
 			<div class="product-item">
 				<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug]  )}}">
