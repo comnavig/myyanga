@@ -1,0 +1,221 @@
+@extends('layouts.auth')
+
+@section('content')
+{{-- <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card gold" style="margin-top: 10%; background-color: rgba(21,21,21,.68);">
+                <div class="card-header">{{ __('Reset Password') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('password.email') }}">
+                        @csrf
+
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Send Password Reset Link') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+<div class="form-gap"></div>
+<div class="container login-container">
+    <img class="triangleA" src="https://res.cloudinary.com/procraftstudio/image/upload/v1613965232/triangleA_lwqhnl.png" alt='Onestop triangle'>
+  <div class="row">        
+    <div class="col-md-12 login-form">
+        <div class="login_form_in">
+          <h1 class="text-left">Password Reset</h1>
+          <form method="POST" action="{{ route('password.email') }}">
+            @csrf
+            <div class="alert alert-success bg-soft-primary border-0" role="alert">
+                
+                @if (session('status'))
+                    <!-- <div class="alert alert-success" role="alert"> -->
+                        {{ session('status') }}
+                    <!-- </div> -->
+                @else
+                    Enter your email address and we'll send you an email with instructions to reset your password.
+                @endif
+            </div>                    
+            <div class="form-group">
+              <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+              @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-lg btn-block" style="background-color: #85000b; color:#fbfbfb">
+                    {{ __('Send Password Reset Link') }}
+                </button>
+              {{-- <button type="button" class="btn btn-primary btn-lg btn-block">Reset Password</button> --}}
+            </div>
+            {{-- <div class="form-group">
+                <a class="" href="{{ route('login') }}">Login</a>
+                <a class="" href="{{ route('register') }}">Register</a>
+            </div> --}}
+          </form>
+        </div>
+    </div>       
+  </div>
+</div>
+
+@endsection
+
+@push('styles')
+    <style>
+        .form-gap {
+            padding-top: 70px;
+        }
+        .login-container {
+            margin-top: 10%;
+            border: 0px solid #CCD1D1;
+            border-radius: 12px;
+            box-shadow: 0 0px 28px 0 rgb(0 0 0 / 8%);
+            max-width: 50%;
+            background: #FFF;
+            z-index: 1;
+            position: relative;
+        }
+            img.triangleA {
+            position: absolute;
+            margin-left: -16px;
+            width: 60px;
+            border-radius: 12px 0px 0px 0px;
+        }
+            img.triangleB {
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+            width: 360px;
+            z-index: 0;
+        }
+            .welcome_auth {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            }
+            .auth_welcome a {
+            font-weight: 400;
+        }
+            .auth_welcome {
+            font-weight: 100;
+            font-size: 1.5em;
+            background: -webkit-linear-gradient( 45deg, #07dd97, #beffe7);
+            background-size: 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-color: black;
+            max-width: 170px;
+        }
+            a.auth_branding_in img {
+            width: 60px;
+            height: 60px;
+            border-radius: 1000px;
+        }
+
+            .login-form {
+            background: #fbfbfb;
+            border-radius: 0px 12px 12px 0px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+            .login_form_in {
+            padding: 4em 1em;
+        }
+            .login-form h1 {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #969696;
+            line-height: 1.5em;
+            padding: 1.2em 0px .8em;
+        }
+            .lni {
+            display: inline-block;
+            font: normal normal normal 1em/1 'LineIcons';
+            speak: none;
+            text-transform: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+            .google_signup {
+            margin-top: .8em;
+        }
+            .google_signup a {
+            background: #DB4437;
+            color: #FFF;
+            display: block;
+            text-align: center;
+            padding: 12px 4px;
+            border-radius: 5px;
+        }
+            .btn-primary {
+            color: #fff;
+            background-color: #85000b;
+            border-color: #85000b;
+        }
+            .btn-primary:hover {
+            color: #fff;
+            background-color: #2900b7;
+            border-color: #2900b7;
+        }
+            .google_signup a {
+            background: #DB4437;
+            color: #FFF;
+            display: block;
+            text-align: center;
+            padding: 12px 4px;
+            border-radius: 5px;
+        }
+            .google_signup a:hover {
+            background: #d81505;
+            color: #FFF;
+        }
+            .other_auth_links a:nth-child(2) {
+            float: right;
+        }
+            a {
+            text-decoration: none;
+            color: #afafaf;
+        }
+            a:hover {
+            text-decoration: none;
+            color: #616161;
+            }    
+            .alert-success {
+            background-color: rgb(190 255 231 / 33%);
+            color: #07dd97;
+            font-size: .9em;
+            } 
+    </style>
+@endpush
