@@ -19,7 +19,11 @@
 			<div class="product-item">
 				<a class="link" href="{{route('groomtips.tip', ['slug' =>$groomtip->slug])}}">
 					<div class="img" >
-						<img src="{{$groomtip->picture[0]->url }}" width="100%" />
+						@if($groomtip->picture && count($groomtip->picture) > 0)
+							<img src="{{$groomtip->picture[0]->url }}" width="100%" />
+						@else
+							<img src="{{ asset('assets/img/default-grooming.jpg') }}" width="100%" alt="Default grooming tip image" />
+						@endif
 					</div>
 					{{ ( strlen($groomtip->name) > 20 ? substr($groomtip->name, 0, 15)."..." : $groomtip->name ) }}
 				</a>

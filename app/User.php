@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar', 'mobile','status','type',
+        'name', 'email', 'password','avatar', 'mobile','whatsapp','status','type', 'notificationList'
     ];
 
     /**
@@ -71,4 +71,8 @@ class User extends Authenticatable
 	{
 		return $this->hasOne('App\UserNotification');
 	}
+	public function notificationsData()
+    {
+        return $this->hasMany('App\NotificationData');
+    }
 }

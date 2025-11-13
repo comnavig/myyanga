@@ -14,7 +14,11 @@
 		<div class="product-item">
 			<a class="link" href="{{route('groomtips.tip', ['slug' =>$groomtip->slug])}}">
 				<div class="img" >
-					<img src="{{$groomtip->picture[0]->url }}" width="100%" />
+					@if(isset($groomtip->picture[0]))
+						<img src="{{$groomtip->picture[0]->url }}" width="100%" />
+					@else
+						<img src="/images/placeholder.jpg" alt="No image" width="100%" />
+					@endif
 				</div>
 				{{ ( strlen($groomtip->name) > 20 ? substr($groomtip->name, 0, 15)."..." : $groomtip->name ) }}
 			</a>

@@ -10,7 +10,13 @@
 		<div class="row m-0 p-0">
 			<div class="col-lg-7 col-md-12 col-sm-12">
 				<div class="product-image">
-					<img src="{{$groomtip->picture[1]->url}}" />
+					@if(isset($groomtip->picture[1]))
+						<img src="{{$groomtip->picture[1]->url}}" />
+					@elseif(isset($groomtip->picture[0]))
+						<img src="{{$groomtip->picture[0]->url}}" />
+					@else
+						<img src="/images/placeholder.jpg" alt="No image available" />
+					@endif
 				</div>
 				<div class="col-12 my-4 p-2" style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
 					<h3 class="gold font-weight-bolder">{{$groomtip->name}}</h3>
@@ -43,7 +49,11 @@
 						<div class="product-item">
 							<a class="link" href="{{route('groomtips.tip', ['slug' =>$groomtip->slug])}}">
 								<div class="img" >
-									<img src="{{$groomtip->picture[0]->url }}" width="100%" />
+									@if(isset($groomtip->picture[0]))
+										<img src="{{$groomtip->picture[0]->url }}" width="100%" />
+									@else
+										<img src="/images/placeholder.jpg" alt="No image" width="100%" />
+									@endif
 								</div>
 								{{ ( strlen($groomtip->name) > 20 ? substr($groomtip->name, 0, 15)."..." : $groomtip->name ) }}
 							</a>

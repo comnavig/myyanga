@@ -14,6 +14,9 @@ yarn-error.log
 /.idea
 /.vscode
 
+# Custom scripts with credentials
+index.php
+
 # Laravel specific
 /bootstrap/cache/*
 !/bootstrap/cache/.gitkeep

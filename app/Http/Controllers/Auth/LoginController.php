@@ -75,7 +75,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Http; // Disabled for local dev - needed for reCAPTCHA
 use Illuminate\Http\Request;
 use App\User;
 
@@ -96,10 +96,12 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'required',
+            'g-recaptcha-response' => 'required', // Disabled for local development
         ]);
 
-        // Verify reCAPTCHA
+        // Verify reCAPTCHA - DISABLED FOR LOCAL DEVELOPMENT
+        // Uncomment the code below when deploying to production
+        
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => config('services.recaptcha.secret_key'),
             'response' => $request->input('g-recaptcha-response'),

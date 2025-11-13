@@ -56,10 +56,31 @@ return [
             'visibility' => 'public',
         ],
         
+        'public' => [
+            'driver' => 'local',
+            'root' => public_path('storage'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+        
+        'temp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/temp'),
+            'url' => env('APP_URL').'/storage/public/temp',
+            'visibility' => 'public',
+        ],
+        
          'avatar' => [
             'driver' => 'local',
             'root' => storage_path('app/public/avatar'),
             'url' => env('APP_URL').'/storage/avatar',
+            'visibility' => 'public',
+        ],
+        
+        'posts' => [
+            'driver' => 'local',
+            'root' => public_path('storage/'),
+            'url' => env('APP_URL').'/storage/posts',
             'visibility' => 'public',
         ],
         

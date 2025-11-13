@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index2')->name('home2');
 Route::get('/tour', 'HomeController@tour')->name('tour');
 Route::get('/today', 'HomeController@today')->name('today');
 Route::get('/explore', 'HomeController@explore')->name('explore');
@@ -102,6 +104,8 @@ Route::get('/user/notification/edit', 'Individual\DashboardController@edit_notif
 Route::post('/user/notification/update', 'Individual\DashboardController@update_notification')->name('user.notification.update');
 Route::get('/user/activities', 'Individual\DashboardController@activities')->name('user.activities');
 Route::get('/user/favourites', 'Individual\DashboardController@favourites')->name('user.favourites');
+Route::get('/user/notifications', 'Individual\DashboardController@notificationList')->name('user.notifications');
+Route::get('/user/notification/{id}', 'Individual\DashboardController@notificationSingle')->name('user.notifications.single')->middleware('auth','only.subscriber');
 Route::get('/user/orders', 'Individual\DashboardController@orders')->name('user.orders');
 Route::get('/user/order/{product_id}/item/', 'Individual\DashboardController@order_view_item')->name('user.order.view.item');
 Route::get('/user/following', 'Individual\DashboardController@follows')->name('user.following');
@@ -120,6 +124,7 @@ Route::get('/business/dashboard', 'Business\DashboardController@index')->name('b
 Route::get('/business/listings', 'Business\ListingController@index')->name('listings');
 Route::get('/business/listings/create', 'Business\ListingController@create')->name('listings.create');
 Route::post('/business/listings/add', 'Business\ListingController@add')->name('listings.add');
+Route::post('/business/listings/change/ownership', 'Business\ListingController@change_ownership')->name('listings.change.ownership');
 Route::get('/business/listings/{id}/edit', 'Business\ListingController@edit')->name('listings.edit');
 Route::post('/business/listings/update', 'Business\ListingController@update')->name('listings.update');
 Route::get('/business/listings/{id}/products', 'Business\ListingController@product')->name('listings.products');
@@ -130,11 +135,22 @@ Route::post('/business/listings/product/update', 'Business\ListingController@upd
 Route::post('/business/listings/product/delete', 'Business\ListingController@delete_product')->name('listings.delete.product');
 
 
+
+
+
 //Products
 Route::get('/business/products', 'Business\ProductController@index')->name('products');
 Route::get('/business/products/sold', 'Business\ProductController@sold')->name('products.sold');
 Route::get('/business/products/sold/delivery/note', 'Business\ProductController@sold');
 Route::post('/business/products/sold/delivery/note', 'Business\ProductController@add_delivery_note')->name('products.sold.delivery.note');
+
+//business bulk Delete added by Max
+Route::post('/business/products/bulk-delete', 'Business\ProductController@bulkDeleteProducts')->name('listings.bulk.delete.products');
+
+
+// Route::post('/listings/products/delete-multiple', [ProductController::class, 'bulkDelete'])->name('listings.delete.multiple.products');
+
+
 
 
 
@@ -144,11 +160,16 @@ Route::get('/admin/dashboard', 'Admin\DashboardController@index')->name('admin.d
 
 //Admin Users
 Route::get('/admin/users/individual', 'Admin\DashboardController@individual_users')->name('admin.individual.users');
+Route::get('/admin/users/individual/{id}/delete', 'Admin\DashboardController@delete_individual_users')->name('admin.individual.users.delete');
 Route::get('/admin/users/business', 'Admin\DashboardController@business_users')->name('admin.business.users');
+Route::get('/admin/users/business/{id}/delete', 'Admin\DashboardController@delete_business_users')->name('admin.business.users.delete');
 Route::get('/admin/users/premium/subscriptions', 'Admin\DashboardController@premium_subscriptions')->name('admin.users.premium.subscriptions');
 
 //Admin Listings
 Route::get('/admin/listings', 'Admin\ListingController@index')->name('admin.listings');
+Route::get('/admin/listings/{id}/edit', 'Admin\ListingController@edit')->name('admin.listings.edit');
+Route::get('/admin/listings/{id}/delete', 'Admin\ListingController@delete')->name('admin.listings.delete');
+Route::post('/admin/listings/update', 'Admin\ListingController@update')->name('admin.listings.update');
 Route::get('/admin/listings/{id}/view', 'Admin\ListingController@view')->name('admin.view.listing');
 Route::get('/admin/listings/{id}/products', 'Admin\ListingController@products')->name('admin.listing.products');
 Route::get('/admin/listings/{id}/branch/view', 'Admin\ListingController@branch_view')->name('admin.listing.branch.view');
@@ -230,6 +251,7 @@ Route::get('/admin/featured/category/new', 'Admin\FeaturedCategoryController@cre
 Route::post('/admin/featured/category/new', 'Admin\FeaturedCategoryController@add')->name('admin.featured.category.add');
 Route::get('/admin/featured/category/edit/{id}', 'Admin\FeaturedCategoryController@edit')->name('admin.featured.category.edit');
 Route::post('/admin/featured/category/update', 'Admin\FeaturedCategoryController@update')->name('admin.featured.category.update');
+Route::post('/admin/featured/category/action', 'Admin\FeaturedCategoryController@action')->name('admin.featured.category.action');
 
 //Admin Blog Category Section
 Route::get('/admin/blog/categories', 'Admin\BlogCategoryController@index')->name('admin.blog.categories');
@@ -244,6 +266,7 @@ Route::get('/admin/discover/category/new', 'Admin\DiscoverCategoryController@cre
 Route::post('/admin/discover/category/new', 'Admin\DiscoverCategoryController@add')->name('admin.discover.category.add');
 Route::get('/admin/discover/category/edit/{id}', 'Admin\DiscoverCategoryController@edit')->name('admin.discover.category.edit');
 Route::post('/admin/discover/category/update', 'Admin\DiscoverCategoryController@update')->name('admin.discover.category.update');
+Route::get('/admin/discover/category/{id}/delete', 'Admin\DiscoverCategoryController@delete')->name('admin.discover.category.delete');
 
 //Admin Category Section
 Route::get('/admin/categories', 'Admin\CategoryController@index')->name('admin.categories');
@@ -268,6 +291,7 @@ Route::get('/admin/location/{id}/add/area', 'Admin\LocationController@create_are
 Route::post('/admin/location/save/area', 'Admin\LocationController@add_area')->name('admin.area.save');
 Route::get('/admin/location/area/edit/{id}', 'Admin\LocationController@edit_area')->name('admin.area.edit');
 Route::post('/admin/area/update', 'Admin\LocationController@update_area')->name('admin.area.update');
+Route::post('/admin/location/action', 'Admin\LocationController@action')->name('admin.location.action');
 
 //Admin Product Section
 Route::get('/admin/products', 'Admin\ProductController@index')->name('admin.products');
@@ -317,7 +341,7 @@ Route::post('/admin/settings/update', 'Admin\SettingsController@update')->name('
 Route::get('/blackops', 'HomeController@blackops');
 
 //Notification
-Route::get('/notify', 'HomeController@notify');
+Route::get('/cronwork', 'HomeController@notify');
 
 //Pages that not coded into the system 
 Route::get('/{slug}', 'HomeController@page')->name('pages');
