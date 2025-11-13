@@ -67,6 +67,7 @@ error_log
 # PHP
 composer.phar
 /vendor/
+composer.lock
 
 # Build files
 /public/mix-manifest.json
