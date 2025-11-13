@@ -1003,17 +1003,16 @@ public function smart_search(Request $request)
 	
 	public function groomingtip_tip($slug)
 	{
-		$groomtips = GroomTips::where('slug', $slug)->get();
-		$groomtip = $groomtips->last();
-		
+		$groomtip = GroomTips::where('slug', $slug)->with('picture')->first();
+
 		if (empty($groomtip->id))
 		{
 			return back()->withErrors(['Does Not exist']);
 		}
 		else
 		{
-			$groomtips = GroomTips::where("category_id", $groomtip->category_id)->orderby('id', 'desc')->get();
-		
+			$groomtips = GroomTips::where("category_id", $groomtip->category_id)->with('picture')->orderby('id', 'desc')->get();
+
 			return view('groomingtips.show',['groomtip' => $groomtip, 'groomtips' => $groomtips]);
 		}
 		
@@ -1254,18 +1253,11 @@ public function notify()
                         ->whereDate('created_at', $yesterday)
                         ->orderBy('id', 'desc')
                         ->get();
-                        var_dump($user->email);
-                        var_dump($products);
-                        
-                        // foreach($products as $product) {
-                        //     var_dump('heree');
-                        // }
 
                     if ($products->isNotEmpty()) {
                         $processed_listing[$listing->id]['details'] = $listing;
                         $processed_listing[$listing->id]['products'] = $products->take(5);
                         $hasProducts = true;
-                        // ddd($processed_listing);
                     }
                 }
 
@@ -1318,17 +1310,14 @@ public function notify()
                     // Update the user's notification list
                     $user->notificationList = json_encode($notificationList); // Encode back to JSON
                     $user->save();
-                        
-                    // dd($premiumIds);
-                    var_dump('xxx'.$newNotificationId);
-                    
+
                     $user['newNotificationId'] = $newNotificationId;
-                    Mail::to($user->email)->send(new NewPremiumNotification($user));
-                    
+
                     if ($premiums->isNotEmpty()) {
                         $user['premiums'] = $premiums->take(10);
-                        Mail::to($user->email)->send(new NewPremiumNotification($user));
                     }
+
+                    Mail::to($user->email)->send(new NewPremiumNotification($user));
                 }
             }
         }

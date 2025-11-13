@@ -1,0 +1,120 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+
+# Laravel specific
+/bootstrap/cache/*
+!/bootstrap/cache/.gitkeep
+/storage/framework/cache/*
+!/storage/framework/cache/.gitkeep
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# User uploaded files
+/public/uploads/*
+/public/products/*
+!/public/uploads/.gitkeep
+!/public/products/.gitkeep
+
+# Mac OS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# IDE
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+nbproject/
+
+# Logs
+*.log
+error_log
+
+# PHP
+composer.phar
+/vendor/
+
+# Build files
+/public/mix-manifest.json
+/public/css/app.css
+/public/js/app.js
+/public/assets
+
+# Backup files
+*.bak
+*.backup
+*_backup.php
+*_bck.php
+
+# Server config files (usually environment-specific)
+.htaccess
+.user.ini
+php.ini
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Archives (unless explicitly needed in repo)
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Database dumps
+*.sql
+*.sqlite
+*.db
+
+# Cache
+cache/
+*.cache
+
+# Testing
+.phpunit.cache
+phpunit.xml
