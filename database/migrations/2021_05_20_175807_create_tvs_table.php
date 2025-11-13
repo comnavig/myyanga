@@ -19,7 +19,7 @@ class CreateTvsTable extends Migration
             $table->string('youtube');
             $table->bigInteger('tv_category_id');
             $table->string('photo');
-            $table->longTet('description');
+            $table->longText('description');
             $table->string('status');
             $table->bigInteger('user_id');
             $table->timestamps();

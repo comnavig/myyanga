@@ -17,9 +17,10 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->longText('description');
-            $table->bigInteger('post_category_id');
+            $table->longText('content');
+            $table->bigInteger('category_id');
             $table->bigInteger('user_id');
+            $table->string('type');
             $table->string('status');
             $table->timestamps();
         });
