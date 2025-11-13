@@ -89,60 +89,74 @@ class BlogController extends Controller
 			$new_post->save();
 			
 			//First Picture width 250px
+			
 			$first_picture = $request->pictures[0];
-			$temp = $first_picture->store('public/temp');
+            $path = $first_picture->store('/posts', ['disk' => 'posts']);
+            $url = url(Storage::url($path));
+            
+            $new_picture = new PostPicture;
+            $new_picture->post_id = $new_post->id;
+            $new_picture->url = $url;
+            $new_picture->save();
+
 			
-			$file_name = explode("/", $temp);
-			Storage::copy($temp,  "public/temp/thumb/".last($file_name));
 			
-			$image_size = Storage::size($temp);
+// 			$first_picture = $request->pictures[0];
+// 			$path = $first_picture->store('/posts', ['disk' => 'posts']);
+//             $url = url(Storage::url($path));
+// 			$temp = $first_picture->store('public/temp');
 			
-			$width = 250;
+// 			$file_name = explode("/", $temp);
+// 			Storage::copy($temp,  "public/temp/thumb/".last($file_name));
 			
-			$img = Image::make(url(Storage::url($temp)));
+// 			$image_size = Storage::size($temp);
 			
-			$img->resize($width, null, function ($constraint) {
-																						$constraint->aspectRatio();
-																					  });
-			$img->save(storage_path()."/app/".$temp,100);
+// 			$width = 250;
 			
-			$path = Storage::disk('do')->putFile('posts',storage_path()."/app/".$temp);
-			$url = Storage::disk('do')->url($path);
-			Storage::delete($temp);
+// 			$img = Image::make(url(Storage::url($temp)));
 			
-			$new_picture = new PostPicture;
-			$new_picture->post_id = $new_post->id;
-			$new_picture->url = $url;
-			$new_picture->save();
+// 			$img->resize($width, null, function ($constraint) {
+// 																						$constraint->aspectRatio();
+// 																					  });
+// 			$img->save(storage_path()."/app/".$temp,100);
 			
-			//Second Picture width 600px
-			$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
+// 			$path = Storage::disk('public')->putFile('posts',storage_path()."/app/".$temp);
+// 			$url = Storage::disk('public')->url($path);
+// 			Storage::delete($temp);
 			
-			if ($img->width() > 600 )
-			{
-				$width = 600;
-				$img->resize($width, null, function ($constraint) {
-																						$constraint->aspectRatio();
-																					  });
+// 			$new_picture = new PostPicture;
+// 			$new_picture->post_id = $new_post->id;
+// 			$new_picture->url = $url;
+// 			$new_picture->save();
+			
+// 			//Second Picture width 600px
+// 			$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
+			
+// 			if ($img->width() > 600 )
+// 			{
+// 				$width = 600;
+// 				$img->resize($width, null, function ($constraint) {
+// 																						$constraint->aspectRatio();
+// 																					  });
 																					  
-				$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
+// 				$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 				
-				$path = Storage::disk('do')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-				$url = Storage::disk('do')->url($path);
-				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-			}
-			else
-			{
-				$path = Storage::disk('do')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-				$url = Storage::disk('do')->url($path);
-				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-			}
+// 				$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
+// 				$url = Storage::disk('public')->url($path);
+// 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+// 			}
+// 			else
+// 			{
+// 				$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
+// 				$url = Storage::disk('public')->url($path);
+// 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+// 			}
 			
 			
-			$new_picture = new PostPicture;
-			$new_picture->post_id = $new_post->id;
-			$new_picture->url = $url;
-			$new_picture->save();
+// 			$new_picture = new PostPicture;
+// 			$new_picture->post_id = $new_post->id;
+// 			$new_picture->url = $url;
+// 			$new_picture->save();
 			
 
 			session()->flash('message', 'Task was successful!');
@@ -176,6 +190,7 @@ class BlogController extends Controller
 	
 	public function update_post(Request $request)
     {
+        // dd(storage_path('app/public'), public_path('storage/posts'));
 		$user_id = Auth::id();
 		
 		$messages = [
@@ -224,92 +239,110 @@ class BlogController extends Controller
 			$new_post->save();
 			
 			//Pictures
-			if (!empty($request->pictures ))
-			{
-				$url = array();
+// 			if (!empty($request->pictures ))
+// 			{
+// 				$url = array();
 				
-				//First Picture width 250px
-				$first_picture = $request->pictures[0];
-				$temp = $first_picture->store('public/temp');
+// 				//First Picture width 250px
+// 				$first_picture = $request->pictures[0];
+// 				$temp = $first_picture->store('public/temp');
 				
-				$file_name = explode("/", $temp);
-				Storage::copy($temp,  "public/temp/thumb/".last($file_name));
+// 				$file_name = explode("/", $temp);
+// 				Storage::copy($temp,  "public/temp/thumb/".last($file_name));
 				
-				$image_size = Storage::size($temp);
+// 				$image_size = Storage::size($temp);
 				
-				$width = 250;
+// 				$width = 250;
 				
-				$img = Image::make(url(Storage::url($temp)));
+// 				$img = Image::make(url(Storage::url($temp)));
 				
-				$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-				$img->save(storage_path()."/app/".$temp,100);
+// 				$img->resize($width, null, function ($constraint) {
+// 																							$constraint->aspectRatio();
+// 																						  });
+// 				$img->save(storage_path()."/app/".$temp,100);
 				
-				$path = Storage::disk('do')->putFile('posts',storage_path()."/app/".$temp);
-				$url[] = Storage::disk('do')->url($path);
-				Storage::delete($temp);
+// 				$path = Storage::disk('public')->putFile('posts',storage_path()."/app/".$temp);
+// 				$url[] = Storage::disk('public')->url($path);
+// 				Storage::delete($temp);
 				
-				//Second Picture width 600px
-				$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
+// 				//Second Picture width 600px
+// 				$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
 				
-				if ($img->width() > 600 )
-				{
-					$width = 600;
-					$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
+// 				if ($img->width() > 600 )
+// 				{
+// 					$width = 600;
+// 					$img->resize($width, null, function ($constraint) {
+// 																							$constraint->aspectRatio();
+// 																						  });
 																						  
-					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
+// 					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
-					$path = Storage::disk('do')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('do')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-				}
-				else
-				{
-					$path = Storage::disk('do')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('do')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-				}
+// 					$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
+// 					$url[] = Storage::disk('public')->url($path);
+// 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+// 				}
+// 				else
+// 				{
+// 					$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
+// 					$url[] = Storage::disk('public')->url($path);
+// 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+// 				}
 				
-				$pictures = PostPicture::where('post_id', $request->post_id)->get();
+// 				$pictures = PostPicture::where('post_id', $request->post_id)->get();
 				
-				$i = 0;
-				foreach ($pictures as $picture)
-				{
-					$pic = PostPicture::find($picture['id']);
+// 				$i = 0;
+// 				foreach ($pictures as $picture)
+// 				{
+// 					$pic = PostPicture::find($picture['id']);
 					
-					if ($i == 0 )
-					{
-						if (!empty($pic->id))
-						{
-							$remove_old = explode('/', $pic->url);
+// 					if ($i == 0 )
+// 					{
+// 						if (!empty($pic->id))
+// 						{
+// 							$remove_old = explode('/', $pic->url);
 							
-							Storage::disk('do')->delete('posts/'.last($remove_old));
+// 							Storage::disk('public')->delete('posts/'.last($remove_old));
 							
-							$pic->url = $url[$i];
-							$pic->save();
-						}
-					}
-					else
-					{
-						if (!empty($pic->id))
-						{
-							$remove_old = explode('/', $pic->url);
+// 							$pic->url = $url[$i];
+// 							$pic->save();
+// 						}
+// 					}
+// 					else
+// 					{
+// 						if (!empty($pic->id))
+// 						{
+// 							$remove_old = explode('/', $pic->url);
 							
-							Storage::disk('do')->delete('posts/'.last($remove_old));
+// 							Storage::disk('public')->delete('posts/'.last($remove_old));
 							
-							$pic->url = $url[$i];
-							$pic->save();
-						}
-					}
+// 							$pic->url = $url[$i];
+// 							$pic->save();
+// 						}
+// 					}
 					
 					
-					$i++;
-				}
+// 					$i++;
+// 				}
 			
-			}
+// 			}
+
+            if ($request->hasFile('pictures')) {
+                $pictures = $request->file('pictures');
+                $url = [];
+    
+                foreach ($pictures as $index => $picture) {
+                    $path = $picture->store('/posts', ['disk' => 'posts']);
+                    $url[] = url(Storage::url($path));
+
+
+    
+                    // Save picture record in database
+                    $postPicture = new PostPicture();
+                    $postPicture->post_id = $request->post_id;
+                    $postPicture->url = $url[$index];
+                    $postPicture->save();
+                }
+            }
 			
 			session()->flash('message', 'Task was successful!');
 			return redirect()->route('admin.blog.posts');
@@ -369,7 +402,7 @@ class BlogController extends Controller
 					{
 						$remove_old = explode('/', $pic->url);
 						
-						Storage::disk('do')->delete('posts/'.last($remove_old));
+						Storage::disk('public')->delete('posts/'.last($remove_old));
 						
 						$pic->delete();
 					}

@@ -145,5 +145,28 @@ class FeaturedCategoryController extends Controller
 		
     }
     
+    public function action(Request $request)
+    {
+		$validator = Validator::make($request->all(), [
+            'cat_id' => 'required|exists:featured_categories,id',
+            'action' => 'required',
+        ]);
 
+        if ($validator->fails()) 
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+        else
+		{
+			if ($request->action == "delete_category")
+			{
+				$category = FeaturedCategory::find($request->cat_id);
+				$category->delete();
+				
+				session()->flash('message', 'Task was successful!');
+				return redirect()->route('admin.featured.categories');
+			}
+		}
+	}
+	
 }

@@ -140,4 +140,22 @@ class DiscoverCategoryController extends Controller
 		}
 		
     }
+    
+    public function delete($id)
+	{
+		$category = DiscoverCategory::where([ ['id',$id]])->get()->first();
+		
+		if (empty($category->id))
+		{
+			return back()->withErrors(['You are not allowed to delete this Listing #'.$id]);
+		}
+		else
+		{
+			$category->delete();
+			
+			session()->flash('message', 'Category #'.$id.' was deleted successful!');
+			return back();
+		}
+		
+	}
 }

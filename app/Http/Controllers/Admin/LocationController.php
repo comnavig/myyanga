@@ -244,4 +244,29 @@ class LocationController extends Controller
 		
     }
     
+    
+    public function action(Request $request)
+    {
+		$validator = Validator::make($request->all(), [
+            'loc_id' => 'required|exists:locations,id',
+            'action' => 'required',
+        ]);
+
+        if ($validator->fails()) 
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+        else
+		{
+			if ($request->action == "delete_location")
+			{
+				$location = Location::find($request->loc_id);
+				$location->delete();
+				
+				session()->flash('message', 'Task was successful!');
+				return back();
+			}
+		}
+	}
+    
 }

@@ -29,11 +29,13 @@ class ShopController extends Controller
 	
     public function index()
     {
-		$cart = session('cart');
-		$products = Product::where([['status', 'APPROVED'], ['price','>', 0] ])->orderBy('id','desc')->get();
-		
-		return view('shop.index', [ 'cart' => $cart, 'products' => $products]);
-	}
+        $cart = session('cart');
+        $products = Product::where([['status', 'APPROVED'], ['available', '1'], ['price','>', 0]])
+                            ->orderBy('id', 'desc')
+                            ->paginate(12); // Change limit to paginate
+    
+        return view('shop.index2', [ 'cart' => $cart, 'products' => $products]);
+    }
 	
 	public function cart()
 	{
@@ -131,6 +133,8 @@ class ShopController extends Controller
 	{
 		$cart = session('cart');
 		$product = Product::where([['status', 'APPROVED'], ['price','>', 0], ['id',$id] ])->get();
+		
+// 		dd($product);
 		
 		if (empty($product[0]['id']))
 		{

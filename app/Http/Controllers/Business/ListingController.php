@@ -30,7 +30,10 @@ class ListingController extends Controller
     public function index()
     {
 		$user_id = Auth::id();
-		$listings = Listing::where('parent_id', 0)->get();
+		$listings = Listing::where('parent_id', 0)
+        ->where('user_id', $user_id)
+        ->orderBy('created_at', 'desc') // Order by created_at column in descending order
+        ->get();
 		
 		return view('business.listings.index', ['listings' => $listings->where('user_id', $user_id) ]);
 	}
@@ -92,25 +95,32 @@ class ListingController extends Controller
 			
 			if (empty($slug[0]['id']))
 			{
+			    $siteUrl = config('app.url'); 
 				$temp = $request->file('logo')->store('public/temp');
+				// Handle file uploads (logo and pictures)
+                $logoPath = $request->file('logo')->store('logo', 'public');
+                // var_dump(config('app.url'));
+                // dd($logoPath);
+				$imageName = basename($temp);
 				$image_size = Storage::size($temp);
 				
 				$width = 200;
 				
-				$img = Image::make(url(Storage::url($temp)));
+				// $img = Image::make(url(Storage::url($temp)));
 				
-				$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-				$img->save(storage_path()."/app/".$temp, 100);
+				// $img->resize($width, null, function ($constraint) {
+				// 																			$constraint->aspectRatio();
+				// 																		  });
+				// $img->save(storage_path()."/app/".$temp, 100);
 				
-				$path = Storage::disk('do')->putFile('logo',storage_path()."/app/".$temp);
-				$url = Storage::disk('do')->url($path);
-				Storage::delete($temp);
+				// $path = Storage::disk('public')->putFile('logo',storage_path()."/app/".$temp);
+				// $url = Storage::disk('public')->url($path);
+				// Storage::delete($temp);
 				
 				
 				$new_listing = new Listing;
-				$new_listing->logo = $url;
+				// $new_listing->logo = $url;
+				$new_listing->logo = $siteUrl . '/storage/' .$logoPath;
 				$new_listing->name = $request->name;
 				$new_listing->slug = $this->slug_format($request->slug);
 				$new_listing->description = $request->description;
@@ -244,10 +254,12 @@ class ListingController extends Controller
 			$new_listing = Listing::find($request->listing_id);
 			if (!empty($request->logo))
 			{
+			    
 				$remove_old = explode('/', $new_listing->logo);
-				Storage::disk('do')->delete('logo/'.last($remove_old));
+				Storage::disk('public')->delete('logo/'.last($remove_old));
 							
 				$temp = $request->file('logo')->store('public/temp');
+				dd($temp);
 				$image_size = Storage::size($temp);
 				
 				$width = 200;
@@ -259,13 +271,14 @@ class ListingController extends Controller
 																						  });
 				$img->save(storage_path()."/app/".$temp, 100);
 				
-				$path = Storage::disk('do')->putFile('logo',storage_path()."/app/".$temp);
-				$url = Storage::disk('do')->url($path);
+				$path = Storage::disk('public')->putFile('logo',storage_path()."/app/".$temp);
+				$url = Storage::disk('public')->url($path);
 				Storage::delete($temp);
 				
 				$new_listing->logo = $url;
 			}
 			
+			$new_listing->name = $request->name;
 			$new_listing->description = $request->description;
 			$new_listing->address = $request->address;
 			$new_listing->cac = $request->cac;
@@ -325,6 +338,55 @@ class ListingController extends Controller
 			}
 			
 			session()->flash('message', 'Task was successful!');
+			return redirect()->route('listings');
+			
+		}
+		
+    }
+	
+	
+	public function change_ownership(Request $request)
+    {
+		$user_id = Auth::id();
+		
+		$messages = [
+								'logo.required' => 'Please upload your business logo',
+								'name.required' => 'Please type in your business name',
+								'cac.required' => 'Please indicate if your business is registered with CAC',
+								'cac_no.required' => 'Please type in your CAC Registration Number',
+								'description.required' => 'Please type in your business description',
+								'location.required' => 'Please select a city',
+								'location.exists' => 'Please select a valid city',
+								'categories.*.required' => 'Please select a category',
+								'categories.*.exists' => 'Please select a valid category',
+								'links.*.required' => 'Please type in your business url.',
+								'links.*.url' => 'Please type in a valid URL eg. http://business.ng',
+								'pictures.*.required' => 'Please upload atleast a picture.',
+								'emails.*.required' => 'Please type in your business email address.',
+								'phones.*.required' => 'Please type in your business phone.',
+								'phones.*.digits' => 'Please your business phone must be 11 digits.',
+							];
+							
+		$customAttributes = [
+											'links' => 'email address',
+										];
+
+		$validator = Validator::make($request->all(), [
+            'listing_id' => 'required|exists:listings,id',
+            'new_user' => 'required|exists:users,email',
+        ], $messages, $customAttributes);
+
+        if ($validator->fails()) 
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+		else
+		{
+			$listing = Listing::find($request->listing_id);
+			$listing->user_id = $request->new_user;
+			$listing->save();
+			
+			session()->flash('message', 'Ownership has been successfully transfered to '.$request->new_user);
 			return redirect()->route('listings');
 			
 		}
@@ -453,26 +515,33 @@ class ListingController extends Controller
 				
 				//First Picture width 250px
 				$first_picture = $request->pictures[0];
-				$temp = $first_picture->store('public/temp','do');
+				$temp = $first_picture->store('public/temp','public');
 				
 				$file_name = explode("/", $temp);
 				$real_file_name = last($file_name);
-				Storage::disk('do')->copy($temp,  "public/temp/thumb/".$real_file_name);
+				Storage::disk('public')->copy($temp,  "public/temp/thumb/".$real_file_name);
 				
-				$image_size = Storage::disk('do')->size($temp);
+				$image_size = Storage::disk('public')->size($temp);
+				// ddd($image_size);
 				
 				$width = 250;
 				
-				$img = Image::make(Storage::disk('do')->url($temp));
+				$url = (Storage::disk('public')->url($temp));
+				// die;
 				
-				$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-				$img->save(storage_path()."/app/public/temp/".$real_file_name,100);
+				// $img = Image::make(Storage::disk('public')->url($temp));
+				// var_dump($temp);
+				// $image = \Intervention\Image\Facades\Image::make(Storage::disk('public')->url($temp));
+				// ddd($img);
 				
-				$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/".$real_file_name);
-				$url = Storage::disk('do')->url($path);
-				Storage::disk('do')->delete($temp);
+				// $img->resize($width, null, function ($constraint) {
+				// 																			$constraint->aspectRatio();
+				// 																		  });
+				// $img->save(storage_path()."/app/public/temp/".$real_file_name,100);
+				
+				// $path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/".$real_file_name);
+				// $url = Storage::disk('public')->url($path);
+				// Storage::disk('public')->delete($temp);
 				
 				$new_picture = new ProductPicture;
 				$new_picture->product_id = $new_product->id;
@@ -480,29 +549,29 @@ class ListingController extends Controller
 				$new_picture->save();
 				
 				//Second Picture width 600px
-				$img = Image::make(Storage::disk('do')->url("public/temp/thumb/".last($file_name)));
+				// $img = Image::make(Storage::disk('public')->url("public/temp/thumb/".last($file_name)));
 				
-				if ($img->width() > 600 )
-				{
-					$width = 600;
-					$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
+				// if ($img->width() > 600 )
+				// {
+				// 	$width = 600;
+				// 	$img->resize($width, null, function ($constraint) {
+				// 																			$constraint->aspectRatio();
+				// 																		  });
 																						  
-					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
+				// 	$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
-					$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url = Storage::disk('do')->url($path);
-					Storage::disk('do')->delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-				}
-				else
-				{
-					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
+				// 	$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
+				// 	$url = Storage::disk('public')->url($path);
+				// 	Storage::disk('public')->delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+				// }
+				// else
+				// {
+				// 	$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
-					$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url = Storage::disk('do')->url($path);
-					Storage::disk('do')->delete(storage_path()."public/temp/thumb/".last($file_name));
-				}
+				// 	$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
+				// 	$url = Storage::disk('public')->url($path);
+				// 	Storage::disk('public')->delete(storage_path()."public/temp/thumb/".last($file_name));
+				// }
 				
 				
 				$new_picture = new ProductPicture;
@@ -665,9 +734,11 @@ class ListingController extends Controller
 			{
 				$url = array();
 				
+				dd($request->pictures[0]);
+				
 				//First Picture width 250px
 				$first_picture = $request->pictures[0];
-				$temp = $first_picture->store('public/temp');
+				$temp = $first_picture->store('public');
 				
 				$file_name = explode("/", $temp);
 				Storage::copy($temp,  "public/temp/thumb/".last($file_name));
@@ -683,8 +754,8 @@ class ListingController extends Controller
 																						  });
 				$img->save(storage_path()."/app/".$temp,100);
 				
-				$path = Storage::disk('do')->putFile('products',storage_path()."/app/".$temp);
-				$url[] = Storage::disk('do')->url($path);
+				$path = Storage::disk('public')->putFile('products',storage_path()."/app/".$temp);
+				$url[] = Storage::disk('public')->url($path);
 				Storage::delete($temp);
 				
 				//Second Picture width 600px
@@ -699,14 +770,14 @@ class ListingController extends Controller
 																						  
 					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
-					$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('do')->url($path);
+					$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
+					$url[] = Storage::disk('public')->url($path);
 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 				}
 				else
 				{
-					$path = Storage::disk('do')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('do')->url($path);
+					$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
+					$url[] = Storage::disk('public')->url($path);
 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 				}
 				
@@ -723,7 +794,7 @@ class ListingController extends Controller
 						{
 							$remove_old = explode('/', $pic->url);
 							
-							Storage::disk('do')->delete('products/'.last($remove_old));
+							Storage::disk('public')->delete('products/'.last($remove_old));
 							
 							$pic->url = $url[$i];
 							$pic->save();
@@ -735,7 +806,7 @@ class ListingController extends Controller
 						{
 							$remove_old = explode('/', $pic->url);
 							
-							Storage::disk('do')->delete('products/'.last($remove_old));
+							Storage::disk('public')->delete('products/'.last($remove_old));
 							
 							$pic->url = $url[$i];
 							$pic->save();
@@ -819,9 +890,9 @@ class ListingController extends Controller
 					{
 						$remove_old = explode('/', $pic->url);
 						
-						Storage::disk('do')->delete('products/'.last($remove_old));
+				// 		Storage::disk('public')->delete('products/'.last($remove_old));
 						
-						$pic->delete();
+				// 		$pic->delete();
 					}
 				}
 					
@@ -842,6 +913,8 @@ class ListingController extends Controller
 		$word = stripslashes($word);
 		$word = strip_tags($word);
 		$word = str_replace("/", "_", $word);
+		$word = str_replace("}", "_", $word);
+		$word = str_replace("{", "_", $word);
 		$word = str_replace(" ", "_", $word);
 		$word = strtolower($word);
 		

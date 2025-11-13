@@ -33,7 +33,7 @@ class ProductController extends Controller
 		
 		if (empty($request->search))
 		{
-			$products = Product::orderBy('updated_at','desc')->paginate(20);
+			$products = Product::where('available','1')->orderBy('updated_at','desc')->paginate(20);
 		}
 		else
 		{
@@ -164,9 +164,9 @@ class ProductController extends Controller
 					{
 						$remove_old = explode('/', $pic->url);
 						
-						Storage::disk('do')->delete('products/'.last($remove_old));
+				// 		Storage::disk('do')->delete('products/'.last($remove_old));
 						
-						$pic->delete();
+				// 		$pic->delete();
 					}
 				}
 			}
@@ -212,6 +212,9 @@ class ProductController extends Controller
 			}
 			else
 			{
+
+				$removed_this_fp = FeaturedProduct::where('product_id',$product->id)->delete();
+				
 				$fp = FeaturedProduct::where('product_id',$product->id)->get();
 				
 				if (empty($fp->last()->id))

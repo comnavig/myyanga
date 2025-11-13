@@ -89,12 +89,14 @@ class PremiumController extends Controller
 			$new_premia->description = $request->description;
 			$new_premia->premium_category_id = $request->categories[0];
 			$new_premia->user_id = $user_id;
+			$new_premia->video_url = $request->video_url;
 			$new_premia->status = "APPROVED";
 			$new_premia->save();
 			
 			//First Picture width 250px
 			$first_picture = $request->pictures[0];
 			$temp = $first_picture->store('public/temp');
+// 			dd(Storage::exists($temp));
 			
 			$file_name = explode("/", $temp);
 			Storage::copy($temp,  "public/temp/thumb/".last($file_name));
@@ -103,15 +105,15 @@ class PremiumController extends Controller
 			
 			$width = 250;
 			
-			$img = Image::make(url(Storage::url($temp)));
+// 			$img = Image::make(url(Storage::url($temp)));
 			
-			$img->resize($width, null, function ($constraint) {
-																						$constraint->aspectRatio();
-																					  });
-			$img->save(storage_path()."/app/".$temp,100);
+// 			$img->resize($width, null, function ($constraint) {
+																				// 		$constraint->aspectRatio();
+																				// 	  });
+// 			$img->save(storage_path()."/app/".$temp,100);
 			
-			$path = Storage::disk('do')->putFile('premia',storage_path()."/app/".$temp);
-			$url = Storage::disk('do')->url($path);
+			$path = Storage::disk('public')->putFile('premia',storage_path()."/app/".$temp);
+			$url = Storage::disk('public')->url($path);
 			Storage::delete($temp);
 			
 			$new_picture = new PremiumPicture;
@@ -119,28 +121,28 @@ class PremiumController extends Controller
 			$new_picture->url = $url;
 			$new_picture->save();
 			
-			//Second Picture width 600px
-			$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
+// 			//Second Picture width 600px
+// 			$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
 			
-			if ($img->width() > 600 )
-			{
-				$width = 600;
-				$img->resize($width, null, function ($constraint) {
-																						$constraint->aspectRatio();
-																					  });
+// 			if ($img->width() > 600 )
+// 			{
+// 				$width = 600;
+// 				$img->resize($width, null, function ($constraint) {
+// 																						$constraint->aspectRatio();
+// 																					  });
 																					  
-				$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
+// 				$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 				
-				$path = Storage::disk('do')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-				$url = Storage::disk('do')->url($path);
-				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-			}
-			else
-			{
-				$path = Storage::disk('do')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-				$url = Storage::disk('do')->url($path);
-				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-			}
+// 				$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
+// 				$url = Storage::disk('public')->url($path);
+// 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+// 			}
+// 			else
+// 			{
+// 				$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
+// 				$url = Storage::disk('public')->url($path);
+// 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+// 			}
 			
 			
 			$new_picture = new PremiumPicture;
@@ -249,8 +251,8 @@ class PremiumController extends Controller
 																						  });
 				$img->save(storage_path()."/app/".$temp,100);
 				
-				$path = Storage::disk('do')->putFile('premia',storage_path()."/app/".$temp);
-				$url[] = Storage::disk('do')->url($path);
+				$path = Storage::disk('public')->putFile('premia',storage_path()."/app/".$temp);
+				$url[] = Storage::disk('public')->url($path);
 				Storage::delete($temp);
 				
 				//Second Picture width 600px
@@ -265,14 +267,14 @@ class PremiumController extends Controller
 																						  
 					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
-					$path = Storage::disk('do')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('do')->url($path);
+					$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
+					$url[] = Storage::disk('public')->url($path);
 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 				}
 				else
 				{
-					$path = Storage::disk('do')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('do')->url($path);
+					$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
+					$url[] = Storage::disk('public')->url($path);
 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 				}
 				
@@ -289,7 +291,7 @@ class PremiumController extends Controller
 						{
 							$remove_old = explode('/', $pic->url);
 							
-							Storage::disk('do')->delete('premia/'.last($remove_old));
+							Storage::disk('public')->delete('premia/'.last($remove_old));
 							
 							$pic->url = $url[$i];
 							$pic->save();
@@ -301,7 +303,7 @@ class PremiumController extends Controller
 						{
 							$remove_old = explode('/', $pic->url);
 							
-							Storage::disk('do')->delete('premia/'.last($remove_old));
+							Storage::disk('public')->delete('premia/'.last($remove_old));
 							
 							$pic->url = $url[$i];
 							$pic->save();
@@ -372,7 +374,7 @@ class PremiumController extends Controller
 					{
 						$remove_old = explode('/', $pic->url);
 						
-						Storage::disk('do')->delete('premia/'.last($remove_old));
+						Storage::disk('public')->delete('premia/'.last($remove_old));
 						
 						$pic->delete();
 					}

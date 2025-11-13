@@ -22,14 +22,67 @@ class ProductController extends Controller
         $this->middleware(['auth','only.business','verified']);
     }
     
-    public function index()
-    {
-		$user_id = Auth::id();
-		$products = Product::orderBy('id','desc')->get();
+    //original code
+//     public function index()
+//     {
+// 		$user_id = Auth::id();
+// 		$products = Product::orderBy('id','desc')->get();
 		
-		return view('business.products.list', ['products' => $products->where('user_id', $user_id) ]);
-	}
+// 		return view('business.products.list', ['products' => $products->where('user_id', $user_id) ]);
+// 	}
 	
+// 	public function index(Request $request)
+// {
+//     $user_id = Auth::id();
+    
+//     // $perPage = $request->get('per_page', 10); // Default to 10 if no 'per_page' is provided
+//      // Build query with flexible conditions
+//     $query = Product::query();
+    
+//     // $products = Product::where('user_id', $user_id)->orderBy('id', 'desc')->paginate($perPage);
+//     // Paginate the query results
+//     $products = $query->orderBy('id', 'desc')->paginate(15);
+//     $products->appends($request->all());
+    
+//     return view('business.products.list', ['products' => $products->where('user_id', $user_id) ]);
+// }
+
+	//max New Code
+// 	public function index()
+// {
+//     $user_id = Auth::id();
+//     $products = Product::where('user_id', $user_id)->orderBy('id', 'desc')->paginate(20); // Adjust the number per page as needed
+    
+//     return view('business.products.list', ['products' => $products]);
+// }
+
+// public function index(Request $request)
+// {
+//     $query = Product::where('user_id', Auth::id());
+
+//     if ($search = $request->input('search')) {
+//         $query->where('name', 'like', "%{$search}%");
+//     }
+
+//     $products = $query->orderBy('id', 'desc')->paginate(20);
+//     return view('business.products.list', compact('products'));
+// }
+
+public function index(Request $request)
+{
+    $query = Product::where('user_id', Auth::id());
+
+    if ($search = $request->input('search')) {
+        $query->where('name', 'like', "%{$search}%");
+    }
+
+    $products = $query->orderBy('id', 'desc')->paginate(20);
+
+    return view('business.products.list', ['products' => $products]);
+}
+
+
+
 	public function sold()
 	{
 		$user_id = Auth::id();
@@ -291,8 +344,8 @@ class ProductController extends Controller
 		else
 		{
 			$temp = $request->picture->store('public/temp');
-			$path = Storage::disk('do')->putFile('deliverynote',storage_path()."/app/".$temp);
-			$url = Storage::disk('do')->url($path);
+			$path = Storage::disk('public')->putFile('deliverynote',storage_path()."/app/".$temp);
+			$url = Storage::disk('public')->url($path);
 			Storage::delete($temp);
 			
 			$deliverynote = new DeliveryNote;
@@ -308,5 +361,99 @@ class ProductController extends Controller
 		}
 		
 	}
+	
+// 	bulk Delete added by Max
+// public function bulkDelete(Request $request)
+// {
+//     $ids = explode(',', $request->input('product_ids', ''));
+//     Product::whereIn('id', $ids)->delete();
+
+//     $user_id = Auth::id();
+//     $perPage = 20;
+
+//     // Get current page from request (default to 1)
+//     $currentPage = $request->input('page', 1);
+
+//     // How many total products are left
+//     $totalProducts = Product::where('user_id', $user_id)->count();
+//     $lastPage = ceil($totalProducts / $perPage);
+
+//     // If current page is now beyond the last page, redirect to last valid page
+//     $targetPage = ($currentPage > $lastPage) ? $lastPage : $currentPage;
+
+//     return redirect()->route('products', ['page' => $targetPage])->with('success', 'Selected products deleted successfully..');
+// }
+
+
+// public function bulkDelete(Request $request)
+// {
+//     $productIds = explode(',', $request->input('product_ids'));
+
+//     // Optional: Validate IDs exist and belong to the user
+//     Product::whereIn('id', $productIds)
+//         ->where('user_id', Auth::id())
+//         ->delete();
+
+//     return redirect()->route('listings.products', [
+//         'q' => $request->input('q'),
+//         'page' => $request->input('page', 1)
+//     ])->with('success', 'Selected products deleted successfully.');
+// }
+
+
+
+
+
+public function bulkDeleteProducts(Request $request)
+{
+    // ✅ 1. Get the authenticated user ID
+    $userId = Auth::id();
+
+    // ✅ 2. Convert comma-separated product IDs into an array
+    $productIds = explode(',', $request->input('product_ids', ''));
+
+    // ✅ 3. Delete only the products that belong to the current user
+    Product::whereIn('id', $productIds)
+        ->where('user_id', $userId)
+        ->delete();
+
+    // ✅ 4. Get the search query and current page from the request
+    $query = $request->input('search'); // search term
+    $currentPage = (int) $request->input('page', 1); // page before deletion
+    $perPage = 20; // number of products per page
+
+    // ✅ 5. Count how many products remain that match the search query (if any)
+    $queryBuilder = Product::where('user_id', $userId);
+    if (!empty($query)) {
+        $queryBuilder->where('name', 'like', '%' . $query . '%');
+    }
+    $totalMatchingProducts = $queryBuilder->count();
+
+    // ✅ 6. Determine last valid page number after deletion
+    $lastPage = max(ceil($totalMatchingProducts / $perPage), 1);
+
+    // ✅ 7. Set final target page (in case current page became invalid)
+    $targetPage = min($currentPage, $lastPage);
+    
+    
+//     dd([
+//     'search' => $query,
+//     'page_from_request' => $request->input('page'),
+//     'calculated_target_page' => $targetPage,
+//     'route' => route('products', ['q' => $query, 'page' => $targetPage]),
+// ]);
+
+
+    // ✅ 8. Redirect to the products route with `q` and corrected `page`
+    return redirect()->route('products', [
+        'search' => $query,
+        'page' => $targetPage
+    ])->with('success', 'Selected products deleted successfully.');
+}
+
+
+
+
+
 		
 }

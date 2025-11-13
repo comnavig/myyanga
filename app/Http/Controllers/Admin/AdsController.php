@@ -72,8 +72,8 @@ class AdsController extends Controller
 																						  //~ });
 			//~ $img->crop($width, 300, 0,0);
 			//~ $img->save(storage_path()."/app/".$temp, 100);
-			$path = Storage::disk('do')->putFile('sda',storage_path()."/app/".$temp);
-			$desktop = Storage::disk('do')->url($path);
+			$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+			$desktop = Storage::disk('public')->url($path);
 			Storage::delete($temp);
 			
 			$images['desktop'] = $desktop;
@@ -89,8 +89,8 @@ class AdsController extends Controller
 																						  //~ });
 			//~ $img->crop($width, 300, 0,0);
 			//~ $img->save(storage_path()."/app/".$temp, 100);
-			$path = Storage::disk('do')->putFile('sda',storage_path()."/app/".$temp);
-			$mobile = Storage::disk('do')->url($path);
+			$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+			$mobile = Storage::disk('public')->url($path);
 			Storage::delete($temp);
 			
 			$images['mobile'] = $mobile;
@@ -144,8 +144,8 @@ class AdsController extends Controller
 																							  //~ });
 				//~ $img->crop($width, 300, 0,0);
 				//~ $img->save(storage_path()."/app/".$temp, 100);
-				$path = Storage::disk('do')->putFile('sda',storage_path()."/app/".$temp);
-				$desktop = Storage::disk('do')->url($path);
+				$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+				$desktop = Storage::disk('public')->url($path);
 				Storage::delete($temp);
 				
 				$images['desktop'] = $desktop;
@@ -168,8 +168,8 @@ class AdsController extends Controller
 																							  //~ });
 				//~ $img->crop($width, 300, 0,0);
 				//~ $img->save(storage_path()."/app/".$temp, 100);
-				$path = Storage::disk('do')->putFile('sda',storage_path()."/app/".$temp);
-				$mobile = Storage::disk('do')->url($path);
+				$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+				$mobile = Storage::disk('public')->url($path);
 				Storage::delete($temp);
 				
 				$images['mobile'] = $mobile;

@@ -16,6 +16,7 @@ use App\Settings;
 use App\PremiumSubscription;
 use App\UserPostYourLook;
 use App\ListingFollow;
+use App\NotificationData;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -24,6 +25,7 @@ use App\Mail\PremiumSubscriptionPurchased;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Premium;
+use App\PremiumPicture;
 
 class DashboardController extends Controller
 {
@@ -44,31 +46,50 @@ class DashboardController extends Controller
         $this->secret_key = Settings::where('name','FlutterwaveSecretKey')->get()->first();
     }
     
+    protected function getYouTubeVideoId($url)
+    {
+        preg_match("/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/", $url, $matches);
+        return $matches[1] ?? null; // Return the video ID if found, or null
+    }
+    
     public function index()
     {
 		$user_id = Auth::id();
 		$user = User::find($user_id);
 		$activities = collect([]);
 		
-		foreach($user->favourites->sortDesc() as $favourite)
+		if ($user->favourites->count() > 0)
 		{
-			$activities[] = collect(['activity' => "You liked ".$favourite->product->name, "date" => $favourite->created_at ]);
+			foreach($user->favourites->sortDesc() as $favourite)
+			{
+				$activities[] = collect(['activity' => "You liked ".$favourite->product->name, "date" => $favourite->created_at ]);
+			}
 		}
 		
-		foreach($user->follows->sortDesc() as $follow)
+		
+		if ($user->follows->count() > 0)
 		{
-			$activities[] = collect(['activity' => "You followed ".$follow->listing->name, "date" => $follow->created_at ]);
+			foreach($user->follows->sortDesc() as $follow)
+			{
+				$activities[] = collect(['activity' => "You followed ".$follow->listing->name, "date" => $follow->created_at ]);
+			}
 		}
 		
-		foreach($user->orders->sortDesc() as $order)
+		if ($user->orders->count() > 0)
 		{
-			$items = json_decode($order->data, true);
-			$activities[] = collect(['activity' => "You ordered for ".count($items)." products", "date" => $order->created_at ]);
+			foreach($user->orders->sortDesc() as $order)
+			{
+				$items = json_decode($order->data, true);
+				$activities[] = collect(['activity' => "You ordered for ".count($items)." products", "date" => $order->created_at ]);
+			}
 		}
 		
-		foreach($user->pyls->sortDesc() as $pyl)
+		if ($user->pyls->count() > 0)
 		{
-			$activities[] = collect(['activity' => "You upload your photo on ".$pyl->pyl->name." competition", "date" => $pyl->created_at ]);
+			foreach($user->pyls->sortDesc() as $pyl)
+			{
+				$activities[] = collect(['activity' => "You upload your photo on ".$pyl->pyl->name." competition", "date" => $pyl->created_at ]);
+			}
 		}
 		
 		$active_subscription = PremiumSubscription::where([["user_id", "=",$user_id],["status","=","PAID"]])->orderBy('id','desc')->get()->first();
@@ -219,8 +240,8 @@ class DashboardController extends Controller
 																						  //~ });
 				//~ $img->save(storage_path()."/app/".$temp,100);
 				
-				$path = Storage::disk('do')->putFile('avatar',storage_path()."/app/".$temp);
-				$url = Storage::disk('do')->url($path);
+				$path = Storage::disk('public')->putFile('avatar',storage_path()."/app/".$temp);
+				$url = Storage::disk('public')->url($path);
 				Storage::delete($temp);
 				$user ->avatar = $url;
 				
@@ -394,11 +415,17 @@ class DashboardController extends Controller
 	public function premium_subscriptions()
 	{
 		$user_id = Auth::id();
+		$user = User::find($user_id);
 		$subscriptions = PremiumSubscription::where("user_id",$user_id)->orderBy('id','desc')->get();
 		$active_subscription = PremiumSubscription::where([["user_id", "=",$user_id],["status","=","PAID"]])->orderBy('id','desc')->get()->first();
 		$premiums = Premium::orderBy('id', 'desc')->get();
 		
-		return view('user.premium.subscriptions', ["subscriptions"=> $subscriptions, 'active_subscription' => $active_subscription, 'subscribtion_duration' => $this->subscriptionDuration, 'premia' => $premiums] );
+		$raw_settings = Settings::where('name','subscription_notification_text')->get();
+        $settings = $raw_settings->last();
+		
+// 		dd($settings);
+		
+		return view('user.premium.subscriptions', ["subscriptions"=> $subscriptions, 'active_subscription' => $active_subscription, 'subscribtion_duration' => $this->subscriptionDuration, 'premia' => $premiums, 'settings' => $settings] );
 	}
 	
 	public function premium_subscriptions_calculation(Request $request)
@@ -421,27 +448,75 @@ class DashboardController extends Controller
 			
 			//~ return $subscriptions;
 			
-			if (empty($subscriptions))
-			{
-				$package = $this->subscriptionDuration->value * $request->package;
-				$transactionDate = date_create("now");
-				//~ $expiry = mktime(0,0,0,date('n'), date('j'), date('Y'));
-				$expiry = $this->subscriptionExpiryDate($package, date_create("now"));
-				$amount = $this->subscriptionFee->value * $request->package;
-				$vat = $amount * $this->ngVAT->value;
-				$total = round($amount + $vat);
+// 			if (empty($subscriptions))
+// 			{
+// 				$package = $this->subscriptionDuration->value * $request->package;
+// 				$transactionDate = date_create("now");
+// 				//~ $expiry = mktime(0,0,0,date('n'), date('j'), date('Y'));
+// 				$expiry = $this->subscriptionExpiryDate($package, date_create("now"));
+// 				dd($this->subscriptionFee->value);
+// 				$amount = $this->subscriptionFee->value * $request->package;
+// 				$vat = $amount * $this->ngVAT->value;
+// 				$total = round($amount + $vat);
 				
-				$subs = new PremiumSubscription;
-				$subs->user_id = $user_id;
-				$subs->expiry = $expiry;
-				$subs->amount = $amount;
-				$subs->vat = $vat;
-				$subs->trans_data = "PENDING";
-				$subs->track_id = $track_id;
-				$subs->status = "PENDING";
-				$subs->save();
+// 				$subs = new PremiumSubscription;
+// 				$subs->user_id = $user_id;
+// 				$subs->expiry = $expiry;
+// 				$subs->amount = $amount;
+// 				$subs->vat = $vat;
+// 				$subs->trans_data = "PENDING";
+// 				$subs->track_id = $track_id;
+// 				$subs->status = "PENDING";
+// 				$subs->save();
 				
-			}
+// 			}
+			if (empty($subscriptions)) {
+                // Remove "N" and commas from the subscription fee value
+                $subscriptionFeeValue = str_replace(['N', ','], '', $this->subscriptionFee->value);
+                
+                // dd($this->ngVAT->value);
+                
+                // Convert the string to a numeric value
+                $subscriptionFeeNumeric = (float) $subscriptionFeeValue;
+            
+                $package = $this->subscriptionDuration->value * $request->package;
+                $transactionDate = date_create("now");
+                $expiry = $this->subscriptionExpiryDate($package, date_create("now"));
+                
+                // Calculate amount, VAT, and total
+                $amount = $subscriptionFeeNumeric * $request->package;
+                $vat = ($amount * $this->ngVAT->value) / 100;
+                $total = round($amount + $vat);
+                
+                if ($total == 0) {
+                    // Price is 0, skip payment and register subscription directly
+                    $subs = new PremiumSubscription;
+                    $subs->user_id = $user_id;
+                    $subs->expiry = $expiry;
+                    $subs->amount = $amount;
+                    $subs->vat = $vat;
+                    $subs->trans_data = "FREE";
+                    $subs->track_id = $track_id;
+                    $subs->status = "PAID"; // Mark as paid since no payment is needed
+                    $subs->save();
+                    
+                    // Redirect to confirmation or success page
+                    return view('user.premium.subscription-result', ['subscription' => $subs]);
+                    
+                } else {
+                
+                    $subs = new PremiumSubscription;
+                    $subs->user_id = $user_id;
+                    $subs->expiry = $expiry;
+                    $subs->amount = $amount;
+                    $subs->vat = $vat;
+                    $subs->trans_data = "PENDING";
+                    $subs->track_id = $track_id;
+                    $subs->status = "PENDING";
+                    $subs->save();
+                }
+            }
+
 			else
 			{
 				
@@ -467,23 +542,41 @@ class DashboardController extends Controller
 				}
 				else
 				{
+				    $subscriptionFeeValue = str_replace(['N', ','], '', $this->subscriptionFee->value);
+				    $subscriptionFeeNumeric = (float) $subscriptionFeeValue;
+				    
 					$package = $this->subscriptionDuration->value * $request->package;
 					$transactionDate = date_create("now");
 					//~ $expiry = mktime(0,0,0,date('n'), date('j'), date('Y'));
 					$expiry = $this->subscriptionExpiryDate($package, date_create($subscriptions->expiry));
-					$amount = $this->subscriptionFee->value * $request->package;
+					$amount = $subscriptionFeeNumeric * $request->package;
 					$vat = $amount * $this->ngVAT->value;
 					$total = $amount + $vat;
 					
-					$subs = new PremiumSubscription;
-					$subs->user_id = $user_id;
-					$subs->expiry = $expiry;
-					$subs->amount = $amount;
-					$subs->vat = $vat;
-					$subs->trans_data = "PENDING";
-					$subs->track_id = $track_id;
-					$subs->status = "PENDING";
-					$subs->save();
+					if ($total == 0) {
+                        $subs = new PremiumSubscription;
+                        $subs->user_id = $user_id;
+                        $subs->expiry = $expiry;
+                        $subs->amount = $amount;
+                        $subs->vat = $vat;
+                        $subs->trans_data = "FREE";
+                        $subs->track_id = $track_id;
+                        $subs->status = "PAID";
+                        $subs->save();
+
+                        return view('user.premium.subscription-result', ['subscription' => $subs]);
+					} else {
+					
+    					$subs = new PremiumSubscription;
+    					$subs->user_id = $user_id;
+    					$subs->expiry = $expiry;
+    					$subs->amount = $amount;
+    					$subs->vat = $vat;
+    					$subs->trans_data = "PENDING";
+    					$subs->track_id = $track_id;
+    					$subs->status = "PENDING";
+    					$subs->save();
+					}
 				}
 			}
 			
@@ -609,5 +702,59 @@ class DashboardController extends Controller
 		
 		return false;
 	}
+	
+	public function notificationList()
+    {
+        $user_id = Auth::id(); // Get the authenticated user's ID
+    
+        // Fetch notification data with user information where the user_id matches
+        $notifications = NotificationData::with('user')
+            ->where('user_id', $user_id) // Only fetch notifications for the authenticated user
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        return view('notification.index', ['notifications' => $notifications]);
+    }
+
+    
+    public function notificationSingle($id)
+    {
+        // Fetch the notification by its ID
+        $notification = NotificationData::with('user')->findOrFail($id);
+    
+        // Fetch the premium information using the premium_ids from the notification
+        $premium_ids = json_decode($notification->premium_ids);
+        $premiums = Premium::whereIn('id', $premium_ids)->get();
+    
+        // Build an associative array for each premium (image/video)
+        $premiumMedia = [];
+        foreach ($premiums as $premium) {
+            if (!is_null($premium->video_url)) {
+                
+                $video_id = $this->getYouTubeVideoId($premium->video_url);
+                
+                // If video exists, add the video with the "video" label
+                $premiumMedia[] = [
+                    'id' => $premium->id,
+                    'name' => $premium->name,
+                    'label' => 'video',
+                    'value' => $video_id,
+                ];
+            } else {
+                // Otherwise, add the image with the "image" label
+                $premiumMedia[] = [
+                    'id' => $premium->id,
+                    'name' => $premium->name,
+                    'label' => 'image',
+                    'value' => $premium->picture[0]->url,
+                    
+                ];
+            }
+        }
+        
+        // dd($premiumMedia);
+    
+        return view('notification.show', compact('notification', 'premiumMedia'));
+    }
 	
 }
