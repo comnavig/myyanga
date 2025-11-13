@@ -140,6 +140,7 @@
 						<input type="hidden" name="listing_id" value="{{$listing->id}}" />
 						<button class="btn btn-sm green-bg" name="action" value="approved">Approve</button>
 						<button class="btn btn-sm warm-red-bg" name="action" value="suspended">Suspend</button>
+						<button class="btn btn-sm warm-red-bg" name="action" value="delete">Delete</button>
 					</form>
 					
 					@elseif($listing->status == "SUSPENDED")

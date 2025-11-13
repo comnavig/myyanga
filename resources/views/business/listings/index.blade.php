@@ -29,7 +29,7 @@
 				<tbody>
 				@foreach($listings as $listing)
 				<tr>
-					<td><div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{$listing->logo}}"  width="100%"/></div></td>
+					<td><div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $listing->logo)}}"  width="100%"/></div></td>
 					<td>
 						{{$listing->name}}
 						<br/><a class="btn-sm btn-link blue p-0" target="_blank" href="{{ route('pages', ['slug' => $listing->slug]) }}">{{url($listing->slug) }}</a>
@@ -41,15 +41,20 @@
 						<span class="font-weight-bold {{strtolower($listing->status)}}">{{$listing->status}}</span>
 					</td>
 -->
-					<td>
+					<td  class="text-right">
 						@if ($listing->status == "SUSPENDED")
 							<strong>SUSPENDED</strong>
 						@else
-							<a class="btn btn-sm main-btn-bg" href="{{ route('listings.edit', ['id' => $listing->id]) }}">EDIT</a>
-							<a class="btn-sm btn-link blue p-0" href="{{ route('listings.products', ['id' => $listing->id]) }}">Products</a>
-<!--
-							<a class="btn btn-sm btn-link main-btn-bg" href="{{ route('listings.edit', ['id' => $listing->id]) }}">CHANGE OWNERSHIP</a>
--->
+							<div class="my-dropdown">
+								<div class=""><i class="bi bi-three-dots-vertical"></i></div>
+								<div class="my-dropdown-content">
+									<a class="dropdown-item" href="{{ route('listings.edit', ['id' => $listing->id]) }}">EDIT</a>
+									<a class="dropdown-item" href="{{ route('listings.products', ['id' => $listing->id]) }}">Products</a>
+									<!--    
+									<a class="dropdown-item" href="{{ route('listings.edit', ['id' => $listing->id]) }}">CHANGE OWNERSHIP</a>
+									-->
+								</div>
+							</div>
 						@endif
 						
 					</td>

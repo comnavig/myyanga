@@ -14,12 +14,16 @@
 		<input class="form-control my-2 p-4" type="search" name="search" value="{{ $keyword ?? old('search')}}" placeholder="Type in what you are looking for and press enter to search" aria-label="Search" style="width: 100%;" required />
 		<button class="btn btn-block main-color-bg my-2 my-sm-0" type="submit">Search</button>
 	</form>
-</div>
+</div> 
 
 @if (count($products) == 0 )
 
-	<div class="col-12 float-left d-flex justify-content-center align-items-center search_lady" >
+	<!--div class="col-12 float-left d-flex justify-content-center align-items-center search_lady" >
 		<a href="{{route('search.smart')}}"><img src="{{asset('assets/img/search_lady.jpg') }}" /></a>
+	</div-->
+	
+	<div class="col-12 float-left d-flex justify-content-center align-items-center search_lady" >
+		<a href="{{route('search.smart')}}"><img src="{{asset('assets/img/image.jpg') }}" /></a>
 	</div>
 
 @else
@@ -32,7 +36,19 @@
 			<div class="product-item">
 				<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug]  )}}">
 					<div class="img" >
-						<img src="{{$product->picture[0]->url }}" width="100%" />
+						@if (!empty($product->picture) && count($product->picture) > 0)
+                            <!--<img src="{{ $product->picture[0]->url }}" width="100%" />-->
+                            
+                            <img 
+                                src="{{ str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $product->picture[0]['url']) }}" 
+                                width="100%" 
+                                alt="Product Image"
+                            />
+        
+
+                        @else
+                            <p>No picture available</p>
+                        @endif
 					</div>
 					{{ ( strlen($product->name) > 20 ? substr($product->name, 0, 15)."..." : $product->name ) }}
 				</a>

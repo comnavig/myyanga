@@ -3,6 +3,7 @@
 
 @section('content')
 
+    <br />
 	<div class="col-12 py-2">
 		<h3 class="main-color explore-title">{{$category->name}}</h3>
 	</div>
@@ -12,10 +13,10 @@
 @else
 	<div class="col-12 float-left" style="margin-bottom: 10%; display: flex; flex-wrap: wrap;  justify-content: space-around;">
 		@foreach($products as $product)
-			<div class="product-item">
+			<div class="product-item py-5" style="padding-bottom: 30px">
 				<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug] )}}">
 					<div class="img" >
-						<img src="{{$product->picture[0]->url }}" width="100%" />
+						<img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]->url) }}" width="100%" />
 					</div>
 					{{ ( strlen($product->name) > 20 ? substr($product->name, 0, 15)."..." : $product->name ) }}
 				</a>

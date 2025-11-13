@@ -36,6 +36,12 @@
 				  <td>{{$category->user->name}}</td>
 				  <td>
 					  <a class="btn btn-sm warm-blue-bg" href="{{route('admin.featured.category.edit', ['id' => $category->id ] )}}">edit</a>
+					  <a class="btn btn-sm warm-red-bg" href="#" onclick="document.getElementById('cat_{{$category->id}}_id').submit()" >delete</a>
+					  <form id="cat_{{$category->id}}_id" method="post" action="{{route('admin.featured.category.action')}}">
+						@csrf
+						<input type="hidden" name="action" value="delete_category" />
+						<input type="hidden" name="cat_id" value="{{$category->id}}" />
+					  </form>
 				  </td>
 				</tr>
 			@endforeach

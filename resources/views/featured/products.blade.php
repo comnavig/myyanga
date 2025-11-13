@@ -8,6 +8,7 @@
 </div>
 <div class="col-12 float-left" style="margin-bottom: 25%; display: flex; flex-wrap: wrap; justify-content: space-around;">
 	@foreach($category->featured->sortDesc() as $featured)
+		@if (!empty($featured->product->id))
 		<div class="product-item">
 			<a class="link" href="{{route('featured.product', ['cat' =>$category->id, 'id' =>$featured->product->id] )}}">
 				<div class="img" >
@@ -22,6 +23,7 @@
 				<a class="link" href="{{route('pages', ['slug' =>$featured->product->listing->slug] )}}">{{$featured->product->listing->name }}</a>
 			</div>
 		</div>
+		@endif
 	@endforeach
 </div>
 

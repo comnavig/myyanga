@@ -34,6 +34,7 @@
 				  <td>{{$category->user->name}}</td>
 				  <td>
 					  <a class="btn btn-sm warm-blue-bg" href="{{route('admin.discover.category.edit', ['id' => $category->id ] )}}">edit</a>
+					  <a class="btn btn-sm warm-blue-bg" onclick="return confirm('Are you sure?')" href="{{ route('admin.discover.category.delete', ['id' => $category->id]) }}">DELETE</a>
 				  </td>
 				</tr>
 			@endforeach

@@ -99,7 +99,11 @@
 							<div class="" style="width: 250px; height: 350px; overflow: hidden; padding: 20px; margin: 10px;">
 									<label for="pictures[{{$i}}]">
 										<div style="width: 250px; height: 250px; overflow: hidden; padding: 20px;">
-											<img id="photo_img_{{$i}}" src="{{ $discover->picture[$i]->url }}" width="100%" />
+                                            @if(isset($discover->picture[$i]))
+                                                <img id="photo_img_{{$i}}" src="{{ $discover->picture[$i]->url }}" width="100%" />
+                                            @else
+                                                <img id="photo_img_{{$i}}" src="/path/to/default/image.jpg" width="100%" />
+                                            @endif
 										</div>
 									</label>
 									<input type="file" name="pictures[{{$i}}]" class="form-control" id="pictures[{{$i}}]" accept="image/jpeg, image/png" style="display: none;" onchange="loadFile(event, 'photo_img_{{$i}}')"  aria-describedby="picturesHelp" />

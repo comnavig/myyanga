@@ -26,9 +26,9 @@
 					
 				</a>
 			</div>
-		@php 
-		$i++;
-		@endphp
+    		@php 
+    		    $i++;
+    		@endphp
 		@endforeach
 		</div>
 	@endforeach

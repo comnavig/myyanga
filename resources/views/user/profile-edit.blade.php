@@ -20,7 +20,7 @@
 									<strong>Click to change avatar</strong>
 								</label>
 								<input type="file" name="picture" class="form-control" id="picture" accept="image/jpeg, image/png" style="display: none;" onchange="loadFile(event, 'photo_img')"  aria-describedby="picturesHelp"/>
-								<small id="picturesHelp" class="form-text text-muted red">Photo size should be less than 2mb</small>
+								<small id="picturesHelp" class="form-text text-muted red">Photo size should be less than 10mb</small>
 								
 								@error('picture')
 									<small id="picturesHelp" class="form-text text-muted red">{{ $message }}</small>

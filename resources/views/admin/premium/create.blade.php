@@ -63,6 +63,17 @@
 				
 				</div>
 				
+				<div class="col-md-12 col-sm-12 mt-2">
+					<div class="form-group">
+						<label for="video_url">Video Url</label>
+						<input type="text" name="video_url" value="{{ old('description') }}" class="form-control" id="video_url" required />
+						@error('video_url')
+							<small id="descriptionHelp" class="form-text text-muted red">{{ $message }}</small>
+						@enderror
+					</div>
+				
+				</div>
+				
 				
 				<div class="col-md-12 col-sm-12 m-0">
 					<div class="col-12 m-0 p-0 mt-2">

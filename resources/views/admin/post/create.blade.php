@@ -64,30 +64,43 @@
 				</div>
 				
 				
-				<div class="col-md-12 col-sm-12 m-0">
-					<div class="col-12 m-0 p-0 mt-2">
-						<label>Picture<sup class='red'>*</sup> </label>
-						<div class="row">
+				<!--<div class="col-md-12 col-sm-12 m-0">-->
+				<!--	<div class="col-12 m-0 p-0 mt-2">-->
+				<!--		<label>Picture<sup class='red'>*</sup> </label>-->
+				<!--		<div class="row">-->
 							
-							@for ($i = 0; $i < 1; $i++)
-								<div class="" style="width: 250px; height: 250px; overflow: hidden; padding: 20px; margin: 10px;">
-									<label for="pictures[{{$i}}]">
-										<div>
-											<img id="photo_img_{{$i}}" src="{{asset('assets/img/image.svg')}}" width="200px" />
-										</div>
-									</label>
-									<input type="file" name="pictures[{{$i}}]" class="form-control" id="pictures[{{$i}}]" accept="image/jpeg, image/png" style="display: none;" onchange="loadFile(event, 'photo_img_{{$i}}')"  aria-describedby="picturesHelp"/>
+				<!--			@for ($i = 0; $i < 1; $i++)-->
+				<!--				<div class="" style="width: 250px; height: 250px; overflow: hidden; padding: 20px; margin: 10px;">-->
+				<!--					<label for="pictures[{{$i}}]">-->
+				<!--						<div>-->
+				<!--							<img id="photo_img_{{$i}}" src="{{asset('assets/img/image.svg')}}" width="200px" />-->
+				<!--						</div>-->
+				<!--					</label>-->
+				<!--					<input type="file" name="pictures[{{$i}}]" class="form-control" id="pictures[{{$i}}]" accept="image/jpeg, image/png" style="display: none;" onchange="loadFile(event, 'photo_img_{{$i}}')"  aria-describedby="picturesHelp"/>-->
 									
 									
-									@error('pictures.'.$i)
-										<small id="picturesHelp" class="form-text text-muted red">{{ $message }}</small>
-									@enderror
+				<!--					@error('pictures.'.$i)-->
+				<!--						<small id="picturesHelp" class="form-text text-muted red">{{ $message }}</small>-->
+				<!--					@enderror-->
 									
-								</div>
-							@endfor
-						</div>
-					</div>
-				</div>
+				<!--				</div>-->
+				<!--			@endfor-->
+				<!--		</div>-->
+				<!--	</div>-->
+				<!--</div>-->
+				
+				
+				<div class="col-md-12 col-sm-12 mt-2">
+	                <label>Picture(s) <sup class='red'>*</sup></label>
+                	<div class="row">
+		                <div class="form-group col-12">
+			                <input type="file" name="pictures[]" multiple class="form-control" accept="image/jpeg, image/png" />
+		                	@error('pictures.0')
+		                		<small class="form-text text-muted red">{{ $message }}</small>
+		                	@enderror
+		                </div>
+                	</div>
+                </div>
 				
 				
 				

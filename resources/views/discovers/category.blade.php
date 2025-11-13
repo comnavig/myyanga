@@ -11,10 +11,15 @@
 <div class="col-12 float-left" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
 	
 	@foreach($discovers as $discover)
+	
 		<div class="product-item">
 			<a class="link" href="{{route('discovers.story', ['slug' =>$discover->slug])}}">
 				<div class="img" >
-					<img src="{{$discover->picture[0]->url }}" width="100%" />
+				    @if(isset($discover->picture[0]))
+					    <img src="{{$discover->picture[0]->url }}" width="100%" />
+					@else
+					    <div>No image uploaded</div>
+					@endif
 				</div>
 				{{ ( strlen($discover->name) > 20 ? substr($discover->name, 0, 15)."..." : $discover->name ) }}
 			</a>

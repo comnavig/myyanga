@@ -5,7 +5,7 @@
 <div class="container mt-2">
 	<div class="my-4">
 		<h3 class="main-color">
-			Premia
+			Premium
 			<a class="btn btn-sm main-btn-bg float-right" href="{{ route('admin.premium.create') }}">add new</a>
 			
 		</h3>
@@ -25,7 +25,15 @@
 			<tbody>
 			@foreach($premia as $premium)
 			<tr>
-				<td><div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{$premium->picture[0]->url}}"  width="100%"/></div></td>
+				<td>
+				    @if(isset($premium->picture) && count($premium->picture) > 0)
+                        <div style="width: 100px; height: 100px; overflow: hidden;">
+                            <img src="{{$premium->picture[0]->url}}" width="100%" />
+                        </div>
+                    @else
+                        <div>No image available</div>
+                    @endif
+                </td>
 				<td>{{$premium->name}}</td>
 				<td>{{$premium->premium_category->name }}</td>
 				<td>{{$premium->created_at}}</td>

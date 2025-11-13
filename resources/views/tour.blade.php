@@ -11,7 +11,7 @@
 					@php
 						$filename = "assets/img/tour/tp".$i.".jpg"; 
 					@endphp
-				<div class="tour-img" style="background-image: url('{{ asset($filename) }}');"></div>
+				<div class="tour-img" style="background-image: url('{{ asset($filename) }}'); height:70vh"></div>
 				@endfor
 		</div>
 	</div>

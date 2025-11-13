@@ -73,11 +73,15 @@
 						
 						@else
 							<a class="btn btn-sm warm-blue-bg" href="{{ route('admin.pages.edit', ['id' => $page->id]) }}">edit</a>
-							<a class="btn btn-sm warm-red" href="{{ route('admin.pages.delete') }}" onclick="confirm_first(page,'delete-form-{{$page->id}}')"><i class="bi bi-trash-fill"></i></a>
+							<!--<a class="btn btn-sm warm-red" href="{{ route('admin.pages.delete') }}" onclick="confirm_first(page,'delete-form-{{$page->id}}')"><i class="bi bi-trash-fill"></i></a>-->
 
-							<form id="delete-form-{{$page->id}}" action="{{ route('admin.pages.delete') }}" method="POST" class="d-none">
+							<!--<form id="delete-form-{{$page->id}}" action="{{ route('admin.pages.delete') }}" method="POST" class="d-none">-->
+							<!--	@csrf-->
+							<!--	<input type="hidden" name="page_id" value="{{$page->id}}">-->
+							<!--</form>-->
+							<form class="form-inline" method="post" action="{{ route('admin.pages.delete') }}">
 								@csrf
-								<input type="hidden" name="page_id" value="{{$page->id}}">
+								<button class="btn btn-sm warm-red-bg " name="page_id" value="{{$page->id}}" >DELETE</button>
 							</form>
 						@endif
 						

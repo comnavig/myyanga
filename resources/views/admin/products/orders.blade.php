@@ -20,8 +20,20 @@
 				<td>#{{$order->id}}</td>
 				<td><a class="btn-link main-color" data-toggle="modal" data-target="#o{{$order->id}}Modal">click to view</td>
 				<td>₦{{number_format($order->amount)}}<br/><a class="btn-link main-color" data-toggle="modal" data-target="#p{{$order->id}}Modal">{{$order->status}}</a></td>
-				<td>{{$order->user->name}}<br/>{{$order->user->mobile}}</td>
-				<td>{{$order->address->address}}</td>
+				
+				
+				<!--this line was flagging error-->
+				<!--{{-- <td>{{$order->user->name}}<br/>{{$order->user->mobile}}</td> --}}-->
+				<!--{{-- <td>{{$order->address->address}}</td> --}}-->
+				
+				<!--Fix by Max-->
+				<td>
+                    {{ $order && $order->user ? $order->user->name : 'Name not provided' }}<br>
+                    {{ $order && $order->address ? $order->address->address : 'Address not provided' }}<br>
+                    {{ $order && $order->user ? $order->user->mobile : 'Phone Number not provided' }}
+                </td>
+                        <!--End of Fix-->
+				
 				<td>{{$order->created_at->format('dS M Y h:i a') ?? ''}}</td>
 			</tr>
 			<!-- Modal -->

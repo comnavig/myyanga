@@ -28,16 +28,18 @@
 					<h4 class="mani-color">{{$category->name}}</h4>
 				</div>
 				<div class="col-12" style=" display: flex; flex-wrap: wrap; justify-content: space-around;">
-					@foreach($category->featured->sortDesc()->take(12) as $featured)
-						<div class="product-item">
-							<a class="link" href="{{route('featured.product', ['cat' =>$category->id, 'id' =>$featured->product->id] )}}">
-								<div class="img">
-									<img src="{{$featured->product->picture[0]->url }}" width="100%" />
-								</div>
-								{{ ( strlen($featured->product->name) > 20 ? substr($featured->product->name, 0, 15)."..." : $featured->product->name ) }}
-							</a>
-						</div>
-					@endforeach
+                    @foreach($category->featured->sortDesc()->take(12) as $featured)
+                        @if($featured->product)
+                            <div class="product-item">
+                                <a class="link" href="{{ route('featured.product', ['cat' => $category->id, 'id' => $featured->product->id]) }}">
+                                    <div class="img">
+                                        <img src="{{ $featured->product->picture[0]->url }}" width="100%" />
+                                    </div>
+                                    {{ (strlen($featured->product->name) > 20 ? substr($featured->product->name, 0, 15)."..." : $featured->product->name) }}
+                                </a>
+                            </div>
+                        @endif
+                    @endforeach
 				</div>				
 				<div class="col-12">
 					<a class="btn btn-sm main-color-bg"href="{{route('featured.category',['cat' => $category->id ])}}">See more</a>

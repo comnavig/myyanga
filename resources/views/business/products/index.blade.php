@@ -4,6 +4,20 @@
 @section('content')
 <div class="container mt-2">
 	<div class="my-4">
+	    
+			<div class="col-md-4 col-sm-12 ml-auto">
+				<form class="form-row" action="{{ url()->current() }}">
+					@csrf
+					<div class="col-10">
+						<div class="form-group mx-sm-6 mb-2">
+							<input type="text" name="search" class="form-control" value="{{old('search')}}" placeholder="Search a Product" required />
+						</div>
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn main-color-bg mb-2">Search</button>
+					</div>
+				</form>	
+			</div>
 		<h3 class="main-color">
 			Products
 			<a class="btn btn-sm float-right" href="{{ route('listings') }}">back</a>
@@ -12,6 +26,9 @@
 		</h3>
 	</div>
 	<div class="col-12">
+	    @if(empty($products[0]->id))
+			<p>No Products</p>
+		@else
 		<table class="table dt">
 			<thead>
 				<tr>
@@ -48,6 +65,8 @@
 								
 							@endif
 						</div>
+						
+						
 					@endif
 					
 				</td>
@@ -56,38 +75,52 @@
 			</tbody>
 		</table>
 		
+
+    
+    
+    <!-- Safe Pagination links -->
+@if(method_exists($products, 'links'))
+    <div class="col-12 float-left" style="padding-bottom: 100px;">
+        <div class="pagination-wrapper">
+            {{ $products->withQueryString()->links() }}
+        </div>
+    </div>
+@endif
+
+		
+		
 	</div>
 	
-	
+@endif	
 	
 </div>
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <!--<link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">-->
 @endpush
 @push('scripts')
-    <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script>
-		function confirm_this(event)
-		{
-			event.preventDefault();
+  <!--  <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>-->
+  <!--  <script>-->
+		<!--function confirm_this(event)-->
+		<!--{-->
+		<!--	event.preventDefault();-->
 			
-			var r = confirm("Please Confirm, if you want to preform this action?");
+		<!--	var r = confirm("Please Confirm, if you want to preform this action?");-->
 			
-			if (r == true) 
-			{
-				//~ alert(event.target.id);
-			  document.getElementById(event.target.id).submit();
-			} 
-			else 
-			{
-			  event.preventDefault();
-			}
-		}
+		<!--	if (r == true) -->
+		<!--	{-->
+				<!--//~ alert(event.target.id);-->
+		<!--	  document.getElementById(event.target.id).submit();-->
+		<!--	} -->
+		<!--	else -->
+		<!--	{-->
+		<!--	  event.preventDefault();-->
+		<!--	}-->
+		<!--}-->
 		
-		$(document).ready( function () {
-			$('.dt').DataTable();
-		} );
-    </script>
+		<!--$(document).ready( function () {-->
+		<!--	$('.dt').DataTable();-->
+		<!--} );-->
+  <!--  </script>-->
 @endpush

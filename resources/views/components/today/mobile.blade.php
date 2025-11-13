@@ -12,7 +12,7 @@
 			</a>
 		</div>
 	</div>
-	<div class="content" style="margin-top: 75px;">	
+	<div class="content">	
 		<div class="col-12 float-left m-0 p-0">
 			<div id="homeShow" class="owl-carousel" >
 				@foreach($featuredcategories as $category)
@@ -24,7 +24,7 @@
 							$today_date = date_create('now');
 						@endphp
 							<div>
-								@if ($date_entered > $today_date )
+								<!--@if ($date_entered > $today_date )-->
 								<div class="today-img" style="background-image: url('{{$featured->product->picture[1]->url }}');">
 		<!--
 									<img src="{{$featured->product->picture[1]->url }}" class="d-block w-100" alt="...">
@@ -37,7 +37,7 @@
 										<a class="link gold float-right mt-1 mr-2" href="{{route('featured.category', ['cat' =>$category->id ] )}}">See more</a>
 									</div>
 								</div>
-								@endif
+								<!--@endif-->
 							</div>
 						@endforeach
 					@endforeach
@@ -48,7 +48,7 @@
 		<div class="col-12 float-left main-color-bg" style="padding:10px 0px 20px 0px;">
 			<ul class="nav d-flex justify-content-around text-uppercase">
 				<li class="nav-item">
-					<a class="nav-link gold font-weight-bolder" data-toggle="collapse" href="#exploreMenu" role="button" aria-expanded="false" aria-controls="exploreMenu">Explore</a>
+					<a class="nav-link gold font-weight-bolder" data-toggle="collapse" href="{{route('tour') }}" role="button" aria-expanded="false" aria-controls="exploreMenu">Tour</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link gold font-weight-bolder" href="{{route('search') }}">Search</a>

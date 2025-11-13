@@ -72,7 +72,7 @@
 		$today = date("Y-m-d");
 		$ads = App\Ads::where([
 									['status','=', 'APPROVED'],
-									['expired_at','>',$today]	
+									{{-- ['expired_at','>',$today]	--}}
 									])->get();
 	@endphp
 <body class="">
@@ -113,6 +113,7 @@
 				loop:true,
 				margin:10,
 				autoplay:true,
+				smartSpeed: 500,
 			});
 			
 			//~ var timg = document.getElementsByClassName('today-img');

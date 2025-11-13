@@ -3,6 +3,7 @@
 
 @section('content')
 <div class="col-lg-7 col-md-12 col-sm-12 py-0" style="padding-top: 3%;">
+<br />
 	<h3 class="main-color font-weight-bolder"><span class="float-left">{{$product[0]['name']}}</span> </h3>
 </div>
 <div class="white-bg" style="width:100%; min-height: 300px; float: left;">
@@ -11,7 +12,7 @@
 			<div class="col-lg-7 col-md-12 col-sm-12">
 				<div class="product-image black-bg">
 					@for ($i = 1; $i < count($product[0]['picture']); $i++)
-						<img src="{{$product[0]['picture'][$i]['url']}}" class="d-block m-auto" alt="{{$product[0]['name']}}">
+						<img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product[0]['picture'][$i]['url']) }}" class="d-block m-auto" alt="{{$product[0]['name']}}">
 					@endfor
 				</div>
 				
@@ -20,7 +21,6 @@
 				
 				<div class="col-12 my-3">
 <!--
-					<h3 class="font-weight-bolder" style="font-size: 20px;">{{$product[0]['name']}}</h3>
 -->
 					@include('components.product-description', ['description' => $product[0]['description'] ])
 					@include('components.styling-tips', ['tips' => $product[0]['tips'] ])
@@ -36,7 +36,7 @@
 						<div class="product-item">
 							<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug] )}}">
 								<div class="img">
-									<img src="{{$product->picture[0]->url }}" width="100%" />
+									<img src="{{ str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]->url) }}" width="100%" />
 								</div>
 								{{ ( strlen($product->name) > 20 ? substr($product->name, 0, 15)."..." : $product->name ) }}
 							</a>
@@ -60,3 +60,4 @@
 @push('scripts')
     <script async src="https://static.addtoany.com/menu/page.js"></script>
 @endpush
+					{{--<h3 class="font-weight-bolder" style="font-size: 20px;">{{$product[0]['name']}}</h3> --}}

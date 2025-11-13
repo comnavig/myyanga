@@ -60,7 +60,7 @@
 				@foreach($products->take(9) as $product)
 				<tr>
 					<td><div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{$product->picture[0]->url ?? ''}}"  width="100%"/></div></td>
-					<td>{{$product->name}}<br/><small><a target="_blank" href="{{ route('brand.product', ['slug' => $product->listing->slug, 'product_slug' => $product->slug ]) }}">view product page</small></td>
+					<td>{{$product->name}}<br/><small><a target="_blank" href="{{ route('brand.product', ['slug' => $product->listing->slug, 'product_slug' => $product->slug ]) }}">view product page</a></small></td>
 					<td>{{$product->category->name ?? '' }}</td>
 					<td>{{$product->created_at}}</td>
 					<td>

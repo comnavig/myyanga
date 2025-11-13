@@ -7,16 +7,22 @@
 		@if(empty($active_subscription))
 			<strong class="mb-3 p-0">No Subscription Yet</strong>
 			
-			<p class="p-0">Subscribe to any of our premium packages and get tips on what to wear and how to wear it. Bring out the fashionista in you!!!</p>
+			<p class="p-0">{{ $settings->value }}</p>
 			<div class="col-12 p-0">
 					@foreach($premia->sortDesc()->take(4) as $premium)
 						<div>
 							<a class="link " href="{{route('premiums.story', ['id' =>$premium->id])}}">
-								<div class="discover-item" style="position:relative; width: 150px; height: 150px; float: left; margin-right: 5px; margin-bottom: 5px; background-position: top center; background-image: url('{{$premium->picture[0]->url }}');">
-									<div class="white clear-black-bg d-flex justify-content-center align-items-center" style="width: 100%;position: absolute; height: 100%;">
-										{{ ( strlen($premium->name) > 20 ? substr($premium->name, 0, 15)."..." : $premium->name ) }}
-									</div>
-								</div>		
+								
+								@if (!empty($premium->picture) && isset($premium->picture[0]))
+                                    <div class="discover-item" style="position:relative; width: 150px; height: 150px; float: left; margin-right: 5px; margin-bottom: 5px; background-position: top center; background-image: url('{{ $premium->picture[0]->url }}');">
+                                        <div class="white clear-black-bg d-flex justify-content-center align-items-center" style="width: 100%; position: absolute; height: 100%;">
+                                            {{ (strlen($premium->name) > 20 ? substr($premium->name, 0, 15)."..." : $premium->name) }}
+                                        </div>
+                                    </div>
+                                @else
+                                    <!-- Handle case when $premium->picture is empty or index 0 doesn't exist -->
+                                    <div class="error-message">No picture available</div>
+                                @endif
 								
 							</a>
 						</div>
@@ -25,7 +31,7 @@
 		@else
 			@if( $active_subscription->daysOver($active_subscription->expiry) )
 				<strong class="mb-3">No Active Subscription</strong>
-				<p class="p-0">Subscribe to any of our premium packages and get tips on what to wear and how to wear it. Bring out the fashionista in you!!!</p>
+				<p class="p-0">{{ $settings->value }}</p>
 				<div class="col-12 p-0">
 					@foreach($premia->sortDesc()->take(4) as $premium)
 						<div>
@@ -41,7 +47,7 @@
 					@endforeach
 				</div>	
 			@else
-				<p class="p-0">Subscribe to any of our premium packages and get tips on what to wear and how to wear it. Bring out the fashionista in you!!!</p>
+				<p class="p-0">{{ $settings->value }}</p>
 				<h4 class="p-0"> You have <strong class="main-color">{{$active_subscription->daysLeft($active_subscription->expiry) }}</strong> days left</h4>
 			@endif
 		@endif

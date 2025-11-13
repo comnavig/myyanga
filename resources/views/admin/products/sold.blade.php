@@ -48,7 +48,19 @@
 							</strong>
 							
 						</td>
-						<td>{{$product_sold->order->user->name }}<br>{{$product_sold->order->address->address }}<br>{{$product_sold->order->user->mobile }}</td>
+						
+						<!--this line was flagging error-->
+						<!--{{-- <td>{{$product_sold->order->user->name }}<br>{{$product_sold->order->address->address }}<br>{{$product_sold->order->user->mobile }}</td> --}}-->
+						
+						<!--Fix by Max-->
+						<td>
+    {{ $product_sold->order && $product_sold->order->user ? $product_sold->order->user->name : 'Name not provided' }}<br>
+    {{ $product_sold->order && $product_sold->order->address ? $product_sold->order->address->address : 'Address not provided' }}<br>
+    {{ $product_sold->order && $product_sold->order->user ? $product_sold->order->user->mobile : 'Phone Number not provided' }}
+</td>
+						<!--End of Fix-->
+						
+						
 						<td>{{$product_sold->delivery_status}}<br/><a class="main-color"href="{{route('admin.products.sold.deliverynotes',['id' => $product_sold->id])}}">({{$product_sold->delivery_note->count()}}) Notes</a></td>
 						<td>{{$product_sold->created_at}}</td>
 					</tr>

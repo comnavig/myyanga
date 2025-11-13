@@ -5,7 +5,8 @@ $liked = $liked->last();
 @endphp
 <div class="main-color-border" style="border-bottom: 1px solid ;">
 	@guest
-		<a class="btn btn-link main-color m-0 p-0 my-2" style="font-size: 17px;" href="{{ route('login', ['redirect' => url()->full() ]) }}"> Login to Like & Share</a>
+	    <p class="like">Login to <i class="fa-regular fa-heart"></i> Like  & Share <i class="fa-sharp fa-solid fa-share"></i></p>
+		<!--a class="btn btn-link main-color m-0 p-0 my-2" style="font-size: 17px;" href="{{ route('login', ['redirect' => url()->full() ]) }}"> Login to Like & Share</a-->
 	@endguest
 	@auth
 		<form class="d-block m-0 p-0 my-2" method="post" action="{{route('like.product', ['id' => $product_id])}}">

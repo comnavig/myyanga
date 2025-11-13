@@ -18,7 +18,7 @@
 				<tbody>
 					<tr>
 						<td>{{$subscription->created_at->format('D dS, M Y')}}</td>
-						<td>{{date_format(date_create($subscription->expiry), 'D dS, M Y')}}</td>
+						<td>{{$subscription->expiry->format('D dS, M Y')}}</td>
 						<td>₦{{$subscription->amount}}</td>
 						<td>₦{{$subscription->vat}}</td>
 						<th>₦{{$subscription->amount + $subscription->vat}}</th>

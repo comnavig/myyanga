@@ -6,7 +6,6 @@
 	<div class="my-4">
 		<h3 class="main-color">
 			Business Users
-			<a class="btn btn-sm main-btn-bg float-right" href="{{ route('admin.premium.create') }}">add new</a>
 			
 		</h3>
 	</div>
@@ -19,6 +18,7 @@
 					<th>Products / Services</th>
 					<th>Created on</th>
 					<th>Type</th>
+					<td>Action</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -34,6 +34,7 @@
 				<td>
 					<span class="font-weight-bold {{strtolower($user->status)}}">{{$user->status}}</span>
 				</td>
+				<td><a class="dropdown-item" onclick=" if (confirm('Are you sure you want to delete this business?')) { if (confirm('Are double sure ? All Brands and products associated to this Business will be deleted')) {return confirm('Confirm Once More, i dont want story oo ?')} }" href="{{ route('admin.business.users.delete', ['id' => $user->id]) }}">DELETE</a></td>  
 			</tr>
 			@endforeach
 			</tbody>

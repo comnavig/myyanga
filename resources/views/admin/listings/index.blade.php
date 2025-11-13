@@ -60,6 +60,17 @@
 					<td>{{$listing->status}}</td>
 					<td>
 						<a class="btn warm-blue-bg" href="{{route('admin.view.listing', ['id' => $listing->id ])}}">view</a>
+						<div class="my-dropdown">
+							<div class=""><i class="bi bi-three-dots-vertical"></i></div>
+							<div class="my-dropdown-content">
+								<a class="dropdown-item" href="{{ route('admin.listings.edit', ['id' => $listing->id]) }}">EDIT</a>
+								<a class="dropdown-item" onclick="return confirm('Are you sure?')" href="{{ route('admin.listings.delete', ['id' => $listing->id]) }}">DELETE</a>
+								{{-- <a class="dropdown-item" href="{{ route('listings.products', ['id' => $listing->id]) }}">Products</a> --}}
+								<!--    
+								<a class="dropdown-item" href="{{ route('listings.edit', ['id' => $listing->id]) }}">CHANGE OWNERSHIP</a>
+								-->
+							</div>
+						</div>
 					</td>
 				</tr>
 				@endforeach

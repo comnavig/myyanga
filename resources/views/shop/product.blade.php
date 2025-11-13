@@ -42,24 +42,41 @@
 							<form method="post" action="{{route('shop.add.cart')}}">
 								@csrf
 								<input type="hidden" name="product_id" value="{{$product->id}}" />
+                                    <div class="form-group">
+                                        <label for="quantity" class="main-color">Delivery Cost</label>
+                                        @if(isset($product->shipment))
+                                            ₦{{ number_format($product->shipment->price) }}
+                                            <a class="btn-link" data-toggle="collapse" href="#shippingInfo" role="button" aria-expanded="false" aria-controls="shippingInfo">
+                                                <i class="main-color bi bi-caret-down-fill"></i>
+                                            </a>
+                                    
+                                            <div class="collapse" id="shippingInfo">
+                                                <div class="card card-body">
+                                                    {{ $product->shipment->description }}
+                                                </div>
+                                            </div>
+                                        @else
+                                            <p>Shipping information not available.</p>
+                                        @endif
+                                    </div>
+
 								<div class="form-group">
-									<label for="quantity" class="main-color">Delivery Cost</label>
-									₦{{number_format($product->shipment->price)}} <a class="btn-link" data-toggle="collapse" href="#shippingInfo" role="button" aria-expanded="false" aria-controls="shippingInfo"><i class="main-color bi bi-caret-down-fill"></i></a>
-									<div class="collapse" id="shippingInfo">
-										  <div class="card card-body">
-											{{$product->shipment->description}}
-										  </div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="main-color">Return Policy</label>
-									<a class="btn-link" data-toggle="collapse" href="#returnpolicy" role="button" aria-expanded="false" aria-controls="returnpolicy"><i class="main-color bi bi-caret-down-fill"></i></a>
-									<div class="collapse" id="returnpolicy">
-										  <div class="card card-body">
-											{{$product->shipment->return_policy}}
-										  </div>
-									</div>
-								</div>
+                                    <label class="main-color">Return Policy</label>
+                                    @if(isset($product->shipment) && !empty($product->shipment->return_policy))
+                                        <a class="btn-link" data-toggle="collapse" href="#returnpolicy" role="button" aria-expanded="false" aria-controls="returnpolicy">
+                                            <i class="main-color bi bi-caret-down-fill"></i>
+                                        </a>
+                                
+                                        <div class="collapse" id="returnpolicy">
+                                            <div class="card card-body">
+                                                {{ $product->shipment->return_policy }}
+                                            </div>
+                                        </div>
+                                    @else
+                                        <p>Return policy information not available.</p>
+                                    @endif
+                                </div>
+
 								<div class="form-group">
 									<label for="quantity" class="main-color">Quantity</label>
 									<select class="form-control" name="quantity" id="quantity">

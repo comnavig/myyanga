@@ -12,10 +12,10 @@
 				<h3 class="font-weight-bolder" style="font-size: 30px;">{{$listing['name']}}</h3>
 				{!!$listing['description']!!}
 				<p>
-					Address: {{$listing['address']}}, {{$listing['location']['name']}}, {{$listing['location']['state']['name']}}<br>
+					Address: {{$listing['address'] ?? ''}}, {{$listing['location']['name'] ?? ''}}, {{$listing['location']['state']['name'] ?? ''}}<br>
 					Email: {{$listing['email'][0]['email']}}<br>
 					Phone: {{$listing['phone'][0]['phone']}}<br>
-					Website: {{$listing['url'][0]['url'] ?? ''}}
+					Website: <a href="{{$listing['url'][0]['url'] ?? ''}}" target="_blank">{{$listing['url'][0]['url'] ?? ''}}</a>
 				</p>
 				@include('components.follow-button', ['listing_id' => $listing['id'] ])
 			</div>

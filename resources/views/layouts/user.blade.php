@@ -62,6 +62,9 @@
 							<a class="nav-link main-color " href="{{ route('user.profile') }}"><i class="bi bi-briefcase-fill"></i> My Profile</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link main-color " href="{{ route('user.notifications') }}"><i class="bi bi-bell-fill"></i> My Notifications</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link main-color " href="{{ route('user.favourites') }}"><i class="bi bi-heart-fill"></i> My Favourites</a>
 						</li>
 						<li class="nav-item">
@@ -74,9 +77,9 @@
 							<a class="nav-link main-color " href="{{ route('user.pyls') }}"><i class="fas fa-file-image"></i> My PYL Stats</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link main-color " href="{{ route('logout') }}" onclick="event.preventDefault();  document.getElementById('logout-form').submit();"> <i class="bi bi-power"></i> Logout</a>
+							<a class="nav-link main-color " href="{{ route('logout') }}" onclick="event.preventDefault();  document.getElementById('logout-form-user').submit();"> <i class="bi bi-power"></i> Logout</a>
 							
-							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+							<form id="logout-form-user" action="{{ route('logout') }}" method="POST" class="d-none">
 								@csrf
 							</form>
 						</li>
@@ -93,12 +96,13 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 									<a class="dropdown-item" href="{{ route('user.profile') }}"><i class="bi bi-briefcase-fill"></i> My Profile</a>
 									<a class="dropdown-item" href="{{ route('user.favourites') }}"><i class="bi bi-heart-fill"></i> My Favourites</a>
+									<a class="dropdown-item" href="{{ route('user.notifications') }}"><i class="bi bi-bell-fill"></i> My Notifications</a>
 									<a class="dropdown-item" href="{{ route('user.orders') }}"><i class="bi bi-cart-fill"></i> My Orders</a>
 									<a class="dropdown-item" href="{{ route('user.following') }}"><i class="bi bi-heart-fill"></i> Following</a>
 									<a class="dropdown-item" href="{{ route('user.pyls') }}"><i class="fas fa-file-image"></i> My PYL Stats</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();  document.getElementById('logout-form').submit();"> <i class="bi bi-power"></i> Logout</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();  document.getElementById('logout-form-user').submit();"> <i class="bi bi-power"></i> Logout</a>
                                     
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form-user" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>

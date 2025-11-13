@@ -38,6 +38,12 @@
 				  <td>{{$area->user->name}}</td>
 				  <td>
 					  <a class="btn btn-sm warm-blue-bg" href="{{route('admin.area.edit', ['id' => $area->id ] )}}">edit</a>
+					  <a class="btn btn-sm warm-red-bg" href="#" onclick="document.getElementById('loc_{{$area->id}}_id').submit()" >delete</a>
+					  <form id="loc_{{$area->id}}_id" method="post" action="{{route('admin.location.action')}}">
+						@csrf
+						<input type="hidden" name="action" value="delete_location" />
+						<input type="hidden" name="loc_id" value="{{$area->id}}" />
+					  </form>
 				  </td>
 				</tr>
 			@endforeach

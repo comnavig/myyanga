@@ -25,7 +25,15 @@
 			<tbody>
 			@foreach($posts as $post)
 			<tr>
-				<td><div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{$post->picture[0]->url}}"  width="100%"/></div></td>
+				<td>
+				    <div style="width: 100px; height: 100px; overflow: hidden;">
+				        @if(isset($post->picture[0]))
+                            <img src="{{ $post->picture[0]->url }}" width="100%" />
+                        @else
+                            <p>No image available</p>
+                        @endif
+				    </div>
+				</td>
 				<td>{{$post->name}}<br/><small><a target="_blank" href="{{ route('blog.post', ['slug' => $post->slug ]) }}">view post page</small></td>
 				<td>{{$post->post_category->name }}</td>
 				<td>{{$post->created_at}}</td>

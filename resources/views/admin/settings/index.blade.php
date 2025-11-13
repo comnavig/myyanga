@@ -35,6 +35,16 @@
 				<td>{{$settings['ng_vat'] ?? ''}}</td>
 				<td><a class="btn btn-sm main-color-bg" href="{{route('admin.settings.edit', ['name' => 'ng_vat'])}}">edit</a></td>
 			</tr>
+			<tr>
+				<th>Subscription Notification Text</th>
+				<td>{{$settings['subscription_notification_text'] ?? ''}}</td>
+				<td><a class="btn btn-sm main-color-bg" href="{{route('admin.settings.edit', ['name' => 'subscription_notification_text'])}}">edit</a></td>
+			</tr>
+			<tr>
+				<th>Number of contents to be sent in Notification</th>
+				<td>{{$settings['content_number'] ?? ''}}</td>
+				<td><a class="btn btn-sm main-color-bg" href="{{route('admin.settings.edit', ['name' => 'content_number'])}}">edit</a></td>
+			</tr>
 		</table>
 	</div>
 </div>

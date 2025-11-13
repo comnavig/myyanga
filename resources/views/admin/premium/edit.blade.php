@@ -61,6 +61,17 @@
 				</div>
 				
 				<div class="col-md-12 col-sm-12 mt-2">
+					<div class="form-group">
+						<label for="video_url">Video Url</label>
+						<input type="text" name="video_url" value="{{$premium->video_url}}" class="form-control" id="video_url" required />
+						@error('video_url')
+							<small id="descriptionHelp" class="form-text text-muted red">{{ $message }}</small>
+						@enderror
+					</div>
+				
+				</div>
+				
+				<div class="col-md-12 col-sm-12 mt-2">
 					<label>Picture(s) <sup class='red'>*</sup> </label>
 					<div class="row">
 						@for ($i = 0; $i < 1; $i++)

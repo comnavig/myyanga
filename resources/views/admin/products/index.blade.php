@@ -40,11 +40,20 @@
 				@foreach($products as $product)
 					<tr>
 						<td>
-							<div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{$product->picture[0]['url']}}"  width="100%"/></div>
+							{{--<div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]['url'])}}"  width="100%"/></div>--}}
+							<div style="width: 100px; height: 100px; overflow: hidden;">
+                                @if(isset($product->picture[0]['url']))
+                                    <img src="{{ str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]['url']) }}" width="100%" />
+                                @else
+                                    <!-- Handle the case where the array or index doesn't exist -->
+                                    <p>No image available</p>
+                                @endif
+                            </div>
+
 							<strong>  <a class="btn-link" data-toggle="modal" data-target="#desc{{$product->id}}Modal">{{$product->name}} <span class="badge badge-pill badge-info">{{$product->status}}</span></a></strong>
 							<br/>  <a class="btn-link" data-toggle="modal" data-target="#review{{$product->id}}Modal"><small>{{$product->review->count() }} REVIEWS</small></a>
 						</td>
-						<td>{{$product->category['name'] }}<br><small>{{$product->category['parent']['name'] }}</small> </td>
+						<td>{{$product->category['name'] ?? ''}}<br><small>{{$product->category['parent']['name']  ?? ''}}</small> </td>
 						<td>₦{{number_format($product->price)}} / {{$product->quantity}} QTY </td>
 						<td>
 								₦{{$product->shipment->price ?? ''}} 
@@ -75,9 +84,9 @@
 						  <div class="modal-body">
 							  <div id="carousel{{$product->id}}Controls" class="carousel slide" data-ride="carousel">
 									<div class="carousel-inner">
-										@for ($i = 1; $i < $product->picture->count(); $i++)
+										@for ($i = 0; $i < $product->picture->count(); $i++)
 										<div class="carousel-item {{ ($i == 1 ? 'active' : '') }}">
-											<img src="{{$product->picture[$i]->url}}" class="d-block w-100" alt="" />
+											<img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[$i]->url)}}" class="d-block w-100" alt="" />
 										</div>
 										@endfor
 									</div>

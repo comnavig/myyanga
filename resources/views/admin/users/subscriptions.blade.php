@@ -22,62 +22,68 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($premium_subscriptions as $subscription)
-						<tr>
-							<td>{{$subscription->user->name}}<br/>{{$subscription->user->mobile}}<br/>{{$subscription->user->email}}</td>
-							<td>{{$subscription->created_at->format('D dS, M Y')}}</td>
-							<td>{{date_format(date_create($subscription->expiry), 'D dS, M Y')}}</td>
-							<td>₦{{$subscription->amount}}</td>
-							<td>₦{{$subscription->vat}}</td>
-							<th>₦{{round($subscription->amount + $subscription->vat)}}</th>
-							<th><a class="btn-link main-color" data-toggle="modal" data-target="#p{{$subscription->id}}Modal">{{$subscription->status}}</a></th>
-						</tr>
-						
-						<!-- Modal -->
-						<div class="modal fade" id="p{{$subscription->id}}Modal" tabindex="-1" aria-labelledby="p{{$subscription->id}}ModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="p{{$subscription->id}}ModalLabel">Items Purchased</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										  <span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body" style="height: 300px; overflow-y: auto;">
-										@if ( $subscription->trans_data == "PENDING")
-											{{$subscription->trans_data}}
-										@else
-											@php
-												$pd = json_decode($subscription->trans_data, true);
-											@endphp
-											
-											@foreach($pd as $key => $value)
-												<p><strong class="main-color">{{$key}} : </strong> 
-													@if (is_array($value))
-														@foreach($value as $k => $v)
-																@if (is_array($v))
-																	@foreach($v as $k2 => $v2)
-																			<p><strong>{{$k2}}:</strong> {{$v2}}</p>
-																	@endforeach
-																@else
-																	{{$v}}
-																@endif
-														@endforeach
-													@else
-														{{$value}}
-													@endif
-												</p>
-											@endforeach
-										@endif
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									</div>
-								</div>
-							</div>
-						</div>
+                        @foreach($premium_subscriptions as $subscription)
+                            <tr>
+                                <td>{{$subscription->user_name}}<br/>Mobile: {{$subscription->user_mobile}}<br/> Whatsapp: {{$subscription->user_whatsapp}}</br>{{$subscription->user_email}}</td>
+                                <td>{{$subscription->created_at}}</td>
+                                <td>{{date_format(date_create($subscription->expiry), 'D dS, M Y')}}</td>
+                                <td>₦{{$subscription->amount}}</td>
+                                <td>₦{{$subscription->vat}}</td>
+                                <th>₦{{round($subscription->amount + $subscription->vat)}}</th>
+                                <th><a class="btn-link main-color" data-toggle="modal" data-target="#p{{$subscription->id}}Modal">{{$subscription->status}}</a></th>
+                            </tr>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="p{{$subscription->id}}Modal" tabindex="-1" aria-labelledby="p{{$subscription->id}}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="p{{$subscription->id}}ModalLabel">Items Purchased</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="height: 300px; overflow-y: auto;">
+                                            @if ($subscription->trans_data == "PENDING")
+                                                <p>No transaction data available yet.</p>
+                                            @else
+                                                @php
+                                                    // Check if trans_data is a valid JSON string before decoding
+                                                    $pd = json_decode($subscription->trans_data, true);
+                                                @endphp
+                            
+                                                @if (json_last_error() === JSON_ERROR_NONE && is_array($pd))
+                                                    @foreach($pd as $key => $value)
+                                                        <p><strong class="main-color">{{$key}}: </strong> 
+                                                            @if (is_array($value))
+                                                                @foreach($value as $k => $v)
+                                                                    @if (is_array($v))
+                                                                        @foreach($v as $k2 => $v2)
+                                                                            <p><strong>{{$k2}}:</strong> {{$v2}}</p>
+                                                                        @endforeach
+                                                                    @else
+                                                                        {{$v}}
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                {{$value}}
+                                                            @endif
+                                                        </p>
+                                                    @endforeach
+                                                @else
+                                                    <p>Invalid transaction data.</p>
+                                                @endif
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        @endforeach
 
-						@endforeach
 					</tbody>
 				</table>
 			</div>

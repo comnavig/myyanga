@@ -12,7 +12,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - 404 Page Not Found</title>
+    <title>404 Page Not Found - {{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
 <!--

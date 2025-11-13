@@ -12,7 +12,7 @@
 									])->get();
 		$photo = array();
 	@endphp
-	<div id="" class="adts owl-carousel" data-items="1" >
+	<!-- <div id="" class="adts owl-carousel" data-items="1" >
 		<div>
 			<a href="#">
 				<img class="d-none d-sm-none d-lg-block" src="{{ asset('assets/img/d3.jpg') }}" />
@@ -30,7 +30,56 @@
 					</a>
 				</div>
 			@endforeach
-	</div>
+	</div> -->
+
+
+	<!-- Slider -->
+	<section class="slider-section">
+		<div id="carousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+					@php
+						$count = 0;
+					@endphp
+					@foreach($ads as $ad)
+						<li data-target="#carousel" data-slide-to="{{$count}}" {{($count++ == 0) ? 'class=active' : ''}}></li>
+					@endforeach
+			</ol> <!-- End of Indicators -->
+
+			<!-- Carousel Content -->
+			<div class="carousel-inner" role="listbox">
+				
+				@php
+					$count = 0;
+				@endphp
+				@foreach($ads as $ad)
+					
+					<div class="carousel-item {{($count++ == 1) ? 'active' : ''}}" style="background-image: url('{{ $photo['desktop'] }}'); width:100%">
+						<div class="carousel-caption d-none d-md-block">
+							<a href="{{ $ad['url'] }}">
+								<h3>{{ $ad['name'] }}</h3>
+								<p>Click to Visit.</p>
+							</a>
+						</div>
+					</div>
+
+				@endforeach
+					<!-- End of Carousel Item -->
+
+			</div> <!-- End of Carousel Content -->
+
+			<!-- Previous & Next -->
+			<a href="#carousel" class="carousel-control-prev" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only"></span>
+			</a>
+			<a href="#carousel" class="carousel-control-next" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only"></span>
+			</a>
+		</div> <!-- End of Carousel -->
+	</section>
+	<!-- End of Slider -->
 </div>
 <!--
 <div class="col-12 float-left p-3">
@@ -47,28 +96,35 @@
 			<h4 class="p-1 discover-title">{{$category->name}} <a class="btn p-0 m-0 btn-sm gold float-right" href="{{route('discovers.category',['id' =>$category->id])}}">See more</a></h4>
 		</div>
 		<div class="col-12 float-left p-0 discover-items owl-carousel" style="min-height: 130px; padding-bottom: 2%!important; margin-bottom: 2%; border-bottom: 1px solid #DDDDDD;">
-		@foreach($category->discovers->sortDesc()->take(8) as $discover)
-			<div>
-				<a class="link " href="{{route('discovers.story', ['slug' =>$discover->slug])}}">
-					<div class="discover-item" style="background-position: top center; background-image: url('{{$discover->picture[0]->url }}');">
-						<div class="white clear-black-bg d-flex justify-content-center align-items-center" style="width: 100%;position: absolute; height: 100%;">
-							{{ ( strlen($discover->name) > 20 ? substr($discover->name, 0, 15)."..." : $discover->name ) }}
-						</div>
-					</div>		
-					
-				</a>
-			</div>
-		@php 
-		$i++;
-		@endphp
-		@endforeach
+    		@foreach($category->discovers->sortDesc()->take(8) as $discover)
+                @if(isset($discover->picture[0]))
+                    <div>
+                        <a class="link" href="{{route('discovers.story', ['slug' => $discover->slug])}}">
+                            <div class="discover-item" style="background-position: top center; background-image: url('{{ $discover->picture[0]->url }}'); background-size: cover; height: 200px; position: relative;">
+                                <div class="white clear-black-bg d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
+                                    {{ (strlen($discover->name) > 20 ? substr($discover->name, 0, 15) . "..." : $discover->name) }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+            @endforeach
+
 		</div>
 	@endforeach
 </div>
 @endsection
 
 @push('styles')
-    
+    <style>
+		/* Slider */
+		.carousel-item {
+		height: 50vh;
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: contain;
+		}
+	</style>
 @endpush
 @push('scripts')
  <script>

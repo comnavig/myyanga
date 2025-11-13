@@ -35,7 +35,7 @@
 						</label>
 						<input type="file" name="photo" class="form-control" id="picture" accept="image/jpeg, image/png" style="display: none;" onchange="loadFile(event, 'photo_img')"  aria-describedby="picturesHelp"/>
 						<small id="picturesHelp" class="form-text text-muted red">Click to upload your photo.</small>
-						<small id="picturesHelp" class="form-text text-muted red">Photo size should be less than 2mb</small>
+						<small id="picturesHelp" class="form-text text-muted red">Photo size should be less than 20mb</small>
 						
 						@error('picture')
 							<small id="picturesHelp" class="form-text text-muted red">{{ $message }}</small>
