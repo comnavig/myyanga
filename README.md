@@ -558,65 +558,236 @@ RECAPTCHA_SECRET_KEY=your_secret_key
 
 ## Deployment
 
-### Production Checklist
+MyYanga provides **automated deployment** support for cPanel hosting with comprehensive deployment guides.
 
-1. **Environment Setup**
-   ```bash
-   APP_ENV=production
-   APP_DEBUG=false
-   ```
+### 🚀 Quick Deployment Options
 
-2. **Optimize Application**
-   ```bash
-   composer install --optimize-autoloader --no-dev
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   ```
+#### **Option 1: Automated cPanel Git Deployment** (Recommended)
 
-3. **Set Proper Permissions**
+Perfect for cPanel hosting with Git Version Control enabled.
+
+**5-Minute Setup:**
+1. Setup Git repository in cPanel
+2. Configure `.env` file
+3. Click "Deploy HEAD Commit"
+4. Run migrations
+5. **Done!** ✅
+
+**📘 Read**: [DEPLOYMENT_QUICKSTART.md](DEPLOYMENT_QUICKSTART.md) - Fast-track 5-minute setup guide
+
+#### **Option 2: Manual Script Deployment**
+
+For servers with SSH access or when Git deployment isn't available.
+
+**Using the deployment script:**
+```bash
+# Configure the script
+nano deploy.sh  # Update DEPLOY_PATH and PHP_VERSION
+
+# Run deployment
+chmod +x deploy.sh
+./deploy.sh
+```
+
+The script automatically handles:
+- ✅ Requirement checks
+- ✅ Backup creation
+- ✅ Dependency installation
+- ✅ Environment setup
+- ✅ Permission management
+- ✅ Cache optimization
+- ✅ Deployment verification
+
+**📘 Read**: [DEPLOYMENT.md](DEPLOYMENT.md) - Complete deployment guide with troubleshooting
+
+---
+
+### 📦 Deployment Files
+
+This repository includes:
+
+| File | Purpose | Usage |
+|------|---------|-------|
+| [`.cpanel.yml`](.cpanel.yml) | cPanel Git automation | Auto-runs on Git deploy |
+| [`deploy.sh`](deploy.sh) | Interactive script | `./deploy.sh` on server |
+| [`.env.production`](.env.production) | Production config template | Copy to `.env` |
+| [`DEPLOYMENT.md`](DEPLOYMENT.md) | Complete guide | Full documentation |
+| [`DEPLOYMENT_QUICKSTART.md`](DEPLOYMENT_QUICKSTART.md) | Quick start | 5-minute setup |
+
+---
+
+### ⚙️ Server Requirements
+
+**Minimum Requirements:**
+- **PHP**: 7.2.5 - 8.0 (7.4+ recommended)
+- **MySQL/MariaDB**: 5.7+ / 10.3+
+- **Composer**: Latest version
+- **PHP Extensions**:
+  - BCMath, Ctype, Fileinfo, JSON, Mbstring
+  - OpenSSL, PDO, pdo_mysql, Tokenizer, XML
+  - GD or Imagick (for Intervention/Image)
+  - ZIP (for package management)
+
+**Recommended:**
+- **Memory**: 512MB+ PHP memory limit
+- **Storage**: 2GB+ available disk space
+- **SSL**: Let's Encrypt or commercial certificate
+
+---
+
+### 🔧 Production Checklist
+
+Before deploying to production:
+
+- [ ] Set `APP_ENV=production` in `.env`
+- [ ] Set `APP_DEBUG=false` in `.env`
+- [ ] Generate unique `APP_KEY`
+- [ ] Configure database credentials
+- [ ] Setup SMTP mail settings
+- [ ] Configure reCAPTCHA keys
+- [ ] Enable SSL certificate
+- [ ] Set document root to `/public`
+- [ ] Configure cron jobs for notifications
+- [ ] Run database migrations
+- [ ] Test email sending
+- [ ] Verify file uploads work
+- [ ] Enable production caching:
+  ```bash
+  php artisan config:cache
+  php artisan route:cache
+  php artisan view:cache
+  ```
+
+---
+
+### 🔄 Post-Deployment
+
+#### **Setup Cron Jobs**
+
+For email notifications (runs daily at 8 AM):
+```bash
+0 8 * * * curl -s https://yourdomain.com/cronwork > /dev/null 2>&1
+```
+
+For Laravel scheduler (if you add scheduled tasks):
+```bash
+* * * * * cd /path-to-app && php artisan schedule:run >> /dev/null 2>&1
+```
+
+#### **Setup Queue Workers** (Optional)
+
+If using database queue driver:
+```bash
+# Create queue table
+php artisan queue:table
+php artisan migrate
+
+# Run queue worker via cron
+* * * * * cd /path-to-app && php artisan queue:work --stop-when-empty >> /dev/null 2>&1
+```
+
+Or use Supervisor for persistent workers:
+```ini
+[program:myyanga-worker]
+command=php /path-to-app/artisan queue:work --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user=www-data
+numprocs=2
+redirect_stderr=true
+stdout_logfile=/path-to-app/storage/logs/worker.log
+```
+
+---
+
+### 🔐 Security Recommendations
+
+1. **Environment Protection**
+   - Never commit `.env` to version control
+   - Use strong `APP_KEY` (auto-generated)
+   - Disable debug mode in production
+
+2. **File Permissions**
    ```bash
    chmod -R 755 storage bootstrap/cache
-   chown -R www-data:www-data storage bootstrap/cache
+   # On shared hosting, may need 775 or 777
    ```
 
-4. **Configure Web Server**
-   - Point document root to `/public`
-   - Enable SSL/HTTPS
-   - Configure URL rewriting
-
-5. **Setup Cron Jobs**
-   ```cron
-   * * * * * cd /path-to-app && php artisan schedule:run >> /dev/null 2>&1
+3. **Force HTTPS**
+   Add to `public/.htaccess`:
+   ```apache
+   RewriteCond %{HTTPS} off
+   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
    ```
 
-6. **Setup Queue Workers** (if using queues)
+4. **Regular Backups**
+   - Enable automated cPanel backups
+   - Backup both files and database
+   - Test restore procedures
+
+5. **Update Dependencies**
    ```bash
-   php artisan queue:work --daemon
+   composer update --no-dev
    ```
 
-7. **Configure Supervisor** (for queue workers)
-   ```ini
-   [program:myyanga-worker]
-   command=php /path-to-app/artisan queue:work
-   autostart=true
-   autorestart=true
-   user=www-data
-   ```
+---
 
-### Server Requirements
+### 🆘 Common Deployment Issues
 
-- PHP >= 7.2.5
-- BCMath PHP Extension
-- Ctype PHP Extension
-- Fileinfo PHP Extension
-- JSON PHP Extension
-- Mbstring PHP Extension
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
-- GD PHP Extension (for image processing)
+#### 500 Internal Server Error
+```bash
+# Check logs
+tail -f storage/logs/laravel.log
+
+# Fix permissions
+chmod -R 775 storage bootstrap/cache
+
+# Clear caches
+php artisan config:clear
+php artisan cache:clear
+```
+
+#### Storage/Images Not Loading
+```bash
+# Recreate storage symlink
+php artisan storage:link
+```
+
+#### Database Connection Failed
+- Verify credentials in `.env`
+- Ensure database user has privileges
+- Try `DB_HOST=127.0.0.1` instead of `localhost`
+
+**For more troubleshooting**, see [DEPLOYMENT.md](DEPLOYMENT.md#troubleshooting)
+
+---
+
+### 📚 Deployment Documentation
+
+- **🚀 [Quick Start Guide](DEPLOYMENT_QUICKSTART.md)** - 5-minute deployment
+- **📖 [Complete Deployment Guide](DEPLOYMENT.md)** - Detailed instructions, troubleshooting, updates
+- **🔧 [Deploy Script](deploy.sh)** - Automated deployment tool
+- **⚙️ [cPanel Config](.cpanel.yml)** - Git deployment automation
+
+---
+
+### 🔄 Updating Production
+
+**Using Git Deployment:**
+1. Push changes to repository
+2. cPanel → Git Version Control → Manage
+3. Update from Remote → Deploy HEAD Commit
+
+**Manual Update:**
+```bash
+cd /path-to-app
+git pull origin master
+composer install --no-dev --optimize-autoloader
+php artisan migrate --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
 
 ---
 
