@@ -1,0 +1,52 @@
+---
+# cPanel Deployment Configuration for MyYanga
+# This file is used by cPanel's Git Version Control to deploy your Laravel application
+
+deployment:
+  tasks:
+    # Step 1: Export repository to deployment directory
+    - export DEPLOYPATH=/home/username/public_html
+    - /bin/cp -R * $DEPLOYPATH
+
+    # Step 2: Install Composer dependencies
+    - cd $DEPLOYPATH
+    - /usr/local/bin/ea-php74 /usr/local/bin/composer install --optimize-autoloader --no-dev --no-interaction
+
+    # Step 3: Set up environment file (if not exists)
+    - |
+      if [ ! -f $DEPLOYPATH/.env ]; then
+        /bin/cp $DEPLOYPATH/.env.production $DEPLOYPATH/.env
+      fi
+
+    # Step 4: Generate application key (if not set)
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan key:generate --force --no-interaction || true
+
+    # Step 5: Create storage symlink
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan storage:link --force || true
+
+    # Step 6: Set proper permissions for storage and cache
+    - /bin/chmod -R 755 $DEPLOYPATH/storage
+    - /bin/chmod -R 755 $DEPLOYPATH/bootstrap/cache
+
+    # Step 7: Clear and cache configurations (production optimization)
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan config:clear
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan cache:clear
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan view:clear
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan route:clear
+
+    # Step 8: Cache for production
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan config:cache
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan route:cache
+    - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan view:cache
+
+    # Step 9: Run database migrations (with caution)
+    # Uncomment the line below if you want automatic migrations
+    # - /usr/local/bin/ea-php74 $DEPLOYPATH/artisan migrate --force --no-interaction
+
+    # Step 10: Optimize composer autoloader
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php74 /usr/local/bin/composer dump-autoload --optimize
+
+    # Step 11: Set final permissions
+    - /bin/chmod -R 755 $DEPLOYPATH
+    - /bin/chmod -R 775 $DEPLOYPATH/storage
+    - /bin/chmod -R 775 $DEPLOYPATH/bootstrap/cache
