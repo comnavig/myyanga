@@ -5,7 +5,7 @@
 deployment:
   tasks:
     # Step 1: Export repository to deployment directory
-    - export DEPLOYPATH=/home/username/public_html
+    - export DEPLOYPATH=/home/myyanga/public_html
     - /bin/cp -R * $DEPLOYPATH
 
     # Step 2: Install Composer dependencies
