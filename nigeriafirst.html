@@ -1,0 +1,109 @@
+<style>
+    /* Smooth slide animation */
+.slide-container {
+  overflow: hidden;
+  transition: height 1s ease;
+  height: 0;        /* closed by default */
+}
+.slide-container.open {
+  height: auto;     /* this will be set dynamically by JS */
+}
+
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("investor-partner-button");
+    const content = document.getElementById("investor-partner-content");
+    
+    const publicSectorBtn = document.getElementById("public-sector-button");
+    const publicSectorContent = document.getElementById("public-sector-content");
+
+
+    const diasporaNetworkBtn = document.getElementById("diaspora-network-button");
+    const diasporaNetworkContent = document.getElementById("diaspora-network-content");
+
+    const tradebridgeCorridorBtn = document.getElementById("tradebridge-corridor-button");
+    const tradebridgeCorridorContent = document.getElementById("tradebridge-corridor-content");
+
+    // Measure height of content
+    let fullHeight = content.scrollHeight;
+    let publicSectorFullHeight = publicSectorContent.scrollHeight;
+    let diasporaNetworkFullHeight = diasporaNetworkContent.scrollHeight;
+    let tradebridgeCorridorFullHeight = tradebridgeCorridorContent.scrollHeight;
+
+    // Start collapsed
+    content.style.height = "0px";
+    publicSectorContent.style.height = "0px"
+    diasporaNetworkContent.style.height = "0px"
+    tradebridgeCorridorContent.style.height = "0px"
+
+    btn.addEventListener("click", function () {
+        if (content.classList.contains("open")) {
+            // Closing
+            content.style.height = content.scrollHeight + "px"; 
+            requestAnimationFrame(() => {
+                content.style.height = "0px";
+            });
+            btn.innerText = "Show More";
+        } else {
+            // Opening
+            content.style.height = content.scrollHeight + "px";
+            btn.innerText = "Show Less";
+        }
+
+        content.classList.toggle("open");
+    });
+    
+    publicSectorBtn.addEventListener("click", function () {
+        if (publicSectorContent.classList.contains("open")) {
+            // Closing
+            publicSectorContent.style.height = publicSectorContent.scrollHeight + "px"; 
+            requestAnimationFrame(() => {
+                publicSectorContent.style.height = "0px";
+            });
+            publicSectorBtn.innerText = "Show More";
+        } else {
+            // Opening
+            publicSectorContent.style.height = publicSectorContent.scrollHeight + "px";
+            publicSectorBtn.innerText = "Show Less";
+        }
+
+        publicSectorContent.classList.toggle("open");
+    });
+    
+    diasporaNetworkBtn.addEventListener("click", function () {
+        if (diasporaNetworkContent.classList.contains("open")) {
+            // Closing
+            diasporaNetworkContent.style.height = diasporaNetworkContent.scrollHeight + "px"; 
+            requestAnimationFrame(() => {
+                diasporaNetworkContent.style.height = "0px";
+            });
+            diasporaNetworkBtn.innerText = "Show More";
+        } else {
+            // Opening
+            diasporaNetworkContent.style.height = diasporaNetworkContent.scrollHeight + "px";
+            diasporaNetworkBtn.innerText = "Show Less";
+        }
+
+        diasporaNetworkContent.classList.toggle("open");
+    });
+    
+    tradebridgeCorridorBtn.addEventListener("click", function () {
+        if (tradebridgeCorridorContent.classList.contains("open")) {
+            // Closing
+            tradebridgeCorridorContent.style.height = tradebridgeCorridorContent.scrollHeight + "px"; 
+            requestAnimationFrame(() => {
+                tradebridgeCorridorContent.style.height = "0px";
+            });
+            tradebridgeCorridorBtn.innerText = "Show More";
+        } else {
+            // Opening
+            tradebridgeCorridorContent.style.height = tradebridgeCorridorContent.scrollHeight + "px";
+            tradebridgeCorridorBtn.innerText = "Show Less";
+        }
+
+        tradebridgeCorridorContent.classList.toggle("open");
+    });
+    
+});
+</script>
