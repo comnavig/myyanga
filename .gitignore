@@ -2,7 +2,10 @@
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+# Vendor is intentionally not ignored due to the lack of a laravel environent while developing locally, 
+# and the need to have the autoload files available for IDEs and local development. 
+# In production, the vendor directory should be built using composer install --no-dev and not included in the repository.
+# /vendor
 .env
 .env.backup
 .phpunit.result.cache
@@ -69,7 +72,6 @@ error_log
 
 # PHP
 composer.phar
-/vendor/
 composer.lock
 
 # Build files
