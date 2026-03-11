@@ -8,7 +8,7 @@
 	$background = $settings->last();
 @endphp
 <section class="container" data-aos="fade-up" data-aos-duration="3000">
-    <div class="d-flex flex-wrap justify-content-evenly">
+    <div class="d-flex flex-wrap">
     
         @foreach($featuredcategories as $category)
         

@@ -116,10 +116,10 @@
             <!-- hero -->
             <div class="text-center hero" style="padding: 1rem !important">
                 <div class="col-lg-6 mx-auto">
-                    <p class="mb-4" style="font-size: 24px">The Best of<br> 
+                    <p class="mb-4" style="font-size: 32px">The Best of<br> 
                     African Fashion creativity,<br/>
                     In one spot.</p>
-                    <p style="font-size: 16px">Explore &nbsp;&nbsp;&nbsp;   Shop  &nbsp;&nbsp;&nbsp; Win</p> 
+                    <p style="font-size: 20px">● Explore &nbsp;&nbsp;&nbsp;  ● Shop  &nbsp;&nbsp;&nbsp; ● Win</p>
                     <div class="justify-content-sm-center">
                         <!--button type="button" onclick="location.href='{{route('explore')}}'" class="btn btn-lg px-4 hero-btn">ENTER</button-->
                         <button type="button" onclick="location.href='{{route('tour')}}'" class="btn btn-lg px-4 hero-btn">SLIDE TOUR</button>
