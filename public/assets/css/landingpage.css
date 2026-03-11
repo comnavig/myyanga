@@ -1,0 +1,892 @@
+.landingpage-landingpage {
+    width: 1440px;
+    height: 1024px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    max-width: 1440px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .landingpage-footer {
+    top: 946px;
+    left: 0px;
+    width: 1440px;
+    height: 78px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-shrink: 1;
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .landingpage-svg {
+    top: 28.363616943359375px;
+    left: 1335px;
+    width: 22;
+    height: 22;
+    position: absolute;
+  }
+  .landingpage-svg01 {
+    top: 28.363616943359375px;
+    left: 1221px;
+    width: 22;
+    height: 22;
+    position: absolute;
+  }
+  .landingpage-svg02 {
+    top: 28.363616943359375px;
+    left: 1277px;
+    width: 24;
+    height: 24;
+    position: absolute;
+  }
+  .landingpage-text {
+    top: 23.2987117767334px;
+    left: 33px;
+    color: rgba(0, 0, 0, 1);
+    width: 726px;
+    height: auto;
+    position: absolute;
+    font-size: 23px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Garamond;
+    font-weight: 400px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text01 {
+    color: rgba(0, 0, 0, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text02 {
+    color: rgba(136, 0, 11, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 700px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text03 {
+    color: rgba(0, 0, 0, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text04 {
+    color: rgba(148, 0, 14, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text05 {
+    color: rgba(0, 0, 0, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text06 {
+    color: rgba(146, 0, 13, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text07 {
+    color: rgba(0, 0, 0, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text08 {
+    color: rgba(136, 0, 11, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text09 {
+    color: rgba(0, 0, 0, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text10 {
+    color: rgba(146, 0, 13, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text11 {
+    color: rgba(0, 0, 0, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text12 {
+    color: rgba(136, 0, 11, 1);
+    width: 726px;
+    height: auto;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-weight: 400px;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-navigationbar {
+    top: 0px;
+    left: 0px;
+    width: 1440px;
+    height: 101px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-shrink: 1;
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .landingpage-text13 {
+    top: 43px;
+    left: 1333px;
+    color: rgba(19, 18, 18, 1);
+    width: 95px;
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text14 {
+    top: 48px;
+    left: 727px;
+    color: rgba(220, 156, 0, 1);
+    width: 112px;
+    height: auto;
+    position: absolute;
+    font-size: 17px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 600px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text15 {
+    top: 48px;
+    left: 644px;
+    color: rgba(220, 156, 0, 1);
+    width: 87px;
+    height: auto;
+    position: absolute;
+    font-size: 17px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 600px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text16 {
+    top: 48px;
+    left: 824px;
+    color: rgba(220, 156, 0, 1);
+    width: 102px;
+    height: auto;
+    position: absolute;
+    font-size: 17px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 600px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text17 {
+    top: 48px;
+    left: 914px;
+    color: rgba(220, 156, 0, 1);
+    width: 162px;
+    height: auto;
+    position: absolute;
+    font-size: 17px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 600px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text18 {
+    top: 44px;
+    left: 1221px;
+    color: rgba(19, 18, 18, 1);
+    width: 99px;
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467524 {
+    top: 27px;
+    left: 18px;
+    width: 205px;
+    height: 61px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: transparent;
+  }
+  .landingpage-search {
+    top: 39px;
+    left: 262px;
+    width: 349px;
+    height: 49px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    border-color: transparent;
+  }
+  .landingpage-text19 {
+    top: 9px;
+    left: 26px;
+    color: rgba(19, 18, 18, 0.5);
+    width: 112px;
+    height: auto;
+    position: absolute;
+    font-size: 18px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 500px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467526 {
+    top: 0px;
+    left: 0px;
+    width: 349px;
+    height: 49px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: rgba(0, 0, 0, 0.6000000238418579);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+  }
+  .landingpage-svg03 {
+    top: 14px;
+    left: 26px;
+    width: 20;
+    height: 20;
+    position: absolute;
+  }
+  .landingpage-svg04 {
+    top: 59px;
+    left: 1210px;
+    width: 23;
+    height: 20;
+    position: absolute;
+  }
+  .landingpage-svg05 {
+    top: 58px;
+    left: 1138px;
+    width: 25;
+    height: 22;
+    position: absolute;
+  }
+  .landingpage-svg06 {
+    top: 47px;
+    left: 1126px;
+    width: 12;
+    height: 12;
+    position: absolute;
+  }
+  .landingpage-svg07 {
+    top: 101px;
+    left: 666px;
+    width: 45;
+    height: 1px;
+    position: absolute;
+  }
+  .landingpage-personcircle {
+    top: 57px;
+    left: 1323px;
+    width: 23px;
+    height: 23px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: transparent;
+  }
+  .landingpage-jumbotron {
+    top: 134px;
+    left: 110px;
+    width: 1233px;
+    height: 222px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-shrink: 1;
+    border-color: transparent;
+  }
+  .landingpage-rectangle3467525 {
+    top: 0px;
+    left: 0px;
+    width: 1233px;
+    height: 222px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: transparent;
+    border-radius: 6px;
+  }
+  .landingpage-text20 {
+    top: 26px;
+    left: 388px;
+    color: rgba(255, 255, 255, 1);
+    height: auto;
+    position: absolute;
+    font-size: 24px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 800px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-btn {
+    top: 135px;
+    left: 517px;
+    width: 205px;
+    height: 62px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    border-color: transparent;
+  }
+  .landingpage-rectangle3467527 {
+    top: 0px;
+    left: 0px;
+    width: 205px;
+    height: 62px;
+    position: absolute;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.20000000298023224) ;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: rgba(0, 0, 0, 0.5);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    background-color: rgba(212, 175, 55, 1);
+  }
+  .landingpage-text26 {
+    top: 9px;
+    left: 30px;
+    color: rgba(0, 0, 0, 1);
+    width: 147px;
+    height: auto;
+    position: absolute;
+    font-size: 23px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Garamond;
+    font-weight: 400px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-whattoweartoday {
+    top: 394px;
+    left: 101px;
+    width: 348px;
+    height: 475px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-shrink: 1;
+    border-color: transparent;
+  }
+  .landingpage-text27 {
+    top: 426px;
+    left: 0px;
+    color: rgba(19, 18, 18, 1);
+    width: 46px;
+    height: auto;
+    position: absolute;
+    font-size: 20px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text28 {
+    top: 452px;
+    left: 0px;
+    color: rgba(146, 0, 13, 1);
+    width: 179px;
+    height: auto;
+    position: absolute;
+    font-size: 15px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 500px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467529 {
+    top: 34px;
+    left: 1px;
+    width: 345px;
+    height: 379px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: transparent;
+  }
+  .landingpage-seemorebyn {
+    top: 433px;
+    left: 232px;
+    width: 116px;
+    height: 37px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    border-color: transparent;
+  }
+  .landingpage-text29 {
+    top: 5px;
+    left: 8px;
+    color: rgba(19, 18, 18, 1);
+    width: 81px;
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 400px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467534 {
+    top: 0px;
+    left: 0px;
+    width: 116px;
+    height: 37px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: rgba(0, 0, 0, 0.5);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+  }
+  .landingpage-svg08 {
+    top: 12px;
+    left: 92px;
+    width: 15;
+    height: 15;
+    position: absolute;
+  }
+  .landingpage-text30 {
+    top: 0px;
+    left: 0px;
+    color: rgba(146, 0, 13, 1);
+    width: 176px;
+    height: auto;
+    position: absolute;
+    font-size: 18px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-photographoftheweek {
+    top: 394px;
+    left: 545px;
+    width: 357px;
+    height: 475px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-shrink: 1;
+    border-color: transparent;
+  }
+  .landingpage-text31 {
+    top: 426px;
+    left: 7px;
+    color: rgba(19, 18, 18, 1);
+    width: 39px;
+    height: auto;
+    position: absolute;
+    font-size: 20px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text32 {
+    top: 452px;
+    left: 0px;
+    color: rgba(146, 0, 13, 1);
+    width: 152px;
+    height: auto;
+    position: absolute;
+    font-size: 15px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 500px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467530 {
+    top: 34px;
+    left: 7px;
+    width: 345px;
+    height: 379px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: transparent;
+  }
+  .landingpage-seemorebtn {
+    top: 433px;
+    left: 241px;
+    width: 116px;
+    height: 37px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    border-color: transparent;
+  }
+  .landingpage-text33 {
+    top: 5px;
+    left: 8px;
+    color: rgba(19, 18, 18, 1);
+    width: 81px;
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 400px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467532 {
+    top: 0px;
+    left: 0px;
+    width: 116px;
+    height: 37px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: rgba(0, 0, 0, 0.5);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+  }
+  .landingpage-svg09 {
+    top: 12px;
+    left: 92px;
+    width: 15;
+    height: 15;
+    position: absolute;
+  }
+  .landingpage-text34 {
+    top: 0px;
+    left: 12px;
+    color: rgba(146, 0, 13, 1);
+    width: 214px;
+    height: auto;
+    position: absolute;
+    font-size: 18px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-brideoftheweek {
+    top: 395px;
+    left: 983px;
+    width: 369px;
+    height: 476px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-shrink: 1;
+    border-color: transparent;
+  }
+  .landingpage-text35 {
+    top: 425px;
+    left: 9px;
+    color: rgba(19, 18, 18, 1);
+    width: 39px;
+    height: auto;
+    position: absolute;
+    font-size: 20px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-text36 {
+    top: 453px;
+    left: 0px;
+    color: rgba(146, 0, 13, 1);
+    width: 260px;
+    height: auto;
+    position: absolute;
+    font-size: 15px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 500px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467531 {
+    top: 33px;
+    left: 10px;
+    width: 345px;
+    height: 379px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: transparent;
+  }
+  .landingpage-seemorebtn1 {
+    top: 429px;
+    left: 261px;
+    width: 108px;
+    height: 37px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    border-color: transparent;
+  }
+  .landingpage-text37 {
+    top: 5px;
+    left: 7px;
+    color: rgba(19, 18, 18, 1);
+    width: 76px;
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 400px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-rectangle3467533 {
+    top: 0px;
+    left: 0px;
+    width: 108px;
+    height: 37px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: rgba(0, 0, 0, 0.5);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+  }
+  .landingpage-svg10 {
+    top: 12px;
+    left: 86px;
+    width: 14;
+    height: 15;
+    position: absolute;
+  }
+  .landingpage-text38 {
+    top: 0px;
+    left: 0px;
+    color: rgba(146, 0, 13, 1);
+    width: 170px;
+    height: auto;
+    position: absolute;
+    font-size: 18px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .landingpage-chatbox {
+    top: 458px;
+    left: 1397px;
+    width: 43px;
+    height: 148px;
+    display: flex;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-shrink: 1;
+    border-color: transparent;
+  }
+  .landingpage-rectangle3467535 {
+    top: 0px;
+    left: 11px;
+    width: 32px;
+    height: 148px;
+    position: absolute;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-color: transparent;
+    background-color: rgba(146, 0, 13, 0.8600000143051147);
+  }
+  .landingpage-text39 {
+    top: 134.97406005859375px;
+    left: 0px;
+    color: rgba(255, 255, 255, 1);
+    width: 123px;
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    align-self: auto;
+    font-style: normal;
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 700px;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  
