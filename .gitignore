@@ -78,7 +78,7 @@ composer.lock
 /public/mix-manifest.json
 /public/css/app.css
 /public/js/app.js
-/public/assets
+# /public/assets
 
 # Backup files
 *.bak
