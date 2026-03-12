@@ -169,19 +169,20 @@
                 <div class="footer-item col-lg-2 col-12">
                     <ul class="social">
                         <li>
-                            <ul class="d-flex justify-content-evenly">
+                            <ul class="d-flex justify-content-between">
                                 <li><i class="fa-brands fa-facebook"></i></li>
                                 <li><i class="fa-brands fa-instagram"></i></li>
                                 <li><i class="fa-brands fa-linkedin"></i></li>
                             </ul>
                         </li>
-                        <li class="text-center my-4 powered">Powered by <span><a href="http://zonicme.com/">ZonicMe.com
+                        <li class="text-left my-4 powered">Powered by <span><a href="http://zonicme.com/">ZonicMe.com
                             </span></a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
+    
     
 <div class="fixed-bottom d-block d-sm-block d-lg-none white-bg mobile-menu">
 	<div class=" py-3 main-color-bg" style="background: linear-gradient(#380000,#900100)">

@@ -7,7 +7,7 @@
 :root {
     --main-bg-color: white;
     --main-font-color: black;
-    --font-family: 'Poppins', sans-serif;
+    --font-family: 'Raleway', sans-serif !important;
     --color-gold: #D8AF58;
     --nav-hover-color: #850713;
     --card-h5: #850713;
@@ -101,7 +101,7 @@ body{
     width: 300px;
 }
 .img-text {
-    text-align: center;
+    /*text-align: center;*/
     /* padding: 10px 20px; */
     font-size: 20px;
     font-weight: 700;
@@ -114,6 +114,7 @@ body{
     font-weight: 00;
     font-style: normal;
     text-transform: capitalize;
+    text-align: center;
 }
 
 .img-card h5:hover {
@@ -172,7 +173,7 @@ ul{
 }
 
 .row-li li{
-    padding: 10px;
+    padding: 10px 0px;
     font-size: 15px;
     font-weight: 300;
     color: var(--card-h5);
@@ -190,7 +191,7 @@ ul{
 .powered{
 font-weight: 600;
 color: #000;
-font-size: 12px;
+font-size: 14px;
 }
 
 .powered span{
