@@ -16,8 +16,7 @@
         <div class="col-12" style="height: 10vh;">
             <a class="float-left" href="{{ url('/') }}"> <img src="{{ asset('assets/img/logo.svg') }}" width="180px" />
             </a>
-            <a class="btn btn-sm gold float-right m-3" data-toggle="collapse" href="#exploreMenu" role="button"
-                aria-expanded="false" aria-controls="exploreMenu">Close</a>
+            <!--<a class="btn btn-sm gold float-right m-3" data-toggle="collapse" href="#exploreMenu" role="button" aria-expanded="false" aria-controls="exploreMenu">Close</a>-->
         </div>
         @php
             $categories = App\Category::all();
@@ -26,9 +25,10 @@
 
         <div class="col-12" style="overflow-y: auto; margin-bottom: 5px;">
             <div class="container explore">
-                <div class="row" id="eCategory">
+                <div class="row justify-content-between gold-border" id="eCategory">
                     @foreach ($categories->where('parent', 0) as $category)
-                        <div class="col-lg-3 col-md-12 col-sm-12 gold-border p-0" style="border-bottom: 1px solid;">
+                        <!--<div class="col-lg-3 col-md-12 col-sm-12 gold-border p-0" style="border-bottom: 1px solid;">-->
+                        <div class="col-auto px-0 py-2">
                             <div class="d-flex align-items-center" style="height: 50px;">
                                 <h6 class="text-uppercase py-1 p-0">
                                     <a class="gold" data-toggle="collapse" href="#ec{{ $category->id }}" role="button"
@@ -55,7 +55,9 @@
             <div class="container py-2 gold">
                 <div class="col-md-12 col-sm-12 p-0">
                     @if ($premium_page)
-                        {!! $premium_page->description !!}
+                        <div class="premium-text">
+                            {!! $premium_page->description !!}
+                        </div>
                         @auth
                             <a class="btn main-color-bg rounded-0" href="{{ route('premiums') }}">
                                 View Premium
@@ -271,6 +273,14 @@
 
         .fade:not(.show) {
             display: none;
+        }
+        
+        .premium-text {
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+            margin-bottom: 1rem
         }
     </style>
 @endpush

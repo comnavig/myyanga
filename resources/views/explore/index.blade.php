@@ -8,10 +8,9 @@
                         <img src="{{ asset('assets/img/logo.svg') }}" width="180px" alt="Logo" />
                     </a>
                 </div>
-                <div class="col-6 text-right">
-                    <a class="btn btn-sm gold" data-toggle="collapse" href="#exploreMenu" role="button"
-                        aria-expanded="false" aria-controls="exploreMenu">Close</a>
-                </div>
+                <!-- <div class="col-6 text-right">
+                    <a class="btn btn-sm gold" data-toggle="collapse" href="#exploreMenu" role="button" aria-expanded="false" aria-controls="exploreMenu">Close</a>
+                </div> -->
             </div>
 
             @php
@@ -22,9 +21,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="container explore">
-                        <div class="row" id="eCategory">
-                            @foreach ($categories->where('parent', 0) as $category)
-                                <div class="col-lg-3 col-md-4 col-sm-6 gold-border p-0 mb-3">
+                <div class="row justify-content-between gold-border" id="eCategory">
+                    @foreach ($categories->where('parent', 0) as $category)
+                        <!--<div class="col-lg-3 col-md-12 col-sm-12 gold-border p-0" style="border-bottom: 1px solid;">-->
+                        <div class="col-auto px-0 py-2">
                                     <div class="d-flex align-items-end" style="height: 50px; padding-bottom: 10px;">
                                         <h6 class="text-uppercase py-0 m-0">
                                             <a class="gold" data-toggle="collapse" href="#ec{{ $category->id }}"
@@ -54,7 +54,9 @@
                     <div class="container py-2 gold">
                         <div class="col-12 p-0">
                             @if ($premium_page)
-                                {!! $premium_page->description !!}
+                                <div class="premium-text">
+                                    {!! $premium_page->description !!}
+                                </div>
                                 @auth
                                     <a class="btn btn-sm main-color-bg rounded-0" href="{{ route('premiums') }}">View
                                         Premium</a>
@@ -241,4 +243,14 @@
     footer p {
         margin: 0;
     }
+
+            
+    .premium-text {
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-top: 1rem;
+        margin-bottom: 1rem
+    }
+        
 </style>
