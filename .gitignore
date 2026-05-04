@@ -21,6 +21,7 @@ yarn-error.log
 index.php
 
 # Laravel specific
+/vendor/**
 /bootstrap/cache/*
 !/bootstrap/cache/.gitkeep
 /storage/framework/cache/*
