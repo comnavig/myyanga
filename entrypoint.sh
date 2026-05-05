@@ -33,12 +33,10 @@ php artisan view:clear || true
 echo "Running migrations..."
 php artisan migrate --force
 
-# We try to seed database only once, this prevents the database from being seeded every time the container is started, prevents overwriting old data.
-if [ ! -f /var/www/html/storage/.seeded ]; then
-    echo "Seeding database..."
-    php artisan db:seed --force
-    touch /var/www/html/storage/.seeded
-fi
+# Seed the database
+echo "Seeding database..."
+php artisan db:seed --force
 
+# Start Apache
 echo "Starting Apache..."
 apache2-foreground
