@@ -8,8 +8,10 @@ services:
     volumes:
       - .:/var/www/html:Z
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
+  # Not needed for now, we will move to it later when project laravel version has been updated and tested on php 8.1.
   # php81:
   #   build:
   #     context: .
@@ -25,9 +27,15 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: legacy_db
+      MYSQL_DATABASE: myyanga
     ports:
       - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 2s
     volumes:
       - db_data:/var/lib/mysql
 

@@ -125,3 +125,4 @@ cache/
 # Testing
 .phpunit.cache
 phpunit.xml
+storage/.seeded

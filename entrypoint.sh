@@ -16,7 +16,7 @@ if ! grep -q "APP_KEY=" .env || grep -q "APP_KEY=$" .env; then
     php artisan key:generate
 fi
 
-# Fix permissions every time container starts
+# Fix permissions every time container starts, laravel needs write permissions to storage and bootstrap/cache directories
 chown -R www-data:www-data /var/www/html/storage
 chown -R www-data:www-data /var/www/html/bootstrap/cache
 
@@ -29,8 +29,16 @@ php artisan config:clear || true
 php artisan cache:clear || true
 php artisan view:clear || true
 
-php artisan migrate
+# Run migrations
+echo "Running migrations..."
+php artisan migrate --force
 
-# Starting Apache
+# We try to seed database only once, this prevents the database from being seeded every time the container is started, prevents overwriting old data.
+if [ ! -f /var/www/html/storage/.seeded ]; then
+    echo "Seeding database..."
+    php artisan db:seed --force
+    touch /var/www/html/storage/.seeded
+fi
+
 echo "Starting Apache..."
 apache2-foreground
