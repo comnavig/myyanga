@@ -21,7 +21,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
 
+	
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style/responsive.css') }}">
+    
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/mobile-phone-view.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/color.css') }}">
@@ -86,6 +94,11 @@
         .mc4wp-custom-submit-button:hover {
             background-color: #354b57;
         }
+        
+        .footer-text04 {
+            color: rgba(148, 0, 14, 1);
+        }
+       
     </style>
 </head>
 <body>
@@ -132,7 +145,7 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav flex-grow-1 text-uppercase">
-                        <a class="nav-link gold " href="{{ route('search.smart') }}">Smart Search</a>
+                        <a class="nav-link gold " style="white-space: nowrap;" href="{{ route('search.smart') }}">Smart Search</a>
                         <form class="form-inline" method="get" action="{{route('search') }}" style="width: 70%;">
                             @csrf
                             <input class="form-control mr-sm-2" type="search" name="search" value="{{ $keyword ?? old('search')}}" placeholder="Type in what you are looking for and press enter to search" aria-label="Search" style="width:60%;" required />
@@ -194,13 +207,13 @@
         </nav>
     </header>
     
-    <div class="col-12 float-left content p-0">
+    <div class="col-12 content p-0">
         @if(Session::has('message'))
             <div class="collapse show" id="closeCollapse">
-                <div class="fixed-top d-flex justify-content-center align-items-center" style="height:100%; background-color: rgba(21,21,21, .45);">
-                    <div class="col-lg-3 col-md-4 col-sm-10 mx-3 white-bg">
+                <div class="fixed-top d-flex justify-content-center align-items-center" style="height:100%; background-color: rgba(21,21,21, .9);">
+                    <div class="col-lg-3 col-md-4 col-sm-10 mx-3 white-bg" style="max-width: 400px; width: 400px;">
                         <div class="col-12 p-4">
-                            <p class="text-center">{{ Session::get('message') }}</p>
+                            <p class="text-center" style="width: auto;">{{ Session::get('message') }}</p>
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-sm-12 m-0 p-1">
@@ -209,7 +222,7 @@
                                 </a>
                             </div>
                             <div class="col-md-6 col-sm-12 m-0 p-1">
-                                <a class="btn main-color-bg btn-block rounded-0" data-toggle="collapse" href="#closeCollapse" role="button" aria-expanded="false" aria-controls="closeCollapse">
+                                <a class="btn main-color-bg btn-block rounded-0 continue-btn" data-toggle="collapse" href="#closeCollapse" role="button" aria-expanded="false" aria-controls="closeCollapse">
                                     Continue Shopping
                                 </a>
                             </div>
@@ -235,27 +248,49 @@
     <!-- Explore! -->
     @include('explore.index')
     
-    <div class="d-none d-sm-none d-lg-block">
-        <footer class="col-12"  style="float: left; height: 60px;">
-            <div class="container">
-                <div class="row">
-                    <div class="col p-2">
-                        <p class="">Powered by <a class="main-color btn-link" href="http://www.zonicme.com" target="_blank">ZonicMe</a> 
-                            | <a class="main-color btn-link" href="{{ route('pages', ['slug' => 'about']) }}">About us</a> 
-                            | <a class="main-color btn-link" href="{{route('pages', ['slug' => 'privacy_policy'])}}">Privacy Policy</a>
-                            | <a class="main-color btn-link" href="{{route('pages', ['slug' => 'terms'])}}">Terms</a>
-                            | <a class="main-color btn-link" href="{{route('pages', ['slug' => 'contact'])}}">Contact us</a>
-                        </p>
-                    </div>
-                    <div class="col p-2">
-                        <a class="btn btn-md float-right" href="https://www.facebook.com/MyYangaAfrica/?ref=pages_you_manage"><i class="bi bi-facebook"></i></a>
-                        <a class="btn btn-md float-right" href="https://www.instagram.com/myyanga_backup/"><i class="bi bi-instagram"></i></a>
-                        <a class="btn btn-md float-right" href="https://www.linkedin.com/in/myyanga-africa-1083a012b/"><i class="bi bi-linkedin"></i></a>
-                    </div>
+    <footer class="d-none d-sm-none d-lg-block mt-5">
+        <div class="container p-5">
+            <div class="row" id="cards">
+                <div class="footer-item col">
+                    <h4>More Info</h4>
+                    <ul class="row-li">
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'about']) }}'">About Us</li>
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'privacy_policy']) }}'">Privacy Policy</li>
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'terms']) }}'">Terms</li>
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'contact']) }}'">Contact</li>
+                    </ul>
+                </div>
+                <div class="footer-item col">
+                    <h4>Contact Us</h4>
+                    <ul class="row-li row-li-2">
+                        <ul>
+                          <li><i class="fa-solid fa-envelope"></i><a href="mailto:info@myyanga.com" class="footer-text04"> info@myyanga.com</a></li>
+                          <li><i class="fa-solid fa-phone"></i> <a href="tel:+2347062425945" class="footer-text04"> +234 706 242 5945</a></li>
+
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i> <span> ZonicMe Limited
+                                Floor M2, Transcorp Hilton, Abuja</span>
+                        </li>
+                    </ul>
+    
+                </div>
+                <div class="footer-item col-lg-2 col-12">
+                    <ul class="social">
+                        <li>
+                            <ul class="d-flex justify-content-between">
+                                <li><i class="fa-brands fa-facebook"></i></li>
+                                <li><i class="fa-brands fa-instagram"></i></li>
+                                <li><i class="fa-brands fa-linkedin"></i></li>
+                            </ul>
+                        </li>
+                        <li class="text-left my-4 powered">Powered by <span><a href="http://zonicme.com/">ZonicMe.com
+                            </span></a></li>
+                    </ul>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+
 
     <div class="fixed-bottom d-block d-sm-block d-lg-none white-bg mobile-menu">
         <div class=" py-3 main-color-bg">

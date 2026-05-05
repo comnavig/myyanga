@@ -2,13 +2,9 @@
 @section('title', 'Smart Search')
 
 @section('content')
-<div class="col-12 float-left">
+<div class="col-12">
 	<div class="container">
-<!--
-		<div class="col-12 p-0">
-			<h3 class="main-color">Smart Search</h3>
-		</div>
--->
+
 		<form class="mt-1" method="get" action="{{route('search.smart') }}?#results" >
 			@csrf
 			<div class="form-row m-0 p-0">
@@ -67,42 +63,6 @@
 </div>
 
 
-<!--@if (count($products) == 0 )-->
-
-	<!--div class="col-12 float-left d-flex justify-content-center align-items-center " style="min-height: 100px;">
-<!--		<h4 class="main-color" >{{ (empty($keyword) ? "" :"No result for " .$keyword ) }}</h4>-->
-<!--	</div>-->
-
-<!--	<div class="col-12 float-left d-flex justify-content-center align-items-center search_lady"  style="margin-bottom: 70px;">-->
-<!--		<a href="{{route('search.smart')}}"><img src="{{asset('assets/img/search_lady.jpg') }}" /></a>-->
-<!--	</div-->-->
-	
-<!--	<div id="results" class="col-12 float-left py-3" style="min-height: 50px;">-->
-<!--		<h4 class="main-color d-inline" >{{ (empty($keyword) ? "" :"No result for " .$keyword ) }}</h4>-->
-<!--	</div>-->
-
-<!--@else-->
-<!--	<div id="results" class="col-12 float-left py-3" style="min-height: 50px;">-->
-<!--		<h4 class="main-color d-inline" >Here are {{ count($products) }} items</h4>-->
-<!--	</div>-->
-	
-<!--	<div class="col-12 float-left" style="margin-bottom: 300px; display: flex; flex-wrap: wrap;  justify-content: space-around;">-->
-<!--		@foreach($products as $product)-->
-<!--			<div class="product-item">-->
-<!--				<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug]  )}}">-->
-<!--					<div class="img" >-->
-<!--						<img src="{{$product->picture[0]->url }}" width="100%" />-->
-<!--					</div>-->
-<!--					{{ ( strlen($product->name) > 20 ? substr($product->name, 0, 15)."..." : $product->name ) }}-->
-<!--				</a>-->
-<!--				<div class="brand">-->
-<!--					<a class="link" href="{{route('pages', ['slug' =>$product->listing->slug] )}}">{{$product->listing->name }}</a>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		@endforeach-->
-<!--	</div>-->
-<!--<div style="padding: 20px 10px;"></div>-->
-<!--@endif-->
 
 
 @if (count($products) == 0)
@@ -145,7 +105,6 @@
     </div>
 
 
-<div style="padding: 20px 50px;"></div>
 @endif
 
 @endsection

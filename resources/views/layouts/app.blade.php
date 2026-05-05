@@ -31,6 +31,10 @@
 	
 	
     <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style/responsive.css') }}">
+    
 <!--
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 -->
@@ -527,101 +531,50 @@
 	<!-- Explore! -->
     @include('explore.index')
     <hr>
-<div class="d-none d-sm-none d-xs-none d-lg-block">
-    
-    <div class="row footer-footer">
-        <span class="footer-text">
-          <span class="footer-text01">Powered by</span>
-          <span class="footer-text02">ZonicMe</span>
-        </span>
-        <a class="" href="https://www.facebook.com/MyYangaAfrica/?ref=pages_you_manage">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
-              alt="Vector6316"
-              class="footer-vector"
-            />
-        </a>
-        <a class="" href="https://www.instagram.com/officialmyyanga_/">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3670/3670125.png"
-              alt="Vector6318"
-              class="footer-vector1"
-            />
-        </a>
-        <a class="" href="https://www.linkedin.com/in/myyanga-africa-1083a012b/">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3536/3536505.png"
-              alt="Vector6314"
-              class="footer-vector2"
-            />
-        </a>
-        
-        
-        <span class="footer-text03">
-          <span class="footer-text04">
-          <a href="{{ route('pages', ['slug' => 'about']) }}">
-            <span class="footer-text04">About us</span>
-           </a>
-            <br />
-            <span></span>
-          </span>
-          <span class="footer-text08">
-            <a href="{{route('pages', ['slug' => 'privacy_policy'])}}">
-            <span class="footer-text08">Privacy Policy</span>
-            </a>
-            <br />
-            <span></span>
-          </span>
-          <span class="footer-text12">
-          <a href="{{route('pages', ['slug' => 'terms'])}}">
-            <span class="footer-text12">Terms</span>
-            </a>
-            <br />
-            <span></span>
-          </span>
-          <a href="{{route('pages', ['slug' => 'contact'])}}">
-          <span class="footer-text16">Contact</span>
-          </a>
-          <span></span>
-        </span>
-        <span class="footer-text18">
-          <span class="footer-text19">
-            <span>Email</span>
-                <br />
-                <span></span>
-              </span>
-            <span class="footer-text23">
-              <a href="mailto:info@myyanga.com" class="footer-text04">info@myyanga.com</a>
-              <br />
-              <span></span>
-            </span>
-            <span class="footer-text27">
-              <span>Phone number</span>
-              <br />
-              <span></span>
-            </span>
-            <span class="footer-text31">
-              <a href="tel:+2347062425945" class="footer-text04">+234 706 242 5945</a>
-              <br />
-              <span></span>
-            </span>
+    <footer class="d-none d-sm-none d-lg-block">
+        <div class="container p-5">
+            <div class="row" id="cards">
+                <div class="footer-item col">
+                    <h4>More Info</h4>
+                    <ul class="row-li">
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'about']) }}'">About Us</li>
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'privacy_policy']) }}'">Privacy Policy</li>
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'terms']) }}'">Terms</li>
+                        <li onclick="location.href='{{ route('pages', ['slug' => 'contact']) }}'">Contact</li>
+                    </ul>
+                </div>
+                <div class="footer-item col">
+                    <h4>Contact Us</h4>
+                    <ul class="row-li row-li-2">
+                        <ul>
+                          <li><i class="fa-solid fa-envelope"></i><a href="mailto:info@myyanga.com" class="footer-text04"> info@myyanga.com</a></li>
+                          <li><i class="fa-solid fa-phone"></i> <a href="tel:+2347062425945" class="footer-text04"> +234 706 242 5945</a></li>
 
-            <span class="footer-text35">
-                <span>Address</span>
-                <br />
-                <span></span>
-              </span>
-            <span>
-                <span>ZonicMe Limited</span>
-                <br />
-                <span>Floor M2, Transcorp Hilton, Abuja</span>
-            </span>
-        </span>
-        <span class="footer-text43"><span>CONTACT US</span></span>
-        <span class="footer-text45"><span>MORE INFO</span></span>
-      </div>
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i> <span> ZonicMe Limited
+                                Floor M2, Transcorp Hilton, Abuja</span>
+                        </li>
+                    </ul>
     
-</div>
+                </div>
+                <div class="footer-item col-lg-2 col-12">
+                    <ul class="social">
+                        <li>
+                            <ul class="d-flex justify-content-between">
+                                <li><i class="fa-brands fa-facebook"></i></li>
+                                <li><i class="fa-brands fa-instagram"></i></li>
+                                <li><i class="fa-brands fa-linkedin"></i></li>
+                            </ul>
+                        </li>
+                        <li class="text-left my-4 powered">Powered by <span><a href="http://zonicme.com/">ZonicMe.com
+                            </span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
 
 <div class="fixed-bottom d-block d-sm-block d-lg-none white-bg mobile-menu max-mod-mobile-menu">
 	<div class=" py-3 main-color-bg" >

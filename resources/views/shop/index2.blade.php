@@ -54,7 +54,17 @@
 
         .product-price {
             font-size: 1.2rem;
-            color: #007bff;
+            color: #850713;
+        }
+        
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: #850713;
+            border-color: #850713;
+        }
+        .page-link {
+            color: #850713;
         }
     </style>
 @endpush

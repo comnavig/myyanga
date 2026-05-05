@@ -72,7 +72,7 @@
 		$today = date("Y-m-d");
 		$ads = App\Ads::where([
 									['status','=', 'APPROVED'],
-									{{-- ['expired_at','>',$today]	--}}
+									['expired_at','>',$today]
 									])->get();
 	@endphp
 <body class="">

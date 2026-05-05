@@ -86,7 +86,7 @@
 									</select>
 								 </div>
 								 
-								 <button type="submit" class="btn btn-sm main-color-bg">Add Cart <i class="bi bi-cart-fill"></i></button>
+								 <button type="submit" class="btn btn-sm main-color-bg">Add To Cart <i class="bi bi-cart-fill"></i></button>
 							</form>
 						@endif
 					</div>

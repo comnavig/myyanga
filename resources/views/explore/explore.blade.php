@@ -59,18 +59,18 @@
                             {!! $premium_page->description !!}
                         </div>
                         @auth
-                            <a class="btn main-color-bg rounded-0" href="{{ route('premiums') }}">
+                            <a class="btn main-color-bg rounded-0 uppercase" href="{{ route('premiums') }}">
                                 View Premium
                             </a>
                         @endauth
                         @guest
-                            <a class="btn main-color-bg rounded-0"
+                            <a class="btn main-color-bg rounded-0 uppercase"
                                 href="{{ route('login', ['redirect' => route('premiums')]) }}">
                                 View Premium
                             </a>
                         @endguest
                     @else
-                        <a class="btn main-color-bg rounded-0"
+                        <a class="btn main-color-bg rounded-0 uppercase"
                             href="{{ route('login', ['redirect' => route('premiums')]) }}">
                             View Premium
                         </a>
@@ -281,6 +281,10 @@
             letter-spacing: 1px;
             margin-top: 1rem;
             margin-bottom: 1rem
+        }
+
+        .uppercase {
+            text-transform: uppercase;
         }
     </style>
 @endpush
