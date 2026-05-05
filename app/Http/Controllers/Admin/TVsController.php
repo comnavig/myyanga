@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\TvCategory;
 use App\Tv;
 
-class TvsController extends Controller
+class TVsController extends Controller
 {
          /**
      * Create a new controller instance.

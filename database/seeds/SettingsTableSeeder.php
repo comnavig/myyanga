@@ -27,7 +27,7 @@ class SettingsTableSeeder extends Seeder
             ['name' => 'facebook_url', 'value' => 'https://facebook.com/myyanga'],
             ['name' => 'twitter_url', 'value' => 'https://twitter.com/myyanga'],
             ['name' => 'instagram_url', 'value' => 'https://instagram.com/myyanga'],
-            ['name' => 'logo', 'value' => 'https://instagram.com/myyanga'],
+            ['name' => 'logo', 'value' => '/assets/img/logo.svg'],
             ['name' => 'about_us', 'value' => 'MyYanga is your premier destination for beauty and fashion services.'],
         ];
 
