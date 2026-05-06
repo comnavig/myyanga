@@ -1,3 +1,4 @@
+
 services:
   php74:
     build:
@@ -7,6 +8,8 @@ services:
       - "8074:80"
     volumes:
       - .:/var/www/html:Z
+    env_file:
+      - .env.local
     depends_on:
       db:
         condition: service_healthy
@@ -33,14 +36,16 @@ services:
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 3s
-      timeout: 2s
+      timeout: 3s
       retries: 20
-      start_period: 2s
+      start_period: 3s
     volumes:
       - db_data:/var/lib/mysql
+      # Uncomment the line below if you have a DB_BACKUP_FILE (.sql) in your .env (docker uses .env by default not .env.local)
+      - ${DB_BACKUP_FILE}:/docker-entrypoint-initdb.d/init.sql:ro
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.2
+    image: arm64v8/phpmyadmin
     container_name: phpmyadmin
     ports:
       - "8080:80"
@@ -48,6 +53,8 @@ services:
       PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: root
+      # Needed to upload large .sql files to the db via phpmyadmin.
+      UPLOAD_LIMIT: 20M
     depends_on:
       db:
         condition: service_healthy

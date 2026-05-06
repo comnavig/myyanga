@@ -7,6 +7,7 @@
 # In production, the vendor directory should be built using composer install --no-dev and not included in the repository.
 # /vendor
 .env
+.env.local
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
