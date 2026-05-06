@@ -55,12 +55,13 @@ class ListingsTableSeeder extends Seeder
             ];
 
             foreach ($listings as $listingData) {
-                Listing::create([
-                    'name' => $listingData['name'],
-                    'slug' => Str::slug($listingData['name']),
-                    'description' => $listingData['description'],
-                    'logo' => 'default-logo.png',
-                    'address' => 'Sample Address, ' . $locations->random()->name,
+                try {
+                    Listing::create([
+                        'name' => $listingData['name'],
+                        'slug' => Str::slug($listingData['name']),
+                        'description' => $listingData['description'],
+                        'logo' => 'default-logo.png',
+                        'address' => 'Sample Address, ' . $locations->random()->name,
                     'cac' => $listingData['cac'],
                     'cac_no' => $listingData['cac_no'],
                     'parent_id' => $categories->random()->id,
@@ -69,6 +70,10 @@ class ListingsTableSeeder extends Seeder
                     'status' => 'active',
                     'featured' => rand(0, 1) ? 'yes' : 'no',
                 ]);
+                } catch (\Exception $e) {
+                    echo "[ListingsTableSeeder] Listing already exists: " . $listingData['name'] . "\n";
+                    continue;
+                }
             }
         }
     }

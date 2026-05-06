@@ -27,7 +27,12 @@ class PostCategoriesTableSeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            PostCategory::create($category);
+            try {
+                PostCategory::create($category);
+            } catch (\Exception $e) {
+                echo "[PostCategoriesTableSeeder] Category already exists: " . $category['name'] . "\n";
+                continue;
+            }
         }
     }
 }

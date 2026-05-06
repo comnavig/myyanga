@@ -22,45 +22,55 @@ class PremiumSubscriptionSeeder extends Seeder
                 $amount = 10000.00; // Base subscription price
                 $vat = $amount * 0.075; // 7.5% VAT
 
-                PremiumSubscription::create([
-                    'user_id' => $user->id,
-                    'expiry' => now()->addDays(30),
-                    'amount' => $amount,
-                    'vat' => $vat,
-                    'trans_data' => json_encode([
-                        'transaction_id' => 'TXN' . time() . rand(1000, 9999),
-                        'payment_method' => 'card',
-                        'card_type' => 'visa',
-                        'reference' => 'REF' . strtoupper(uniqid()),
-                        'gateway' => 'paystack',
-                        'paid_at' => now()->toDateTimeString(),
-                    ]),
-                    'track_id' => 'TRACK' . strtoupper(uniqid()),
-                    'status' => 'active',
-                ]);
-            }
+                try {
+                    PremiumSubscription::create([
+                        'user_id' => $user->id,
+                        'expiry' => now()->addDays(30),
+                        'amount' => $amount,
+                        'vat' => $vat,
+                        'trans_data' => json_encode([
+                            'transaction_id' => 'TXN' . time() . rand(1000, 9999),
+                            'payment_method' => 'card',
+                            'card_type' => 'visa',
+                            'reference' => 'REF' . strtoupper(uniqid()),
+                            'gateway' => 'paystack',
+                            'paid_at' => now()->toDateTimeString(),
+                        ]),
+                        'track_id' => 'TRACK' . strtoupper(uniqid()),
+                        'status' => 'active',
+                    ]);
+                } catch (\Exception $e) {
+                    echo "[PremiumSubscriptionSeeder] Subscription already exists: " . $user->name . "\n";
+                    continue;
+                }
 
-            // Create an expired subscription for testing
-            if ($users->count() > 3) {
-                $amount = 10000.00;
-                $vat = $amount * 0.075;
+                // Create an expired subscription for testing
+                if ($users->count() > 3) {
+                    $amount = 10000.00;
+                    $vat = $amount * 0.075;
 
-                PremiumSubscription::create([
-                    'user_id' => $users->get(3)->id,
-                    'expiry' => now()->subDays(5), // Expired 5 days ago
-                    'amount' => $amount,
-                    'vat' => $vat,
-                    'trans_data' => json_encode([
-                        'transaction_id' => 'TXN' . time() . rand(1000, 9999),
-                        'payment_method' => 'card',
-                        'card_type' => 'mastercard',
-                        'reference' => 'REF' . strtoupper(uniqid()),
-                        'gateway' => 'paystack',
-                        'paid_at' => now()->subDays(35)->toDateTimeString(),
-                    ]),
-                    'track_id' => 'TRACK' . strtoupper(uniqid()),
-                    'status' => 'expired',
-                ]);
+                    try {
+                        PremiumSubscription::create([
+                            'user_id' => $users->get(3)->id,
+                            'expiry' => now()->subDays(5), // Expired 5 days ago
+                            'amount' => $amount,
+                            'vat' => $vat,
+                            'trans_data' => json_encode([
+                                'transaction_id' => 'TXN' . time() . rand(1000, 9999),
+                                'payment_method' => 'card',
+                                'card_type' => 'mastercard',
+                                'reference' => 'REF' . strtoupper(uniqid()),
+                                'gateway' => 'paystack',
+                                'paid_at' => now()->subDays(35)->toDateTimeString(),
+                            ]),
+                            'track_id' => 'TRACK' . strtoupper(uniqid()),
+                            'status' => 'expired',
+                        ]);
+                    } catch (\Exception $e) {
+                        echo "[PremiumSubscriptionSeeder] Subscription already exists: " . $users->get(3)->name . "\n";
+                        continue;
+                    }
+                }
             }
         }
     }

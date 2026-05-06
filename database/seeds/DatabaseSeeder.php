@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             AddressesTableSeeder::class,
             PostCategoriesTableSeeder::class,
             GroomTipCategoriesTableSeeder::class,
-            PostsTableSeeder::class,
+            // PostsTableSeeder::class, // Commented out due to wrong columns during insertion.
             GroomTipsTableSeeder::class,
             PremiumSubscriptionSeeder::class,
         ]);

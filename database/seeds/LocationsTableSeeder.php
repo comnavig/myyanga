@@ -43,7 +43,12 @@ class LocationsTableSeeder extends Seeder
         ];
 
         foreach ($locations as $location) {
-            Location::create($location);
+            try {
+                Location::create($location);
+            } catch (\Exception $e) {
+                echo "[LocationsTableSeeder] Location already exists: " . $location['name'] . "\n";
+                continue;
+            }
         }
     }
 }

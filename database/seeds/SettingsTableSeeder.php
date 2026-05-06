@@ -32,7 +32,12 @@ class SettingsTableSeeder extends Seeder
         ];
 
         foreach ($settings as $setting) {
-            Settings::create($setting);
+            try {
+                Settings::create($setting);
+            } catch (\Exception $e) {
+                echo "[SettingsTableSeeder] Setting already exists: " . $setting['name'] . "\n";
+                continue;
+            }
         }
     }
 }
