@@ -8,6 +8,7 @@ MyYanga is a comprehensive Laravel-based platform that combines business directo
 - [Features](#features)
 - [System Architecture](#system-architecture)
 - [Installation](#installation)
+- [Docker Setup (Recommended)](#docker-setup-recommended)
 - [Database Structure](#database-structure)
 - [User Types & Access Control](#user-types--access-control)
 - [Core Modules](#core-modules)
@@ -144,6 +145,25 @@ myyanga/
     ├── products/               # Product images
     └── uploads/                # User uploads
 ```
+
+---
+
+## Docker Setup (Recommended)
+
+For a fast and consistent development environment, we recommend using Docker.
+
+**📘 Read**: [DOCKER_README.md](DOCKER_README.md) - Detailed Docker setup and architecture.
+
+### Quick Start with Docker
+```bash
+# 1. Prepare environment file
+cp .env.local .env
+
+# 2. Start containers
+docker-compose up -d
+```
+
+The Docker environment is pre-configured with PHP 7.4, MySQL, and PHPMyAdmin.
 
 ---
 
