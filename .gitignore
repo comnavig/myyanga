@@ -115,6 +115,7 @@ temp/
 *.7z
 
 # Database dumps
+!docker/mysql/init.sql  # This is to prevent docker from throwing an error when the DB_BACKUP_FILE is not set by docker-compose.yml, don't remove it.
 *.sql
 *.sqlite
 *.db

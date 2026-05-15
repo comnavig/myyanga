@@ -27,15 +27,26 @@ The setup consists of three core services orchestrated by `docker-compose.yml`:
 ## 🛠️ Getting Started
 
 ### 1. Configure Environment
-Docker uses `.env.local` for container-specific settings. Ensure your `.env.local` has:
-```env
-DB_CONNECTION=mysql
-DB_HOST=db
-DB_PORT=3306
-DB_DATABASE=myyanga
-DB_USERNAME=root
-DB_PASSWORD=root
-```
+
+Docker Compose automatically reads the file named `.env` for **variable substitution** (like `${DB_BACKUP_FILE}`). However, the `php74` service is configured to load its **runtime variables** from `.env.local`.
+
+1.  **Create a `.env` file** (if it doesn't exist) to handle Docker-specific variables:
+    ```bash
+    cp .env.local .env
+    ```
+2.  **Ensure your `.env.local`** (and `.env`) has these database settings:
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=db
+    DB_PORT=3306
+    DB_DATABASE=myyanga
+    DB_USERNAME=root
+    DB_PASSWORD=root
+    ```
+3.  **Optional**: If you want to restore a database backup on the first run, add this to your `.env`:
+    ```env
+    DB_BACKUP_FILE=./myyanga_backup.sql
+    ```
 
 ### 2. Launch Containers
 ```bash

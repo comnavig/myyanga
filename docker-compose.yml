@@ -14,7 +14,7 @@ services:
       db:
         condition: service_healthy
 
-  # Not needed for now, we will move to it later when project laravel version has been updated and tested on php 8.1.
+  # Not needed for now, we will move to it later when the project's laravel version has been updated and tested on php 8.1.
   # php81:
   #   build:
   #     context: .
@@ -42,7 +42,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       # Uncomment the line below if you have a DB_BACKUP_FILE (.sql) in your .env (docker uses .env by default not .env.local)
-      - ${DB_BACKUP_FILE}:/docker-entrypoint-initdb.d/init.sql:ro
+      - ${DB_BACKUP_FILE:-./docker/mysql/init.sql}:/docker-entrypoint-initdb.d/init.sql:ro
 
   phpmyadmin:
     image: arm64v8/phpmyadmin
