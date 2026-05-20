@@ -96,23 +96,23 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'required', // Disabled for local development
+            // 'g-recaptcha-response' => 'required', // Disabled for local development
         ]);
 
         // Verify reCAPTCHA - DISABLED FOR LOCAL DEVELOPMENT
         // Uncomment the code below when deploying to production
         
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret_key'),
-            'response' => $request->input('g-recaptcha-response'),
-            'remoteip' => $request->ip(),
-        ]);
+        // $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        //     'secret' => config('services.recaptcha.secret_key'),
+        //     'response' => $request->input('g-recaptcha-response'),
+        //     'remoteip' => $request->ip(),
+        // ]);
 
-        if (! $response->json('success')) {
-            return back()->withErrors([
-                'g-recaptcha-response' => 'reCAPTCHA verification failed.',
-            ])->withInput();
-        }
+        // if (! $response->json('success')) {
+        //     return back()->withErrors([
+        //         'g-recaptcha-response' => 'reCAPTCHA verification failed.',
+        //     ])->withInput();
+        // }
 
         // Proceed with normal login
         if ($this->attemptLogin($request)) {

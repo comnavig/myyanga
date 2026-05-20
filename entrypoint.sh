@@ -51,6 +51,10 @@ php artisan view:clear || true
 echo "Running migrations..."
 php artisan migrate
 
+# Create storage symlink
+echo "Creating storage symlink..."
+php artisan storage:link || true
+
 # Seed the database conditionally
 if [ -n "$DB_BACKUP_FILE" ] && [ -f "$DB_BACKUP_FILE" ]; then
     echo "DB_BACKUP_FILE ($DB_BACKUP_FILE) exists, skipping database seeding..."

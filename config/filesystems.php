@@ -56,17 +56,10 @@ return [
             'visibility' => 'public',
         ],
         
-        'public' => [
-            'driver' => 'local',
-            'root' => public_path('storage'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-        ],
-        
         'temp' => [
             'driver' => 'local',
             'root' => storage_path('app/public/temp'),
-            'url' => env('APP_URL').'/storage/public/temp',
+            'url' => env('APP_URL').'/storage/temp',
             'visibility' => 'public',
         ],
         
@@ -79,7 +72,7 @@ return [
         
         'posts' => [
             'driver' => 'local',
-            'root' => public_path('storage/'),
+            'root' => storage_path('app/public/posts'),
             'url' => env('APP_URL').'/storage/posts',
             'visibility' => 'public',
         ],
@@ -88,13 +81,6 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public/ads'),
             'url' => env('APP_URL').'/storage/ads',
-            'visibility' => 'public',
-        ],
-        
-         'temp' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/temp'),
-            'url' => env('APP_URL').'/storage/temp',
             'visibility' => 'public',
         ],
         
