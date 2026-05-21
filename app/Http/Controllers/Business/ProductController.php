@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Location;
-use App\ProductCategory;
+use App\Category;
 use App\Product;
 use App\ProductSold;
 use App\DeliveryNote;
@@ -98,7 +98,7 @@ public function index(Request $request)
 	
 	public function create()
 	{
-		$categories = ProductCategory::all();
+		$categories = Category::all();
 		$locations = Location::all();
 
         return view('user.products.create', ['locations' => $locations, 'categories' => $categories ]);
@@ -189,7 +189,7 @@ public function index(Request $request)
 	public function edit($id)
 	{
 		$product = Product::find($id);
-		$categories = ProductCategory::all();
+		$categories = Category::all();
 		$locations = Location::all();
 			
 		if (empty($product->id))
@@ -309,7 +309,7 @@ public function index(Request $request)
 			{
 				foreach($request->categories as $key => $category)
 				{
-					$new_category = ProductCategory::find($key);
+					$new_category = Category::find($key);
 					
 					if (!empty($new_category->id))
 					{

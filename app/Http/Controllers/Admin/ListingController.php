@@ -22,8 +22,6 @@ use App\Subscription;
 use App\Product;
 use App\FeaturedCategory;
 use App\FeaturedProduct;
-use App\ProductCategory;
-use App\ProductSubcategory;
 use App\ProductPicture;
 use App\ProductShipment;
 use App\ProductFavourite;

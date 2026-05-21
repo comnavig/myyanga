@@ -16,7 +16,6 @@ use App\Listing;
 use App\ListingCategory;
 use App\ListingFollow;
 use App\Product;
-use App\ProductCategory;
 use App\ProductFavourite;
 use App\PostCategory;
 use App\GroomTipCategory;

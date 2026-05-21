@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\FeaturedCategory;
 use App\FeaturedProduct;
-use App\ProductCategory;
-use App\ProductSubcategory;
 use App\ProductPicture;
 use App\Product;
 use App\ProductSold;

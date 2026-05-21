@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\ProductCategory;
-use App\ProductSubcategory;
+use App\Category;
+use App\Subcategory;
 
 class ProductCategoryController extends Controller
 {
@@ -28,21 +28,21 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-		$categories = ProductCategory::where('parent_id', 0)->get();
+		$categories = Category::where('parent_id', 0)->get();
         return view('admin.products.category.index', ['categories' => $categories]);
     }
      
     public function subcategory($id)
     {
-		$category = ProductCategory::find($id);
+		$category = Category::find($id);
 		
 		if (empty($category->id))
 		{
-			return back()->withErrors(['ProductCategory does not exist']);
+			return back()->withErrors(['Category does not exist']);
 		}
 		else
 		{
-			$subcategories = ProductCategory::where('parent_id', $id)->get();
+			$subcategories = Category::where('parent_id', $id)->get();
 			return view('admin.products.category.subcategory', ['category' => $category, 'subcategories' => $subcategories]);
 		}
 		
@@ -60,15 +60,15 @@ class ProductCategoryController extends Controller
     
     public function edit($id)
     {
-		$category = ProductCategory::find($id);
+		$category = Category::find($id);
 		
 		if (empty($category->id))
 		{
-			return back()->withErrors(['ProductCategory does not exist']);
+			return back()->withErrors(['Category does not exist']);
 		}
 		else
 		{
-			$page_title = "Edit ProductCategory";
+			$page_title = "Edit Category";
 			$update_url = route('admin.products.category.update');
 			return view('admin.products.category.edit', ['page_title' => $page_title, 'data' => $category, 'update_url' => $update_url]);
 		}
@@ -78,15 +78,15 @@ class ProductCategoryController extends Controller
     
     public function edit_subcategory($id)
     {
-		$subcategory = ProductSubcategory::find($id);
+		$subcategory = Subcategory::find($id);
 		
 		if (empty($subcategory->id))
 		{
-			return back()->withErrors(['ProductCategory does not exist']);
+			return back()->withErrors(['Category does not exist']);
 		}
 		else
 		{
-			$page_title = "Edit ProductSubcategory";
+			$page_title = "Edit Subcategory";
 			$update_url = route('admin.products.subcategory.update');
 			return view('admin.products.category.edit', ['page_title' => $page_title, 'data' => $subcategory, 'update_url' => $update_url]);
 		}
@@ -110,7 +110,7 @@ class ProductCategoryController extends Controller
 			//~ {
 				//~ if (!empty($category))
 				//~ {
-					//~ $new_category = new ProductCategory;
+					//~ $new_category = new Category;
 					//~ $new_category->name = $category;
 					//~ $new_category->user_id = Auth::id();
 					//~ $new_category->save();
@@ -143,11 +143,11 @@ class ProductCategoryController extends Controller
 			
 			foreach( $categories as $category)
 			{
-				$check_category = ProductCategory::where('name', $category)->get();
+				$check_category = Category::where('name', $category)->get();
 				
 				if (empty($check_category[0]['id']))
 				{
-					$new_category = new ProductCategory;
+					$new_category = new Category;
 					$new_category->name = $category;
 					$new_category->parent_id = 0;
 					$new_category->user_id = Auth::id();
@@ -194,11 +194,11 @@ class ProductCategoryController extends Controller
 			
 			foreach( $categories as $category)
 			{
-				$check_category = ProductCategory::where('name', $category)->get();
+				$check_category = Category::where('name', $category)->get();
 				
 				if (empty($check_category[0]['id']))
 				{
-					$new_category = new ProductCategory;
+					$new_category = new Category;
 					$new_category->name = $category;
 					$new_category->parent_id = $request->parent_id;
 					$new_category->user_id = Auth::id();
@@ -241,7 +241,7 @@ class ProductCategoryController extends Controller
         }
         else
 		{
-			$category = ProductCategory::find($request->id);
+			$category = Category::find($request->id);
 			$category->name = $request->name;
 			$category->user_id = Auth::id();
 			$category->save();
@@ -267,7 +267,7 @@ class ProductCategoryController extends Controller
         else
 		{
 			
-				$category = ProductCategory::find($request->id);
+				$category = Category::find($request->id);
 				$category->name = $request->name;
 				$category->user_id = Auth::id();
 				$category->save();
