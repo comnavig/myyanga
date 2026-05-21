@@ -1,5 +1,44 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Shared S3 Configuration
+|--------------------------------------------------------------------------
+|
+| These variables are shared across all disks that can dynamically
+| switch between local and S3 storage. Set FILESYSTEM_DRIVER=s3
+| in your .env to activate cloud storage (Railway, AWS, R2, etc).
+|
+*/
+
+$isS3 = env('FILESYSTEM_DRIVER', 'local') === 's3';
+
+$s3Credentials = [
+    'key'      => env('AWS_ACCESS_KEY_ID'),
+    'secret'   => env('AWS_SECRET_ACCESS_KEY'),
+    'region'   => env('AWS_DEFAULT_REGION'),
+    'bucket'   => env('AWS_BUCKET'),
+    'endpoint' => env('AWS_ENDPOINT'),
+];
+
+/**
+ * Build a disk config that switches between local and S3.
+ *
+ * @param string $folder The subfolder name (e.g. 'avatar', 'posts'). Leave empty for the root public disk.
+ */
+$cloudDisk = function (string $folder = '') use ($isS3, $s3Credentials) {
+    $suffix = $folder !== '' ? '/' . $folder : '';
+
+    $config = [
+        'driver'     => $isS3 ? 's3' : 'local',
+        'root'       => $isS3 ? $folder : storage_path('app/public' . $suffix),
+        'url'        => $isS3 ? env('AWS_URL') . $suffix : env('APP_URL') . '/storage' . $suffix,
+        'visibility' => 'public',
+    ];
+
+    return $isS3 ? array_merge($config, $s3Credentials) : $config;
+};
+
 return [
 
     /*
@@ -49,41 +88,12 @@ return [
             'root' => storage_path('app'),
         ],
 
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-        ],
-        
-        'temp' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/temp'),
-            'url' => env('APP_URL').'/storage/temp',
-            'visibility' => 'public',
-        ],
-        
-         'avatar' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/avatar'),
-            'url' => env('APP_URL').'/storage/avatar',
-            'visibility' => 'public',
-        ],
-        
-        'posts' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/posts'),
-            'url' => env('APP_URL').'/storage/posts',
-            'visibility' => 'public',
-        ],
-        
-         'ads' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/ads'),
-            'url' => env('APP_URL').'/storage/ads',
-            'visibility' => 'public',
-        ],
-        
+        'public' => $cloudDisk(),
+        'temp'   => $cloudDisk('temp'),
+        'avatar' => $cloudDisk('avatar'),
+        'posts'  => $cloudDisk('posts'),
+        'ads'    => $cloudDisk('ads'),
+
          'do' => [
             'driver' => 's3',
             'key' => 'MDZMWZL3RSAP7EV3FVTP',
@@ -93,16 +103,6 @@ return [
             'url' => 'https://myyanga.fra1.digitaloceanspaces.com',
             'endpoint' => 'https://fra1.digitaloceanspaces.com',
             'visibility' => 'public',
-        ],
-
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
         ],
 
     ],

@@ -23,7 +23,8 @@
         "league/flysystem-sftp": "^1.0",
         "league/mime-type-detection": "^1.7",
         "mtdowling/jmespath.php": "^2.6",
-        "vedmant/laravel-feed-reader": "^1.5"
+        "vedmant/laravel-feed-reader": "^1.5",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
