@@ -1,0 +1,49 @@
+FROM php:7.4-apache
+
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    libonig-dev \
+    zip \
+    unzip \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    && docker-php-ext-install \
+    mysqli \
+    pdo \
+    pdo_mysql \
+    gd \
+    mbstring \
+    zip \
+    exif
+
+RUN a2enmod rewrite
+
+RUN echo "display_errors=On\nerror_reporting=E_ALL" > /usr/local/etc/php/conf.d/errors.ini
+
+WORKDIR /var/www/html
+
+# This tells Apache to serve files from the 'public' directory by default
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Copy application files (Note: docker build context must be the root of the project)
+COPY . /var/www/html/
+
+# Copy the production entrypoint script
+COPY docker/prod/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Run entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
