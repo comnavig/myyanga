@@ -343,10 +343,8 @@ public function index(Request $request)
         }
 		else
 		{
-			$temp = $request->picture->store('public/temp');
-			$path = Storage::disk('public')->putFile('deliverynote',storage_path()."/app/".$temp);
+			$path = $request->picture->store('deliverynote', 'public');
 			$url = Storage::disk('public')->url($path);
-			Storage::delete($temp);
 			
 			$deliverynote = new DeliveryNote;
 			$deliverynote->product_sold_id = $request->product_sold_id;

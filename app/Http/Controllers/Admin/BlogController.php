@@ -91,8 +91,8 @@ class BlogController extends Controller
 			//First Picture width 250px
 			
 			$first_picture = $request->pictures[0];
-            $path = $first_picture->store('/posts', ['disk' => 'posts']);
-            $url = url(Storage::url($path));
+            $path = $first_picture->store('posts', 'public');
+            $url = Storage::disk('public')->url($path);
             
             $new_picture = new PostPicture;
             $new_picture->post_id = $new_post->id;
@@ -331,8 +331,8 @@ class BlogController extends Controller
                 $url = [];
     
                 foreach ($pictures as $index => $picture) {
-                    $path = $picture->store('/posts', ['disk' => 'posts']);
-                    $url[] = url(Storage::url($path));
+                    $path = $picture->store('posts', 'public');
+                    $url[] = Storage::disk('public')->url($path);
 
 
     

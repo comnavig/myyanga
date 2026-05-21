@@ -205,52 +205,31 @@ class DiscoverController extends Controller
         $new_discovers->status = "APPROVED";
         $new_discovers->save();
         
-        //First Picture width 250px
         $first_picture = $request->file('pictures')[0];
-        $temp = $first_picture->store('public/temp');
+        $fileName = time() . '_' . $first_picture->hashName();
         
-        $file_name = last(explode("/", $temp));
-        $temp_path = storage_path('app/' . $temp);
-        $thumb_path = storage_path('app/public/temp/thumb/' . $file_name);
-        
-        Storage::copy($temp, 'public/temp/thumb/' . $file_name);
-        
-        try {
-            $img = Image::make($temp_path);
-            $img->resize(250, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($temp_path, 100);
-        } catch (\Exception $e) {
-            return back()->withErrors(['image_error' => 'Unable to process the image from the given URL.'])->withInput();
-        }
-        
-        $path = Storage::disk('public')->putFile('discovers', $temp_path);
-        $url = Storage::disk('public')->url($path);
-        Storage::delete($temp);
+        // 250px
+        $img250 = Image::make($first_picture->getRealPath());
+        $img250->resize(250, null, function ($constraint) { $constraint->aspectRatio(); });
+        $path250 = 'discovers/250_' . $fileName;
+        Storage::disk('public')->put($path250, (string) $img250->encode());
         
         $new_picture = new DiscoverPicture;
         $new_picture->discover_id = $new_discovers->id;
-        $new_picture->url = $url;
+        $new_picture->url = Storage::disk('public')->url($path250);
         $new_picture->save();
         
-        //Second Picture width 600px
-        $img = Image::make($thumb_path);
-        
-        if ($img->width() > 600) {
-            $img->resize(600, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($thumb_path, 100);
+        // 600px
+        $img600 = Image::make($first_picture->getRealPath());
+        if ($img600->width() > 600) {
+            $img600->resize(600, null, function ($constraint) { $constraint->aspectRatio(); });
         }
-        
-        $path = Storage::disk('public')->putFile('discovers', $thumb_path);
-        $url = Storage::disk('public')->url($path);
-        Storage::delete($thumb_path);
+        $path600 = 'discovers/600_' . $fileName;
+        Storage::disk('public')->put($path600, (string) $img600->encode());
         
         $new_picture = new DiscoverPicture;
         $new_picture->discover_id = $new_discovers->id;
-        $new_picture->url = $url;
+        $new_picture->url = Storage::disk('public')->url($path600);
         $new_picture->save();
         
         session()->flash('message', 'Task was successful!');
@@ -477,49 +456,30 @@ public function update(Request $request)
             $urls = [];
 
             foreach ($request->pictures as $index => $picture) {
-                // Save picture to temp
-                $tempPath = $picture->store('public/temp');
-                $fileName = last(explode("/", $tempPath));
-
-                // Create thumbnail
-                Storage::copy($tempPath, "public/temp/thumb/" . $fileName);
-
-                // Resize and save the image
-                $img = Image::make(storage_path('app/' . $tempPath));
-                $img->resize(250, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $img->save(storage_path('app/' . $tempPath), 100);
-
-                // Move to final destination
-                $finalPath = Storage::disk('public')->putFile('discovers', storage_path('app/' . $tempPath));
-                $url = Storage::disk('public')->url($finalPath);
-                Storage::delete($tempPath);
-
-                // Save to database
+                $fileName = time() . '_' . $picture->hashName();
+                
+                // 250px
+                $img250 = Image::make($picture->getRealPath());
+                $img250->resize(250, null, function ($constraint) { $constraint->aspectRatio(); });
+                $path250 = 'discovers/250_' . $fileName;
+                Storage::disk('public')->put($path250, (string) $img250->encode());
+                
                 $newPicture = new DiscoverPicture();
                 $newPicture->discover_id = $discover->id;
-                $newPicture->url = $url;
+                $newPicture->url = Storage::disk('public')->url($path250);
                 $newPicture->save();
-
-                // Handle larger thumbnail if needed
-                $thumbPath = storage_path('app/public/temp/thumb/' . $fileName);
-                $img = Image::make($thumbPath);
-                if ($img->width() > 600) {
-                    $img->resize(600, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
-                    $img->save($thumbPath, 100);
+                
+                // 600px
+                $img600 = Image::make($picture->getRealPath());
+                if ($img600->width() > 600) {
+                    $img600->resize(600, null, function ($constraint) { $constraint->aspectRatio(); });
                 }
-
-                $finalThumbPath = Storage::disk('public')->putFile('discovers', $thumbPath);
-                $thumbUrl = Storage::disk('public')->url($finalThumbPath);
-                Storage::delete($thumbPath);
-
-                // Save thumbnail to database
+                $path600 = 'discovers/600_' . $fileName;
+                Storage::disk('public')->put($path600, (string) $img600->encode());
+                
                 $newThumbPicture = new DiscoverPicture();
                 $newThumbPicture->discover_id = $discover->id;
-                $newThumbPicture->url = $thumbUrl;
+                $newThumbPicture->url = Storage::disk('public')->url($path600);
                 $newThumbPicture->save();
             }
         }

@@ -224,27 +224,9 @@ class DashboardController extends Controller
 			
 			if (!empty($request->picture) )
 			{
-				$temp = $request->picture->store('public/temp');
-				
-				//~ $file_name = explode("/", $temp);
-				//~ Storage::copy($temp,  "public/temp/thumb/".last($file_name));
-				
-				//~ $image_size = Storage::size($temp);
-				
-				//~ $width = 250;
-				
-				//~ $img = Image::make(url(Storage::url($temp)));
-				
-				//~ $img->resize($width, null, function ($constraint) {
-																							//~ $constraint->aspectRatio();
-																						  //~ });
-				//~ $img->save(storage_path()."/app/".$temp,100);
-				
-				$path = Storage::disk('public')->putFile('avatar',storage_path()."/app/".$temp);
+				$path = $request->picture->store('avatar', 'public');
 				$url = Storage::disk('public')->url($path);
-				Storage::delete($temp);
 				$user ->avatar = $url;
-				
 			}
 			
 			$user ->name = $request->name;

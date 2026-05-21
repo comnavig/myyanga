@@ -93,63 +93,34 @@ class PremiumController extends Controller
 			$new_premia->status = "APPROVED";
 			$new_premia->save();
 			
-			//First Picture width 250px
 			$first_picture = $request->pictures[0];
-			$temp = $first_picture->store('public/temp');
-// 			dd(Storage::exists($temp));
+			$fileName = time() . '_' . $first_picture->hashName();
 			
-			$file_name = explode("/", $temp);
-			Storage::copy($temp,  "public/temp/thumb/".last($file_name));
+			// Create 250px version
+			$img250 = Image::make($first_picture->getRealPath());
+			$img250->resize(250, null, function ($constraint) { $constraint->aspectRatio(); });
+			$path250 = 'premia/250_' . $fileName;
+			Storage::disk('public')->put($path250, (string) $img250->encode());
+			$url250 = Storage::disk('public')->url($path250);
 			
-			$image_size = Storage::size($temp);
-			
-			$width = 250;
-			
-// 			$img = Image::make(url(Storage::url($temp)));
-			
-// 			$img->resize($width, null, function ($constraint) {
-																				// 		$constraint->aspectRatio();
-																				// 	  });
-// 			$img->save(storage_path()."/app/".$temp,100);
-			
-			$path = Storage::disk('public')->putFile('premia',storage_path()."/app/".$temp);
-			$url = Storage::disk('public')->url($path);
-			Storage::delete($temp);
+			// Create 600px version
+			$img600 = Image::make($first_picture->getRealPath());
+			if ($img600->width() > 600) {
+				$img600->resize(600, null, function ($constraint) { $constraint->aspectRatio(); });
+			}
+			$path600 = 'premia/600_' . $fileName;
+			Storage::disk('public')->put($path600, (string) $img600->encode());
+			$url600 = Storage::disk('public')->url($path600);
 			
 			$new_picture = new PremiumPicture;
 			$new_picture->premium_id = $new_premia->id;
-			$new_picture->url = $url;
+			$new_picture->url = $url250;
 			$new_picture->save();
-			
-// 			//Second Picture width 600px
-// 			$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
-			
-// 			if ($img->width() > 600 )
-// 			{
-// 				$width = 600;
-// 				$img->resize($width, null, function ($constraint) {
-// 																						$constraint->aspectRatio();
-// 																					  });
-																					  
-// 				$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
-				
-// 				$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 				$url = Storage::disk('public')->url($path);
-// 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-// 			}
-// 			else
-// 			{
-// 				$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 				$url = Storage::disk('public')->url($path);
-// 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-// 			}
-			
 			
 			$new_picture = new PremiumPicture;
 			$new_picture->premium_id = $new_premia->id;
-			$new_picture->url = $url;
+			$new_picture->url = $url600;
 			$new_picture->save();
-			
 
 			session()->flash('message', 'Task was successful!');
 			return redirect()->route('admin.premia');
@@ -231,52 +202,26 @@ class PremiumController extends Controller
 			//Pictures
 			if (!empty($request->pictures ))
 			{
-				$url = array();
-				
-				//First Picture width 250px
 				$first_picture = $request->pictures[0];
-				$temp = $first_picture->store('public/temp');
+				$fileName = time() . '_' . $first_picture->hashName();
 				
-				$file_name = explode("/", $temp);
-				Storage::copy($temp,  "public/temp/thumb/".last($file_name));
+				// Create 250px version
+				$img250 = Image::make($first_picture->getRealPath());
+				$img250->resize(250, null, function ($constraint) { $constraint->aspectRatio(); });
+				$path250 = 'premia/250_' . $fileName;
+				Storage::disk('public')->put($path250, (string) $img250->encode());
+				$url250 = Storage::disk('public')->url($path250);
 				
-				$image_size = Storage::size($temp);
-				
-				$width = 250;
-				
-				$img = Image::make(url(Storage::url($temp)));
-				
-				$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-				$img->save(storage_path()."/app/".$temp,100);
-				
-				$path = Storage::disk('public')->putFile('premia',storage_path()."/app/".$temp);
-				$url[] = Storage::disk('public')->url($path);
-				Storage::delete($temp);
-				
-				//Second Picture width 600px
-				$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
-				
-				if ($img->width() > 600 )
-				{
-					$width = 600;
-					$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-																						  
-					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
-					
-					$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('public')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+				// Create 600px version
+				$img600 = Image::make($first_picture->getRealPath());
+				if ($img600->width() > 600) {
+					$img600->resize(600, null, function ($constraint) { $constraint->aspectRatio(); });
 				}
-				else
-				{
-					$path = Storage::disk('public')->putFile('premia',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('public')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-				}
+				$path600 = 'premia/600_' . $fileName;
+				Storage::disk('public')->put($path600, (string) $img600->encode());
+				$url600 = Storage::disk('public')->url($path600);
+				
+				$url = [$url250, $url600];
 				
 				$pictures = PremiumPicture::where('premium_id', $request->premium_id)->get();
 				

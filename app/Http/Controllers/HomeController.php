@@ -715,10 +715,8 @@ class HomeController extends Controller
 			$userpyls = $userpyls->last();
 
 			if (empty($userpyls->id)) {
-				$temp = $request->file('photo')->store('public/pyl');
-				$path = Storage::disk('public')->putFile('pyl', storage_path() . "/app/" . $temp);
+				$path = $request->file('photo')->store('pyl', 'public');
 				$photo = Storage::disk('public')->url($path);
-				Storage::delete($temp);
 
 				$userpyl = new UserPostYourLook;
 				$userpyl->photo = $photo;

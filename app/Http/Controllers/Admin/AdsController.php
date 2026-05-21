@@ -63,35 +63,14 @@ class AdsController extends Controller
 			$images = array();
 			
 			//Desktop
-			$temp = $request->file('photo_desktop')->store('public/ads');
-			//~ $image_size = Storage::size($temp);
-			//~ $width = 1200;
-			//~ $img = Image::make(url(Storage::url($temp)));
-			//~ $img->resize($width, null, function ($constraint) {
-																							//~ $constraint->aspectRatio();
-																						  //~ });
-			//~ $img->crop($width, 300, 0,0);
-			//~ $img->save(storage_path()."/app/".$temp, 100);
-			$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+			$path = $request->file('photo_desktop')->store('sda', 'public');
 			$desktop = Storage::disk('public')->url($path);
-			Storage::delete($temp);
 			
 			$images['desktop'] = $desktop;
 			
-			//Moblie
-			
-			$temp = $request->file('photo_mobile')->store('public/ads');
-			//~ $image_size = Storage::size($temp);
-			//~ $width = 300;
-			//~ $img = Image::make(url(Storage::url($temp)));
-			//~ $img->resize($width, null, function ($constraint) {
-																							//~ $constraint->aspectRatio();
-																						  //~ });
-			//~ $img->crop($width, 300, 0,0);
-			//~ $img->save(storage_path()."/app/".$temp, 100);
-			$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+			//Mobile
+			$path = $request->file('photo_mobile')->store('sda', 'public');
 			$mobile = Storage::disk('public')->url($path);
-			Storage::delete($temp);
 			
 			$images['mobile'] = $mobile;
 			
@@ -135,18 +114,8 @@ class AdsController extends Controller
 			//Desktop
 			if (!empty($request->file('photo_desktop')))
 			{
-				$temp = $request->file('photo_desktop')->store('public/ads');
-				//~ $image_size = Storage::size($temp);
-				//~ $width = 1200;
-				//~ $img = Image::make(url(Storage::url($temp)));
-				//~ $img->resize($width, null, function ($constraint) {
-																								//~ $constraint->aspectRatio();
-																							  //~ });
-				//~ $img->crop($width, 300, 0,0);
-				//~ $img->save(storage_path()."/app/".$temp, 100);
-				$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+				$path = $request->file('photo_desktop')->store('sda', 'public');
 				$desktop = Storage::disk('public')->url($path);
-				Storage::delete($temp);
 				
 				$images['desktop'] = $desktop;
 			}
@@ -159,18 +128,8 @@ class AdsController extends Controller
 			//Mobile
 			if (!empty($request->file('photo_mobile')))
 			{
-				$temp = $request->file('photo_mobile')->store('public/ads');
-				//~ $image_size = Storage::size($temp);
-				//~ $width = 300;
-				//~ $img = Image::make(url(Storage::url($temp)));
-				//~ $img->resize($width, null, function ($constraint) {
-																								//~ $constraint->aspectRatio();
-																							  //~ });
-				//~ $img->crop($width, 300, 0,0);
-				//~ $img->save(storage_path()."/app/".$temp, 100);
-				$path = Storage::disk('public')->putFile('sda',storage_path()."/app/".$temp);
+				$path = $request->file('photo_mobile')->store('sda', 'public');
 				$mobile = Storage::disk('public')->url($path);
-				Storage::delete($temp);
 				
 				$images['mobile'] = $mobile;
 			}

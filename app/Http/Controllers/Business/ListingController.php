@@ -258,22 +258,8 @@ class ListingController extends Controller
 				$remove_old = explode('/', $new_listing->logo);
 				Storage::disk('public')->delete('logo/'.last($remove_old));
 							
-				$temp = $request->file('logo')->store('public/temp');
-				dd($temp);
-				$image_size = Storage::size($temp);
-				
-				$width = 200;
-				
-				$img = Image::make(url(Storage::url($temp)));
-				
-				$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-				$img->save(storage_path()."/app/".$temp, 100);
-				
-				$path = Storage::disk('public')->putFile('logo',storage_path()."/app/".$temp);
+				$path = $request->file('logo')->store('logo', 'public');
 				$url = Storage::disk('public')->url($path);
-				Storage::delete($temp);
 				
 				$new_listing->logo = $url;
 			}
@@ -734,52 +720,31 @@ class ListingController extends Controller
 			{
 				$url = array();
 				
-				dd($request->pictures[0]);
-				
-				//First Picture width 250px
 				$first_picture = $request->pictures[0];
-				$temp = $first_picture->store('public');
+				$first_picture = $request->pictures[0];
+				$fileName = time() . '_' . $first_picture->hashName();
 				
-				$file_name = explode("/", $temp);
-				Storage::copy($temp,  "public/temp/thumb/".last($file_name));
+				// Create 250px version
+				$img250 = Image::make($first_picture->getRealPath());
+				$img250->resize(250, null, function ($constraint) {
+					$constraint->aspectRatio();
+				});
+				$path250 = 'products/250_' . $fileName;
+				Storage::disk('public')->put($path250, (string) $img250->encode());
+				$url250 = Storage::disk('public')->url($path250);
 				
-				$image_size = Storage::size($temp);
-				
-				$width = 250;
-				
-				$img = Image::make(url(Storage::url($temp)));
-				
-				$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-				$img->save(storage_path()."/app/".$temp,100);
-				
-				$path = Storage::disk('public')->putFile('products',storage_path()."/app/".$temp);
-				$url[] = Storage::disk('public')->url($path);
-				Storage::delete($temp);
-				
-				//Second Picture width 600px
-				$img = Image::make(url(Storage::url("public/temp/thumb/".last($file_name))));
-				
-				if ($img->width() > 600 )
-				{
-					$width = 600;
-					$img->resize($width, null, function ($constraint) {
-																							$constraint->aspectRatio();
-																						  });
-																						  
-					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
-					
-					$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('public')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
+				// Create 600px version
+				$img600 = Image::make($first_picture->getRealPath());
+				if ($img600->width() > 600) {
+					$img600->resize(600, null, function ($constraint) {
+						$constraint->aspectRatio();
+					});
 				}
-				else
-				{
-					$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-					$url[] = Storage::disk('public')->url($path);
-					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
-				}
+				$path600 = 'products/600_' . $fileName;
+				Storage::disk('public')->put($path600, (string) $img600->encode());
+				$url600 = Storage::disk('public')->url($path600);
+				
+				$url = [$url250, $url600];
 				
 				$pictures = ProductPicture::where('product_id', $request->product_id)->get();
 				
