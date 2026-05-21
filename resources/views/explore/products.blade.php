@@ -16,7 +16,7 @@
 			<div class="product-item py-5" style="padding-bottom: 30px">
 				<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug] )}}">
 					<div class="img" >
-						<img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]->url) }}" width="100%" />
+						<img src="{{$product->picture[0]->url }}" width="100%" />
 					</div>
 					{{ ( strlen($product->name) > 20 ? substr($product->name, 0, 15)."..." : $product->name ) }}
 				</a>

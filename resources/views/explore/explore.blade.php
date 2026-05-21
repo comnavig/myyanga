@@ -93,7 +93,7 @@
                         <div>
                             <a href="{{ $ad['url'] }}">
                                 <img class="d-none d-sm-none d-lg-block"
-                                    src="{{ str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $photo['desktop']) }}"
+                                    src="{{ $photo['desktop'] }}"
                                     alt="{{ $ad['name'] }}" />
                                 <img class="d-block d-sm-block d-lg-none" src="{{ $photo['mobile'] }}"
                                     alt="{{ $ad['name'] }}" width="300px" />

@@ -40,10 +40,10 @@
 				@foreach($products as $product)
 					<tr>
 						<td>
-							{{--<div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]['url'])}}"  width="100%"/></div>--}}
+							{{--<div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{$product->picture[0]['url']}}"  width="100%"/></div>--}}
 							<div style="width: 100px; height: 100px; overflow: hidden;">
                                 @if(isset($product->picture[0]['url']))
-                                    <img src="{{ str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]['url']) }}" width="100%" />
+                                    <img src="{{ $product->picture[0]['url'] }}" width="100%" />
                                 @else
                                     <!-- Handle the case where the array or index doesn't exist -->
                                     <p>No image available</p>
@@ -86,7 +86,7 @@
 									<div class="carousel-inner">
 										@for ($i = 0; $i < $product->picture->count(); $i++)
 										<div class="carousel-item {{ ($i == 1 ? 'active' : '') }}">
-											<img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[$i]->url)}}" class="d-block w-100" alt="" />
+											<img src="{{$product->picture[$i]->url}}" class="d-block w-100" alt="" />
 										</div>
 										@endfor
 									</div>

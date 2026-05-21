@@ -112,7 +112,7 @@
 						{{--@if ($date_entered > $today_date ) --}}
 							<a class="link" href="{{route('featured.product', ['cat' =>$category->id, 'id' =>$featured->product->id] )}}">
 								<div class="img">
-									<img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $featured->product->picture[0]->url) }}" width="100%" />
+									<img src="{{$featured->product->picture[0]->url }}" width="100%" />
 								</div>
 								<br>
 								<b style="color: #000000;"> {{ ( strlen($featured->product->name) > 20 ? substr($featured->product->name, 0, 15)."..." : $featured->product->name ) }} </b>https://myyanga.com/home
@@ -197,7 +197,7 @@
 		<!--
 									<img src="{{$featured->product->picture[1]->url }}" class="d-block w-100" alt="...">
 		-->
-		                            <div style="background-size: contain; background-position: top; !important; height:100%; background-image: url('{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $featured->product->picture[0]->url) }}');">
+		                            <div style="background-size: contain; background-position: top; !important; height:100%; background-image: url('{{$featured->product->picture[0]->url }}');">
 									    <div class="col-12 desc clear-black-bg">
 										    <h5 class="gold font-weight-bold">{{$category->name}} </h5>
 										    <a class="white link font-weight-bolder" href="{{route('featured.product', ['cat' =>$category->id, 'id' =>$featured->product->id] )}}">{{ ( strlen($featured->product->name) > 20 ? substr($featured->product->name, 0, 15)."..." : $featured->product->name ) }}</a>

@@ -10,7 +10,7 @@
        <div class="card product-card shadow-sm mb-4">
             <a href="{{ route('shop.product', ['id' => $product->id]) }}" class="text-decoration-none text-dark">
                 @if(isset($product->picture[0]))
-                    <img src="{{ str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $product->picture[0]->url) }}" class="card-img-top" alt="{{ $product->name }}">
+                    <img src="{{ $product->picture[0]->url }}" class="card-img-top" alt="{{ $product->name }}">
                 @else
                     <img src="/path/to/default/image.jpg" class="card-img-top" alt="{{ $product->name }}">
                 @endif

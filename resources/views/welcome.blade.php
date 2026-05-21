@@ -24,7 +24,7 @@
 				$today_date = date_create('now');
 			@endphp
 			{{--@if ($date_entered > $today_date ) --}}
-            <img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $featured->product->picture[0]->url) }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" loading="lazy">
+            <img src="{{$featured->product->picture[0]->url }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" loading="lazy">
             <div class="row pt-3 mx-3 img-text">
                 <div class="col">
                     <h6 onclick="location.href='{{route('pages', ['slug' =>$featured->product->listing->slug] )}}">{{strtoupper($featured->product->listing->name) }}</h6>

@@ -8,12 +8,12 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card img-fluid">
-                    <img class="card-img-top" src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $post->picture[0]->url) }}" alt="{{$post->name}}" style="width:100%; height:auto">
+                    <img class="card-img-top" src="{{$post->picture[0]->url }}" alt="{{$post->name}}" style="width:100%; height:auto">
                 </div>
                 
                 <!--@if(isset($post->picture[0]))-->
                 <!--    <div class="card img-fluid">-->
-                <!--        <img class="card-img-top" src="{{ str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $post->picture[0]->url) }}" alt="{{$post->name}}" style="width:100%; height:auto">-->
+                <!--        <img class="card-img-top" src="{{ $post->picture[0]->url }}" alt="{{$post->name}}" style="width:100%; height:auto">-->
                 <!--    </div>-->
                 <!--@endif-->
 
@@ -45,7 +45,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="card">
                                 <a href="{{route('blog.post', ['slug' => $relatedPost->slug])}}" class="text-decoration-none">
-                                    <img class="card-img-top" src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $relatedPost->picture[0]->url) }}" alt="{{ $relatedPost->name }}">
+                                    <img class="card-img-top" src="{{$relatedPost->picture[0]->url }}" alt="{{ $relatedPost->name }}">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ ( strlen($relatedPost->name) > 20 ? substr($relatedPost->name, 0, 15) . "..." : $relatedPost->name ) }}</h5>
                                     </div>
@@ -59,7 +59,7 @@
                     <!--        <div class="card">-->
                     <!--            <a href="{{route('blog.post', ['slug' => $relatedPost->slug])}}" class="text-decoration-none">-->
                     <!--                @if(isset($relatedPost->picture[0]))-->
-                    <!--                    <img class="card-img-top" src="{{ str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $relatedPost->picture[0]->url) }}" alt="{{ $relatedPost->name }}">-->
+                    <!--                    <img class="card-img-top" src="{{ $relatedPost->picture[0]->url }}" alt="{{ $relatedPost->name }}">-->
                     <!--                @endif-->
                     <!--                <div class="card-body">-->
                     <!--                    <h5 class="card-title">{{ ( strlen($relatedPost->name) > 20 ? substr($relatedPost->name, 0, 15) . "..." : $relatedPost->name ) }}</h5>-->

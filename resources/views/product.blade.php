@@ -12,7 +12,7 @@
 			<div class="col-lg-7 col-md-12 col-sm-12">
 				<div class="product-image black-bg">
 					@for ($i = 1; $i < count($product[0]['picture']); $i++)
-						<img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product[0]['picture'][$i]['url']) }}" class="d-block m-auto" alt="{{$product[0]['name']}}">
+						<img src="{{$product[0]['picture'][$i]['url'] }}" class="d-block m-auto" alt="{{$product[0]['name']}}">
 					@endfor
 				</div>
 				
@@ -36,7 +36,7 @@
 						<div class="product-item">
 							<a class="link" href="{{route('brand.product', ['slug' =>$product->listing->slug, 'product_slug' =>$product->slug] )}}">
 								<div class="img">
-									<img src="{{ str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $product->picture[0]->url) }}" width="100%" />
+									<img src="{{ $product->picture[0]->url }}" width="100%" />
 								</div>
 								{{ ( strlen($product->name) > 20 ? substr($product->name, 0, 15)."..." : $product->name ) }}
 							</a>

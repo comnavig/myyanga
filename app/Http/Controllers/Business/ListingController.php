@@ -114,7 +114,7 @@ class ListingController extends Controller
 				// $img->save(storage_path()."/app/".$temp, 100);
 				
 				// $path = Storage::disk('public')->putFile('logo',storage_path()."/app/".$temp);
-				// $url = Storage::disk('public')->url($path);
+				// $url = \App\Helpers\StorageHelper::getUrl('public', $path);
 				// Storage::delete($temp);
 				
 				
@@ -514,9 +514,9 @@ class ListingController extends Controller
 				$url = $temp;
 				// die;
 				
-				// $img = Image::make(Storage::disk('public')->url($temp));
+				// $img = Image::make(\App\Helpers\StorageHelper::getUrl('public', $temp));
 				// var_dump($temp);
-				// $image = \Intervention\Image\Facades\Image::make(Storage::disk('public')->url($temp));
+				// $image = \Intervention\Image\Facades\Image::make(\App\Helpers\StorageHelper::getUrl('public', $temp));
 				// ddd($img);
 				
 				// $img->resize($width, null, function ($constraint) {
@@ -525,7 +525,7 @@ class ListingController extends Controller
 				// $img->save(storage_path()."/app/public/temp/".$real_file_name,100);
 				
 				// $path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/".$real_file_name);
-				// $url = Storage::disk('public')->url($path);
+				// $url = \App\Helpers\StorageHelper::getUrl('public', $path);
 				// Storage::disk('public')->delete($temp);
 				
 				$new_picture = new ProductPicture;
@@ -534,7 +534,7 @@ class ListingController extends Controller
 				$new_picture->save();
 				
 				//Second Picture width 600px
-				// $img = Image::make(Storage::disk('public')->url("public/temp/thumb/".last($file_name)));
+				// $img = Image::make(\App\Helpers\StorageHelper::getUrl('public', "public/temp/thumb/".last($file_name)));
 				
 				// if ($img->width() > 600 )
 				// {
@@ -546,7 +546,7 @@ class ListingController extends Controller
 				// 	$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
 				// 	$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-				// 	$url = Storage::disk('public')->url($path);
+				// 	$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 				// 	Storage::disk('public')->delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 				// }
 				// else
@@ -554,7 +554,7 @@ class ListingController extends Controller
 				// 	$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
 				// 	$path = Storage::disk('public')->putFile('products',storage_path()."/app/public/temp/thumb/".last($file_name));
-				// 	$url = Storage::disk('public')->url($path);
+				// 	$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 				// 	Storage::disk('public')->delete(storage_path()."public/temp/thumb/".last($file_name));
 				// }
 				

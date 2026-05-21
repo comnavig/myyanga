@@ -64,13 +64,13 @@ class AdsController extends Controller
 			
 			//Desktop
 			$path = $request->file('photo_desktop')->store('sda', 'public');
-			$desktop = Storage::disk('public')->url($path);
+			$desktop = \App\Helpers\StorageHelper::getUrl('public', $path);
 			
 			$images['desktop'] = $desktop;
 			
 			//Mobile
 			$path = $request->file('photo_mobile')->store('sda', 'public');
-			$mobile = Storage::disk('public')->url($path);
+			$mobile = \App\Helpers\StorageHelper::getUrl('public', $path);
 			
 			$images['mobile'] = $mobile;
 			
@@ -115,7 +115,7 @@ class AdsController extends Controller
 			if (!empty($request->file('photo_desktop')))
 			{
 				$path = $request->file('photo_desktop')->store('sda', 'public');
-				$desktop = Storage::disk('public')->url($path);
+				$desktop = \App\Helpers\StorageHelper::getUrl('public', $path);
 				
 				$images['desktop'] = $desktop;
 			}
@@ -129,7 +129,7 @@ class AdsController extends Controller
 			if (!empty($request->file('photo_mobile')))
 			{
 				$path = $request->file('photo_mobile')->store('sda', 'public');
-				$mobile = Storage::disk('public')->url($path);
+				$mobile = \App\Helpers\StorageHelper::getUrl('public', $path);
 				
 				$images['mobile'] = $mobile;
 			}

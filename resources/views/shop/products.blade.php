@@ -11,7 +11,7 @@
             <a href="{{route('shop.product', ['id' =>$product->id] )}}" class="text-decoration-none text-dark" onClick="product(${e.id})">
             <!--<img src="{{$product->picture[0]->url }}">-->
             <img 
-                                src="{{ str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $product->picture[0]['url']) }}" 
+                                src="{{ $product->picture[0]['url'] }}" 
                                 width="100%" 
                                 alt="Product Image"
                             />

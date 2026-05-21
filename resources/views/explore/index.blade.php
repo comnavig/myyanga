@@ -86,10 +86,10 @@
                                 <div class="item">
                                     <a href="{{ $ad['url'] }}">
                                         <img class="d-none d-lg-block img-fluid"
-                                            src="{{ str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $photo['desktop']) }}"
+                                            src="{{ $photo['desktop'] }}"
                                             alt="{{ $ad['name'] }}" />
                                         <img class="d-block d-lg-none img-fluid"
-                                            src="{{ str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $photo['mobile']) }}"
+                                            src="{{ $photo['mobile'] }}"
                                             alt="{{ $ad['name'] }}" />
                                     </a>
                                 </div>

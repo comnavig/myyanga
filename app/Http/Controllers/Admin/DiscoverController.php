@@ -111,7 +111,7 @@ class DiscoverController extends Controller
 // 			$img->save(storage_path()."/app/".$temp,100);
 			
 // 			$path = Storage::disk('public')->putFile('discovers',storage_path()."/app/".$temp);
-// 			$url = Storage::disk('public')->url($path);
+// 			$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 			Storage::delete($temp);
 			
 // 			$new_picture = new DiscoverPicture;
@@ -132,13 +132,13 @@ class DiscoverController extends Controller
 // 				$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 				
 // 				$path = Storage::disk('public')->putFile('discovers',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 				$url = Storage::disk('public')->url($path);
+// 				$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 // 			}
 // 			else
 // 			{
 // 				$path = Storage::disk('public')->putFile('discovers',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 				$url = Storage::disk('public')->url($path);
+// 				$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 // 			}
 			
@@ -216,7 +216,7 @@ class DiscoverController extends Controller
         
         $new_picture = new DiscoverPicture;
         $new_picture->discover_id = $new_discovers->id;
-        $new_picture->url = Storage::disk('public')->url($path250);
+        $new_picture->url = \App\Helpers\StorageHelper::getUrl('public', $path250);
         $new_picture->save();
         
         // 600px
@@ -229,7 +229,7 @@ class DiscoverController extends Controller
         
         $new_picture = new DiscoverPicture;
         $new_picture->discover_id = $new_discovers->id;
-        $new_picture->url = Storage::disk('public')->url($path600);
+        $new_picture->url = \App\Helpers\StorageHelper::getUrl('public', $path600);
         $new_picture->save();
         
         session()->flash('message', 'Task was successful!');
@@ -332,7 +332,7 @@ class DiscoverController extends Controller
 //                 $img->save(storage_path('app/' . $temp), 100);
 
 //                 $path = Storage::disk('public')->putFile('discovers', storage_path('app/' . $temp));
-//                 $url[] = Storage::disk('public')->url($path);
+//                 $url[] = \App\Helpers\StorageHelper::getUrl('public', $path);
 //                 Storage::delete($temp);
 //             } catch (\Exception $e) {
 //                 // Log::error("Error processing image: " . $e->getMessage());
@@ -354,11 +354,11 @@ class DiscoverController extends Controller
 //                     $img->save(storage_path('app/public/temp/thumb/' . last($file_name)), 100);
 
 //                     $path = Storage::disk('public')->putFile('discovers', storage_path('app/public/temp/thumb/' . last($file_name)));
-//                     $url[] = Storage::disk('public')->url($path);
+//                     $url[] = \App\Helpers\StorageHelper::getUrl('public', $path);
 //                     Storage::delete(storage_path('app/public/temp/thumb/' . last($file_name)));
 //                 } else {
 //                     $path = Storage::disk('public')->putFile('discovers', storage_path('app/public/temp/thumb/' . last($file_name)));
-//                     $url[] = Storage::disk('public')->url($path);
+//                     $url[] = \App\Helpers\StorageHelper::getUrl('public', $path);
 //                     Storage::delete(storage_path('app/public/temp/thumb/' . last($file_name)));
 //                 }
 //             } catch (\Exception $e) {
@@ -466,7 +466,7 @@ public function update(Request $request)
                 
                 $newPicture = new DiscoverPicture();
                 $newPicture->discover_id = $discover->id;
-                $newPicture->url = Storage::disk('public')->url($path250);
+                $newPicture->url = \App\Helpers\StorageHelper::getUrl('public', $path250);
                 $newPicture->save();
                 
                 // 600px
@@ -479,7 +479,7 @@ public function update(Request $request)
                 
                 $newThumbPicture = new DiscoverPicture();
                 $newThumbPicture->discover_id = $discover->id;
-                $newThumbPicture->url = Storage::disk('public')->url($path600);
+                $newThumbPicture->url = \App\Helpers\StorageHelper::getUrl('public', $path600);
                 $newThumbPicture->save();
             }
         }

@@ -83,7 +83,7 @@
                         <div style="width: 100px; height: 100px; overflow: hidden;">
                             @if(isset($product->picture[0]['url']))
                                 <img 
-                                    src="{{ str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $product->picture[0]['url']) }}" 
+                                    src="{{ $product->picture[0]['url'] }}" 
                                     width="100%" 
                                     alt="Product Image"
                                 />

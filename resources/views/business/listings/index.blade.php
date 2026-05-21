@@ -29,7 +29,7 @@
 				<tbody>
 				@foreach($listings as $listing)
 				<tr>
-					<td><div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $listing->logo)}}"  width="100%"/></div></td>
+					<td><div style="width: 100px; height: 100px; overflow: hidden;"><img src="{{$listing->logo}}"  width="100%"/></div></td>
 					<td>
 						{{$listing->name}}
 						<br/><a class="btn-sm btn-link blue p-0" target="_blank" href="{{ route('pages', ['slug' => $listing->slug]) }}">{{url($listing->slug) }}</a>

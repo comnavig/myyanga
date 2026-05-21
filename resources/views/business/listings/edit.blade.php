@@ -19,7 +19,7 @@
 						<label for="logo">
 							Logo<br/>
 							<div style="width: 250px; height: 250px; overflow: hidden; padding: 20px;">
-								<img id="logo" src="{{str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $listing->logo)}}" width="100%" />
+								<img id="logo" src="{{$listing->logo}}" width="100%" />
 							</div>
 						</label>
 						<input type="file" name="logo" class="form-control" id="logo" accept="image/jpeg, image/png" onchange="loadFile(event, 'logo')" aria-describedby="logoHelp" />

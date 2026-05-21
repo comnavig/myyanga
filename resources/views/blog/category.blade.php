@@ -10,7 +10,7 @@
            <div class="col-md-4 my-5 blog-card">
                 <a href="{{route('blog.post', ['slug' =>$post->slug])}}" class="text-decoration-none text-dark" onClick="setPost(${e.id})">
                 <div class="blog-img-wrapper">
-                    <img src="{{ str_replace("https://myyanga.fra1.digitaloceanspaces.com/", "https://myyanga.com/storage/", $post->picture[0]->url) }}" width="100%">
+                    <img src="{{ $post->picture[0]->url }}" width="100%">
                 </div>
                 <div class="my-3">
                     <h5 class="blog-title">{{ ( strlen($post->name) > 20 ? substr($post->name, 0, 15)."..." : $post->name ) }}</h5>

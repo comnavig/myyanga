@@ -82,6 +82,6 @@ class User extends Authenticatable
         if (\Illuminate\Support\Str::startsWith($value, ['http://', 'https://'])) {
             return $value;
         }
-        return \Illuminate\Support\Facades\Storage::disk('public')->url($value);
+        return \App\Helpers\StorageHelper::getUrl('public', $value);
     }
 }

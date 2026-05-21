@@ -92,7 +92,7 @@ class BlogController extends Controller
 			
 			$first_picture = $request->pictures[0];
             $path = $first_picture->store('posts', 'public');
-            $url = Storage::disk('public')->url($path);
+            $url = \App\Helpers\StorageHelper::getUrl('public', $path);
             
             $new_picture = new PostPicture;
             $new_picture->post_id = $new_post->id;
@@ -121,7 +121,7 @@ class BlogController extends Controller
 // 			$img->save(storage_path()."/app/".$temp,100);
 			
 // 			$path = Storage::disk('public')->putFile('posts',storage_path()."/app/".$temp);
-// 			$url = Storage::disk('public')->url($path);
+// 			$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 			Storage::delete($temp);
 			
 // 			$new_picture = new PostPicture;
@@ -142,13 +142,13 @@ class BlogController extends Controller
 // 				$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 				
 // 				$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 				$url = Storage::disk('public')->url($path);
+// 				$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 // 			}
 // 			else
 // 			{
 // 				$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 				$url = Storage::disk('public')->url($path);
+// 				$url = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 				Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 // 			}
 			
@@ -262,7 +262,7 @@ class BlogController extends Controller
 // 				$img->save(storage_path()."/app/".$temp,100);
 				
 // 				$path = Storage::disk('public')->putFile('posts',storage_path()."/app/".$temp);
-// 				$url[] = Storage::disk('public')->url($path);
+// 				$url[] = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 				Storage::delete($temp);
 				
 // 				//Second Picture width 600px
@@ -278,13 +278,13 @@ class BlogController extends Controller
 // 					$img->save(storage_path()."/app/public/temp/thumb/".last($file_name), 100);
 					
 // 					$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 					$url[] = Storage::disk('public')->url($path);
+// 					$url[] = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 // 				}
 // 				else
 // 				{
 // 					$path = Storage::disk('public')->putFile('posts',storage_path()."/app/public/temp/thumb/".last($file_name));
-// 					$url[] = Storage::disk('public')->url($path);
+// 					$url[] = \App\Helpers\StorageHelper::getUrl('public', $path);
 // 					Storage::delete(storage_path()."/app/public/temp/thumb/".last($file_name));
 // 				}
 				
@@ -332,7 +332,7 @@ class BlogController extends Controller
     
                 foreach ($pictures as $index => $picture) {
                     $path = $picture->store('posts', 'public');
-                    $url[] = Storage::disk('public')->url($path);
+                    $url[] = \App\Helpers\StorageHelper::getUrl('public', $path);
 
 
     

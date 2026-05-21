@@ -13,7 +13,7 @@
           <div class="card h-100">
             <a href="{{route('blog.post', ['slug' => $post->slug])}}" class="text-decoration-none text-dark">
               <div class="blog-img-wrapper">
-                <img src="{{str_replace('https://myyanga.fra1.digitaloceanspaces.com/', 'https://myyanga.com/storage/', $post->picture[0]->url)}}" class="card-img-top" alt="{{ $post->name }}">
+                <img src="{{$post->picture[0]->url}}" class="card-img-top" alt="{{ $post->name }}">
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ (strlen($post->name) > 20 ? substr($post->name, 0, 25) . "..." : $post->name) }}</h5>
