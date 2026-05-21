@@ -119,8 +119,7 @@ class ListingController extends Controller
 				
 				
 				$new_listing = new Listing;
-				// $new_listing->logo = $url;
-				$new_listing->logo = $siteUrl . '/storage/' .$logoPath;
+				$new_listing->logo = $logoPath;
 				$new_listing->name = $request->name;
 				$new_listing->slug = $this->slug_format($request->slug);
 				$new_listing->description = $request->description;
@@ -254,14 +253,14 @@ class ListingController extends Controller
 			$new_listing = Listing::find($request->listing_id);
 			if (!empty($request->logo))
 			{
-			    
-				$remove_old = explode('/', $new_listing->logo);
-				Storage::disk('public')->delete('logo/'.last($remove_old));
+				$oldPath = $new_listing->getRawOriginal('logo');
+				if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+					$oldPath = 'logo/' . last(explode('/', $oldPath));
+				}
+				Storage::disk('public')->delete($oldPath);
 							
 				$path = $request->file('logo')->store('logo', 'public');
-				$url = Storage::disk('public')->url($path);
-				
-				$new_listing->logo = $url;
+				$new_listing->logo = $path;
 			}
 			
 			$new_listing->name = $request->name;
@@ -512,7 +511,7 @@ class ListingController extends Controller
 				
 				$width = 250;
 				
-				$url = (Storage::disk('public')->url($temp));
+				$url = $temp;
 				// die;
 				
 				// $img = Image::make(Storage::disk('public')->url($temp));
@@ -731,7 +730,7 @@ class ListingController extends Controller
 				});
 				$path250 = 'products/250_' . $fileName;
 				Storage::disk('public')->put($path250, (string) $img250->encode());
-				$url250 = Storage::disk('public')->url($path250);
+				$url250 = $path250;
 				
 				// Create 600px version
 				$img600 = Image::make($first_picture->getRealPath());
@@ -742,7 +741,7 @@ class ListingController extends Controller
 				}
 				$path600 = 'products/600_' . $fileName;
 				Storage::disk('public')->put($path600, (string) $img600->encode());
-				$url600 = Storage::disk('public')->url($path600);
+				$url600 = $path600;
 				
 				$url = [$url250, $url600];
 				
@@ -757,21 +756,11 @@ class ListingController extends Controller
 					{
 						if (!empty($pic->id))
 						{
-							$remove_old = explode('/', $pic->url);
-							
-							Storage::disk('public')->delete('products/'.last($remove_old));
-							
-							$pic->url = $url[$i];
-							$pic->save();
-						}
-					}
-					else
-					{
-						if (!empty($pic->id))
-						{
-							$remove_old = explode('/', $pic->url);
-							
-							Storage::disk('public')->delete('products/'.last($remove_old));
+							$oldPath = $pic->getRawOriginal('url');
+							if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+								$oldPath = 'products/' . last(explode('/', $oldPath));
+							}
+							Storage::disk('public')->delete($oldPath);
 							
 							$pic->url = $url[$i];
 							$pic->save();
@@ -853,11 +842,12 @@ class ListingController extends Controller
 					
 					if (!empty($pic->id))
 					{
-						$remove_old = explode('/', $pic->url);
-						
-				// 		Storage::disk('public')->delete('products/'.last($remove_old));
-						
-				// 		$pic->delete();
+						$oldPath = $pic->getRawOriginal('url');
+						if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+							$oldPath = 'products/' . last(explode('/', $oldPath));
+						}
+						// Storage::disk('public')->delete($oldPath);
+						// $pic->delete();
 					}
 				}
 					

@@ -716,10 +716,9 @@ class HomeController extends Controller
 
 			if (empty($userpyls->id)) {
 				$path = $request->file('photo')->store('pyl', 'public');
-				$photo = Storage::disk('public')->url($path);
 
 				$userpyl = new UserPostYourLook;
-				$userpyl->photo = $photo;
+				$userpyl->photo = $path;
 				$userpyl->post_your_look_id = $request->pyl_id;
 				$userpyl->user_id = $user_id;
 				$userpyl->status = "PENDING";

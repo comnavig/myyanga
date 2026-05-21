@@ -21,4 +21,13 @@ class UserPostYourLook extends Model
 	{
 		return $this->belongsTo('App\PostYourLook', 'post_your_look_id');
 	}
+
+    public function getPhotoAttribute($value)
+    {
+        if (!$value) return null;
+        if (\Illuminate\Support\Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($value);
+    }
 }

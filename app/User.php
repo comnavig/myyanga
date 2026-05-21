@@ -75,4 +75,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\NotificationData');
     }
+
+    public function getAvatarAttribute($value)
+    {
+        if (!$value) return null;
+        if (\Illuminate\Support\Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($value);
+    }
 }

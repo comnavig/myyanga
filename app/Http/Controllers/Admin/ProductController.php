@@ -162,9 +162,12 @@ class ProductController extends Controller
 					
 					if (!empty($pic->id))
 					{
-						$remove_old = explode('/', $pic->url);
+						$oldPath = $pic->getRawOriginal('url');
+						if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+							$oldPath = 'products/' . last(explode('/', $oldPath));
+						}
 						
-				// 		Storage::disk('do')->delete('products/'.last($remove_old));
+				// 		Storage::disk('do')->delete($oldPath);
 						
 				// 		$pic->delete();
 					}

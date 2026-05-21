@@ -119,9 +119,11 @@ class ListingController extends Controller
 									
 									if (!empty($pic->id))
 									{
-										$remove_old = explode('/', $pic->url);
-										
-										Storage::disk('do')->delete('products/'.last($remove_old));
+										$oldPath = $pic->getRawOriginal('url');
+										if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+											$oldPath = 'products/' . last(explode('/', $oldPath));
+										}
+										Storage::disk('do')->delete($oldPath);
 										
 										$pic->delete();
 									}
@@ -142,10 +144,11 @@ class ListingController extends Controller
 					
 					if (!empty($listing->logo))
 					{
-						$remove_old = explode('/', $listing->logo);
-						
-						Storage::disk('do')->delete('logo/'.last($remove_old));
-						
+						$oldPath = $listing->getRawOriginal('logo');
+						if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+							$oldPath = 'logo/' . last(explode('/', $oldPath));
+						}
+						Storage::disk('do')->delete($oldPath);
 					}
 					
 					$listing->delete();
@@ -272,35 +275,21 @@ class ListingController extends Controller
 			$new_listing = Listing::find($request->listing_id);
 			if (!empty($request->logo))
 			{
-			    $siteUrl = config('app.url'); 
-				$remove_old = explode('/', $new_listing->logo);
-				Storage::disk('public')->delete('logo/'.last($remove_old));
+				$oldPath = $new_listing->getRawOriginal('logo');
+				if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+					$oldPath = 'logo/' . last(explode('/', $oldPath));
+				}
+				Storage::disk('public')->delete($oldPath);
 							
-				// $temp = $request->file('logo')->store('public/temp');
-				// $image_size = Storage::size($temp);
-				
 				$width = 200;
 				
 				$temp = $request->file('logo')->store('public/temp');
-				// Handle file uploads (logo and pictures)
                 $logoPath = $request->file('logo')->store('logo', 'public');
                 
                 $imageName = basename($temp);
 				$image_size = Storage::size($temp);
 				
-				// $img = Image::make(url(Storage::url($temp)));
-				
-				// $img->resize($width, null, function ($constraint) {
-																				// 			$constraint->aspectRatio();
-																						  //});
-				// $img->save(storage_path()."/app/".$temp, 100);
-				
-				// $path = Storage::disk('public')->putFile('logo',storage_path()."/app/".$temp);
-				// $url = Storage::disk('public')->url($path);
-				// Storage::delete($temp);
-				
-				// $new_listing->logo = $url;
-				$new_listing->logo = $siteUrl . '/storage/' .$logoPath;
+				$new_listing->logo = $logoPath;
 				
 			}
 			

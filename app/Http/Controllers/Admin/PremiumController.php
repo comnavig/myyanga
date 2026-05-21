@@ -101,7 +101,7 @@ class PremiumController extends Controller
 			$img250->resize(250, null, function ($constraint) { $constraint->aspectRatio(); });
 			$path250 = 'premia/250_' . $fileName;
 			Storage::disk('public')->put($path250, (string) $img250->encode());
-			$url250 = Storage::disk('public')->url($path250);
+			$url250 = $path250;
 			
 			// Create 600px version
 			$img600 = Image::make($first_picture->getRealPath());
@@ -110,7 +110,7 @@ class PremiumController extends Controller
 			}
 			$path600 = 'premia/600_' . $fileName;
 			Storage::disk('public')->put($path600, (string) $img600->encode());
-			$url600 = Storage::disk('public')->url($path600);
+			$url600 = $path600;
 			
 			$new_picture = new PremiumPicture;
 			$new_picture->premium_id = $new_premia->id;
@@ -210,7 +210,7 @@ class PremiumController extends Controller
 				$img250->resize(250, null, function ($constraint) { $constraint->aspectRatio(); });
 				$path250 = 'premia/250_' . $fileName;
 				Storage::disk('public')->put($path250, (string) $img250->encode());
-				$url250 = Storage::disk('public')->url($path250);
+				$url250 = $path250;
 				
 				// Create 600px version
 				$img600 = Image::make($first_picture->getRealPath());
@@ -219,7 +219,7 @@ class PremiumController extends Controller
 				}
 				$path600 = 'premia/600_' . $fileName;
 				Storage::disk('public')->put($path600, (string) $img600->encode());
-				$url600 = Storage::disk('public')->url($path600);
+				$url600 = $path600;
 				
 				$url = [$url250, $url600];
 				
@@ -234,9 +234,11 @@ class PremiumController extends Controller
 					{
 						if (!empty($pic->id))
 						{
-							$remove_old = explode('/', $pic->url);
-							
-							Storage::disk('public')->delete('premia/'.last($remove_old));
+							$oldPath = $pic->getRawOriginal('url');
+							if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+								$oldPath = 'premia/' . last(explode('/', $oldPath));
+							}
+							Storage::disk('public')->delete($oldPath);
 							
 							$pic->url = $url[$i];
 							$pic->save();
@@ -246,9 +248,11 @@ class PremiumController extends Controller
 					{
 						if (!empty($pic->id))
 						{
-							$remove_old = explode('/', $pic->url);
-							
-							Storage::disk('public')->delete('premia/'.last($remove_old));
+							$oldPath = $pic->getRawOriginal('url');
+							if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+								$oldPath = 'premia/' . last(explode('/', $oldPath));
+							}
+							Storage::disk('public')->delete($oldPath);
 							
 							$pic->url = $url[$i];
 							$pic->save();
@@ -317,9 +321,11 @@ class PremiumController extends Controller
 				
 				if (!empty($pic->id))
 					{
-						$remove_old = explode('/', $pic->url);
-						
-						Storage::disk('public')->delete('premia/'.last($remove_old));
+						$oldPath = $pic->getRawOriginal('url');
+						if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+							$oldPath = 'premia/' . last(explode('/', $oldPath));
+						}
+						Storage::disk('public')->delete($oldPath);
 						
 						$pic->delete();
 					}

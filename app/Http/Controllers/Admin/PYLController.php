@@ -223,9 +223,11 @@ class PYLController extends Controller
 			{
 				if (!empty($user->id))
 				{
-					$remove_old = explode('/', $user->photo);
-						
-					Storage::disk('do')->delete('pyls/'.last($remove_old));
+					$oldPath = $user->getRawOriginal('photo');
+					if (\Illuminate\Support\Str::startsWith($oldPath, ['http://', 'https://'])) {
+						$oldPath = 'pyls/' . last(explode('/', $oldPath));
+					}
+					Storage::disk('do')->delete($oldPath);
 						
 					$user->delete();
 				}

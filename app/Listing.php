@@ -53,8 +53,17 @@ class Listing extends Model
 		return $this->hasMany('App\ListingUrl');
 	}
 	
-    public function user()
+	public function user()
     {
 		return $this->belongsTo('App\User');
 	}
+
+    public function getLogoAttribute($value)
+    {
+        if (!$value) return null;
+        if (\Illuminate\Support\Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($value);
+    }
 }

@@ -225,8 +225,7 @@ class DashboardController extends Controller
 			if (!empty($request->picture) )
 			{
 				$path = $request->picture->store('avatar', 'public');
-				$url = Storage::disk('public')->url($path);
-				$user ->avatar = $url;
+				$user ->avatar = $path;
 			}
 			
 			$user ->name = $request->name;

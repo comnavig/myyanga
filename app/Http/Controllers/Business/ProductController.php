@@ -163,10 +163,9 @@ public function index(Request $request)
 				{
 					$picture = $request->pictures[$i];
 					$path = $picture->store('public/pictures');
-					$url = url(Storage::url($path));
 					$new_picture = new ProductPicture;
 					$new_picture->product_id = $new_product->id;
-					$new_picture->url = $url;
+					$new_picture->url = $path;
 					$new_picture->save();
 				}
 				else
@@ -267,7 +266,7 @@ public function index(Request $request)
 			if (!empty($request->logo))
 			{
 				$path = $request->file('logo')->store('public/pictures');
-				$new_product->logo = url(Storage::url($path));
+				$new_product->logo = $path;
 			}
 			
 			$new_product->name = $request->name;
@@ -298,7 +297,7 @@ public function index(Request $request)
 					{
 						$path = $picture->store('public/pictures');
 						
-						$pic->url = url(Storage::url($path));
+						$pic->url = $path;
 						$pic->save();
 					}
 					
@@ -344,11 +343,10 @@ public function index(Request $request)
 		else
 		{
 			$path = $request->picture->store('deliverynote', 'public');
-			$url = Storage::disk('public')->url($path);
 			
 			$deliverynote = new DeliveryNote;
 			$deliverynote->product_sold_id = $request->product_sold_id;
-			$deliverynote->image = $url;
+			$deliverynote->image = $path;
 			$deliverynote->delivery_note = $request->description;
 			$deliverynote->user_id = $user_id;
 			$deliverynote->admin_id = 0;
