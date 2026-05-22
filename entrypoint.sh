@@ -10,11 +10,6 @@ if [ ! -d "vendor" ]; then
     composer install
 fi
 
-# Generate app key if not set
-if ! grep -q "APP_KEY=" .env || grep -q "APP_KEY=$" .env; then
-    echo "Generating app key..."
-    php artisan key:generate
-fi
 
 # Fix permissions every time container starts, laravel needs write permissions to storage and bootstrap/cache directories
 chown -R www-data:www-data /var/www/html/storage

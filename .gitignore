@@ -74,7 +74,6 @@ error_log
 
 # PHP
 composer.phar
-composer.lock
 
 # Build files
 /public/mix-manifest.json
