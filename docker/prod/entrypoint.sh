@@ -39,4 +39,5 @@ php artisan optimize
 
 
 echo "Laravel setup completed successfully!"
-exit 0
+echo "Starting Apache now..."
+apache2-foreground
