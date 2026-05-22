@@ -37,7 +37,6 @@ php artisan storage:link || true
 echo "Running optimizations..."
 php artisan optimize
 
-
 echo "Laravel setup completed successfully!"
 echo "Starting Apache now..."
-apache2-foreground
+exec docker-php-entrypoint apache2-foreground
