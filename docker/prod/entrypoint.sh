@@ -38,5 +38,9 @@ echo "Running optimizations..."
 php artisan optimize
 
 echo "Laravel setup completed successfully!"
+echo "Fixing Apache MPM configuration..."
+a2dismod mpm_event mpm_worker || true
+a2enmod mpm_prefork || true
+
 echo "Starting Apache now..."
 exec docker-php-entrypoint apache2-foreground
