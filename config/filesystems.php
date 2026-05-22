@@ -94,15 +94,14 @@ return [
         'posts'  => $cloudDisk('posts'),
         'ads'    => $cloudDisk('ads'),
 
-         'do' => [
+        's3' => [
             'driver' => 's3',
-            'key' => 'MDZMWZL3RSAP7EV3FVTP',
-            'secret' => 'HPZqcwROboLKRuOiKDdOoyxljXjeDp8ZSh2UpoPdVmY',
-            'region' => 'fra1',
-            'bucket' => 'myyanga',
-            'url' => 'https://myyanga.fra1.digitaloceanspaces.com',
-            'endpoint' => 'https://fra1.digitaloceanspaces.com',
-            'visibility' => 'public',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
         ],
 
     ],

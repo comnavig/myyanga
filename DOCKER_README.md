@@ -15,7 +15,7 @@ The setup consists of three core services orchestrated by `docker-compose.yml`:
 1.  **`php74` (Web Server)**: 
     - Uses `Dockerfile-74` to build a PHP 7.4 + Apache environment.
     - Runs `entrypoint.sh` on startup to automate migrations and seeding.
-    - Maps to [http://localhost:8074](http://localhost:8074).
+    - Maps to [http://localhost:8080](http://localhost:8080).
 2.  **`db` (MySQL)**: 
     - Uses MySQL 8.0.
     - Persists data in a Docker volume (`db_data`) so your data survives container restarts.
@@ -64,9 +64,9 @@ On startup, the `php74` container runs `entrypoint.sh` which:
 
 | Service | Host Port | Internal Port | Description |
 | :--- | :--- | :--- | :--- |
-| **Web App** | `8074` | `80` | Laravel Application |
+| **Web App** | `8080` | `80` | Laravel Application |
 | **MySQL** | `3306` | `3306` | Database Server |
-| **PHPMyAdmin** | `8081` | `80` | DB Management Tool |
+| **PHPMyAdmin** | `8088` | `80` | DB Management Tool |
 
 ## 💡 Common Commands
 

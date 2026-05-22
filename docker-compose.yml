@@ -3,7 +3,7 @@ services:
   php74:
     build:
       context: .
-      dockerfile: Dockerfile-74
+      dockerfile: Dockerfile
     ports:
       - "8080:80"
     volumes:
