@@ -7,7 +7,7 @@ echo "Running Laravel setup..."
 # Install dependencies if vendor is missing
 if [ ! -d "vendor" ]; then
     echo "Installing Composer dependencies..."
-    composer install
+    composer install --no-dev --optimize-autoloader
 fi
 
 # Fix permissions every time container starts, laravel needs write permissions to storage and bootstrap/cache directories
@@ -25,11 +25,6 @@ php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 
-echo "Caching for production"
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
 # Run migrations
 echo "Running migrations..."
 php artisan migrate --force
@@ -38,6 +33,10 @@ php artisan migrate --force
 echo "Creating storage symlink..."
 php artisan storage:link || true
 
-# Start Apache
-echo "Starting Apache..."
-exec apache2-foreground
+# Run optimizations
+echo "Running optimizations..."
+php artisan optimize
+
+
+echo "Laravel setup completed successfully!"
+exit 0
