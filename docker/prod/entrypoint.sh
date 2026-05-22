@@ -32,7 +32,7 @@ php artisan view:cache
 
 # Run migrations
 echo "Running migrations..."
-php artisan migrate
+php artisan migrate --force
 
 # Create storage symlink
 echo "Creating storage symlink..."
