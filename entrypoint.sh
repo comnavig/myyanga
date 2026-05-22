@@ -7,7 +7,7 @@ echo "Running Laravel setup..."
 # Install dependencies if vendor is missing
 if [ ! -d "vendor" ]; then
     echo "Installing Composer dependencies..."
-    composer install
+    composer install --no-dev --optimize-autoloader
 fi
 
 
@@ -43,11 +43,6 @@ php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 
-echo "Caching for production"
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
 # Run migrations
 echo "Running migrations..."
 php artisan migrate
@@ -66,6 +61,10 @@ else
     echo "Seeding database..."
     php artisan db:seed
 fi
+
+# Optimize Laravel
+echo "Optimizing Laravel..."
+php artisan optimize
 
 # Start Apache
 echo "Starting Apache..."
