@@ -283,7 +283,7 @@ public function index(Request $request)
 			$new_product->featured = "PENDING";
 			$new_product->save();
 			
-			$plan = Plan::find($request->plan);
+			// $plan = Plan::find($request->plan); // Removed because it's undefined and the variable is unused
 			
 			
 			//Pictures
@@ -291,7 +291,7 @@ public function index(Request $request)
 			{
 				foreach ($request->pictures as $key => $picture)
 				{
-					$pic = Picture::find($key);
+					$pic = ProductPicture::find($key);
 					
 					if (!empty($pic->id))
 					{

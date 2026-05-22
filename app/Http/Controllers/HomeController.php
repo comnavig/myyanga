@@ -36,6 +36,7 @@ use App\PremiumSubscription;
 use App\NotificationData;
 use App\Discover;
 use App\DiscoverCategory;
+use App\Subscriber;
 use Vedmant\FeedReader\Facades\FeedReader;
 use App\Mail\ProductNotification;
 use App\Mail\PremiumNotification;
