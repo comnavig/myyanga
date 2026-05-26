@@ -38,8 +38,9 @@
 									['expired_at','>',$today]	
 									])->get();
 		
-		$settings = App\Settings::where('name', 'logo')->get();
-		$logo = $settings->last();
+		$settings = App\Settings::whereIn('name', ['logo', 'background_1'])->get()->keyBy('name');
+		$logo = $settings->get('logo');
+		$background_1 = $settings->get('background_1');
 	@endphp
     <header>
         <div class="container">
@@ -115,7 +116,7 @@
             </nav>
 
             <!-- hero -->
-            <div class="text-center hero" style="padding: 1rem !important">
+            <div class="text-center hero" style="padding: 1rem !important; background-image: url('{{ $background_1->value ?? '' }}'); background-size: cover; background-position: center;">
                 <div class="col-lg-6 mx-auto">
                     <p class="mb-4" style="font-size: 32px">The Best of<br> 
                     African Fashion creativity,<br/>

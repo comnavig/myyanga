@@ -31,8 +31,9 @@
             ['expired_at', '>', $today]    
         ])->get();
         
-        $settings = App\Settings::where('name', 'logo')->get();
-        $logo = $settings->last();
+        $settings = App\Settings::whereIn('name', ['logo', 'background_1'])->get()->keyBy('name');
+        $logo = $settings->get('logo');
+        $background_1 = $settings->get('background_1');
     @endphp
     <header>
         <div class="container">
@@ -105,7 +106,7 @@
             </nav>
             
             <!-- hero -->
-            <div class="px-4 py-5 text-center hero">
+            <div class="px-4 py-5 text-center hero" style="background-image: url('{{ $background_1->value ?? '' }}'); background-size: cover; background-position: center;">
                 <div class="col-lg-6 mx-auto">
                     <form class="me-auto mb-2 mb-md-0" method="get" action="{{ route('search') }}">
                         @csrf
