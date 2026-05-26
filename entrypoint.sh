@@ -19,23 +19,7 @@ chmod -R 775 /var/www/html/storage
 chmod -R 775 /var/www/html/bootstrap/cache
 
 # Wait for MySQL to be ready
-# until php -r "
-# try {
-#     new PDO(
-#         'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_DATABASE'),
-#         getenv('DB_USERNAME'),
-#         getenv('DB_PASSWORD')
-#     );
-#     exit(0);
-# } catch (Exception \$e) {
-#     exit(1);
-# }
-# "; do
-#     echo \"Waiting for DB...\"
-#     sleep 2
-# done
 sleep 3
-
 
 # Run artisan commands
 echo "Clearing Laravel cache..."

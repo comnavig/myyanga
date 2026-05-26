@@ -14,18 +14,6 @@ services:
       db:
         condition: service_healthy
 
-  # Not needed for now, we will move to it later when the project's laravel version has been updated and tested on php 8.1.
-  # php81:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile-81
-  #   ports:
-  #     - "8081:80"
-  #   volumes:
-  #     - .:/var/www/html:Z
-  #   depends_on:
-  #     - db
-
   db:
     image: mysql:8.0
     environment:
