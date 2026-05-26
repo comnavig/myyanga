@@ -18,12 +18,7 @@ class StorageHelper
         /** @var \Illuminate\Filesystem\FilesystemAdapter $storageDisk */
         $storageDisk = Storage::disk($disk);
         
-        // If using S3, generate a temporary presigned URL (valid for 24 hours)
-        if (env('FILESYSTEM_DRIVER', 'local') === 's3') {
-            return $storageDisk->temporaryUrl($path, now()->addHours(24));
-        }
-
-        // Otherwise, use standard local URL
+        // Return standard URL (which dynamically resolves to S3 proxy or local based on environment)
         return $storageDisk->url($path);
     }
 }

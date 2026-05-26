@@ -92,10 +92,9 @@ class SettingsController extends Controller
 		else
 		{
 			$image = $request->pictures[0]->store('settings', 'public');
-			$path = Storage::disk('public')->url($image);
 			
 			$settings = Settings::find($request->settings_id);
-			$settings->value = url($path);
+			$settings->value = $image;
 			$settings->save();
 			
 			session()->flash('message', 'Task was successful!');
