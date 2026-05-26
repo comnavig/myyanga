@@ -46,6 +46,20 @@ use Illuminate\Support\Facades\Mail;
 class HomeController extends Controller
 {
 	/**
+	 * Backend S3 Proxy Route to serve private bucket assets
+	 */
+	public function serve_file($path)
+	{
+		/** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+		$disk = Storage::disk('public');
+
+		if (!$disk->exists($path)) {
+			abort(404);
+		}
+		return $disk->response($path);
+	}
+
+	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void

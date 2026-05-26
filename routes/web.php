@@ -344,12 +344,7 @@ Route::get('/blackops', 'HomeController@blackops');
 Route::get('/cronwork', 'HomeController@notify');
 
 // Backend S3 Proxy Route for Private Storage Buckets
-Route::get('/storage/{path}', function ($path) {
-    if (!\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
-        abort(404);
-    }
-    return \Illuminate\Support\Facades\Storage::disk('public')->response($path);
-})->where('path', '.*')->name('cdn.serve');
+Route::get('/storage/{path}', 'HomeController@serve_file')->where('path', '.*')->name('cdn.serve');
 
 //Pages that not coded into the system 
 Route::get('/{slug}', 'HomeController@page')->name('pages');
