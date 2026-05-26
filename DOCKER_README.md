@@ -13,7 +13,7 @@ This repository provides a containerized development environment specifically tu
 The setup consists of three core services orchestrated by `docker-compose.yml`:
 
 1.  **`php74` (Web Server)**: 
-    - Uses `Dockerfile-74` to build a PHP 7.4 + Apache environment.
+    - Uses the root `Dockerfile` to build a PHP 7.4 + Apache environment.
     - Runs `entrypoint.sh` on startup to automate migrations and seeding.
     - Maps to [http://localhost:8080](http://localhost:8080).
 2.  **`db` (MySQL)**: 
@@ -22,7 +22,30 @@ The setup consists of three core services orchestrated by `docker-compose.yml`:
     - Supports automated SQL restoration via the `DB_BACKUP_FILE` environment variable.
 3.  **`phpmyadmin` (Database GUI)**:
     - Provides a web interface to manage your database.
-    - Maps to [http://localhost:8081](http://localhost:8081).
+    - Maps to [http://localhost:8088](http://localhost:8088).
+
+## 📂 Environments & Container Files
+
+To keep development fast and production deployments secure, this repository maintains separate Docker environments:
+
+### 💻 Local Development Setup (Root Directory)
+Optimized for active development, real-time code changes, and interactive debugging.
+
+*   **[`docker-compose.yml`](file:///Users/bigchris/Documents/Jobs/Comnavig/standard-myyanga/docker-compose.yml)**: Orchestrates development services. Mounts the project folder as a bind volume (`.:/var/www/html`) so any local code changes immediately reflect in the container.
+*   **[`Dockerfile`](file:///Users/bigchris/Documents/Jobs/Comnavig/standard-myyanga/Dockerfile)**: Builds the PHP 7.4 + Apache base image, installs composer, enables rewrite modules, and turns on developer error reporting.
+*   **[`entrypoint.sh`](file:///Users/bigchris/Documents/Jobs/Comnavig/standard-myyanga/entrypoint.sh)**: The startup script. Installs dev dependencies if missing, updates local permissions, runs migrations, and **conditionally seeds the database** if no database backup is specified.
+
+---
+
+### 🚀 Production/Deployment Setup (`docker/prod/`)
+Optimized for production PaaS environments (like Railway) for fully static, compiled, and optimized builds.
+
+*   **[`docker/prod/docker-compose.yml`](file:///Users/bigchris/Documents/Jobs/Comnavig/standard-myyanga/docker/prod/docker-compose.yml)**: Local production configuration to test and simulate the production container behavior locally.
+*   **[`docker/prod/Dockerfile`](file:///Users/bigchris/Documents/Jobs/Comnavig/standard-myyanga/docker/prod/Dockerfile)**: Builds the production image. Instead of dynamic volume binds, it **copies the entire codebase into the image** (`COPY . /var/www/html/`) making it entirely self-contained. It embeds the production entrypoint and locks standard production variables.
+*   **[`docker/prod/entrypoint.sh`](file:///Users/bigchris/Documents/Jobs/Comnavig/standard-myyanga/docker/prod/entrypoint.sh)**: The production bootstrap script. Installs only production dependencies, clears dev caches, runs migrations, optimizes caches (`php artisan optimize`), and **never seeds the database**.
+*   **[`docker/prod/.env.production`](file:///Users/bigchris/Documents/Jobs/Comnavig/standard-myyanga/docker/prod/.env.production)**: Sample configuration template for production deployments.
+
+
 
 ## 🛠️ Getting Started
 

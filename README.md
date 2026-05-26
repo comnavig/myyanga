@@ -87,10 +87,16 @@ The Docker environment is pre-configured with PHP 7.4, MySQL, and PHPMyAdmin.
 
 MyYanga is optimized for modern PaaS deployment on Railway.
 
-1. Create a MySQL database and a Storage Bucket in your Railway project.
-2. Connect your GitHub repository to a new Railway web service.
+### Option 1: Docker Deployment (Recommended)
+You can deploy using the dedicated production Docker environment:
+1. Connect your GitHub repository to a new Railway web service.
+2. In the Railway service settings, set the **Dockerfile Path** to `docker/prod/Dockerfile`.
+3. Add your environment variables (Database, `APP_URL`, `APP_KEY`, and storage credentials).
+
+### Option 2: Nixpacks Buildpack
+1. Connect your GitHub repository to a new Railway web service.
+2. Let the default Nixpacks configuration handle the PHP/Laravel setup automatically.
 3. Add the required environment variables (Database, `APP_URL`, `APP_KEY`, and all AWS/S3 Storage credentials listed above).
-4. Define your build and start commands in Railway or let the default Nixpacks configuration handle the PHP/Laravel setup.
 
 ---
 
