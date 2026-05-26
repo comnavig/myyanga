@@ -75,26 +75,26 @@
                         
                         <div class="my-2 d-flex header-login">
                             @guest
-                                <p onclick="location.href = '{{ route('login') }}'" class="me-3"><i class="fa-solid fa-user-plus"></i> Login</p>
-                                <p onclick="location.href = '{{ route('register') }}'" class=""><i class="fa-solid fa-user"></i> Sign-up</p>
+                                <a href="{{ route('login') }}" class="me-3 text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user-plus"></i> Login</a>
+                                <a href="{{ route('register') }}" class="text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user"></i> Sign-up</a>
                             @endguest
                             
                             @auth
                                 @if(Auth::user()->type == "ADMIN")
-                                    <p onclick="location.href = '{{ route('admin.dashboard') }}'" class="me-3"><i class="fa-solid fa-user-plus"></i> Dashboard</p>
-                                    <p onclick="event.preventDefault();document.getElementById('logout-form').submit();" class=""><i class="fa-solid fa-user"></i> {{ __('Logout') }}</p> 
+                                    <a href="{{ route('admin.dashboard') }}" class="me-3 text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user-plus"></i> Dashboard</a>
+                                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user"></i> {{ __('Logout') }}</a> 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 @elseif(Auth::user()->type == "BUSINESS")
-                                    <p onclick="location.href = '{{ route('business.dashboard') }}'" class="me-3"><i class="fa-solid fa-user-plus"></i> Dashboard</p>
-                                    <p onclick="event.preventDefault();document.getElementById('logout-form').submit();" class=""><i class="fa-solid fa-user"></i> {{ __('Logout') }}</p>  
+                                    <a href="{{ route('business.dashboard') }}" class="me-3 text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user-plus"></i> Dashboard</a>
+                                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user"></i> {{ __('Logout') }}</a>  
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 @else
-                                    <p onclick="location.href = '{{ route('user.profile') }}'" class="me-3"><i class="fa-solid fa-user-plus"></i> Profile</p>
-                                    <p onclick="event.preventDefault();document.getElementById('logout-form').submit();" class=""><i class="fa-solid fa-user"></i> {{ __('Logout') }}</p>  
+                                    <a href="{{ route('user.profile') }}" class="me-3 text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user-plus"></i> Profile</a>
+                                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="text-decoration-none text-reset" style="cursor: pointer;"><i class="fa-solid fa-user"></i> {{ __('Logout') }}</a>  
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -106,7 +106,7 @@
             </nav>
             
             <!-- hero -->
-            <div class="px-4 py-5 text-center hero" style="background-image: url('{{ $background_1->value ?? '' }}'); background-size: cover; background-position: center;">
+            <div class="px-4 py-5 text-center hero" style="background-image: url('<?php echo $background_1->value ?? ''; ?>'); background-size: cover; background-position: center;">
                 <div class="col-lg-6 mx-auto">
                     <form class="me-auto mb-2 mb-md-0" method="get" action="{{ route('search') }}">
                         @csrf
@@ -131,10 +131,10 @@
                 <div class="footer-item col">
                     <h4>More Info</h4>
                     <ul class="row-li">
-                        <li onclick="location.href='{{ route('pages', ['slug' => 'about']) }}'">About Us</li>
-                        <li onclick="location.href='{{ route('pages', ['slug' => 'privacy_policy']) }}'">Privacy Policy</li>
-                        <li onclick="location.href='{{ route('pages', ['slug' => 'terms']) }}'">Terms</li>
-                        <li onclick="location.href='{{ route('pages', ['slug' => 'contact']) }}'">Contact</li>
+                        <li><a href="{{ route('pages', ['slug' => 'about']) }}" class="text-decoration-none text-reset" style="cursor: pointer;">About Us</a></li>
+                        <li><a href="{{ route('pages', ['slug' => 'privacy_policy']) }}" class="text-decoration-none text-reset" style="cursor: pointer;">Privacy Policy</a></li>
+                        <li><a href="{{ route('pages', ['slug' => 'terms']) }}" class="text-decoration-none text-reset" style="cursor: pointer;">Terms</a></li>
+                        <li><a href="{{ route('pages', ['slug' => 'contact']) }}" class="text-decoration-none text-reset" style="cursor: pointer;">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-item col">
