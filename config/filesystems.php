@@ -32,9 +32,12 @@ $cloudDisk = function (string $folder = '') use ($isS3, $s3Credentials) {
     $config = [
         'driver'     => $isS3 ? 's3' : 'local',
         'root'       => $isS3 ? $folder : storage_path('app/public' . $suffix),
-        'url'        => $isS3 ? env('AWS_URL') . $suffix : env('APP_URL') . '/storage' . $suffix,
         'visibility' => 'public',
     ];
+
+    $config['url'] = env('AWS_URL')
+        ? env('AWS_URL') . $suffix
+        : env('APP_URL') . '/storage' . $suffix;
 
     return $isS3 ? array_merge($config, $s3Credentials) : $config;
 };

@@ -91,8 +91,8 @@ class SettingsController extends Controller
         }
 		else
 		{
-			$image = $request->pictures[0]->store('public/settings');
-			$path = Storage::url($image);
+			$image = $request->pictures[0]->store('settings', 'public');
+			$path = Storage::disk('public')->url($image);
 			
 			$settings = Settings::find($request->settings_id);
 			$settings->value = url($path);
