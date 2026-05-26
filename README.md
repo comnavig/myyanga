@@ -24,26 +24,16 @@ MyYanga is a comprehensive Laravel-based platform that combines business directo
 
 ## Image Storage & Serving Architecture ☁️
 
-MyYanga is fully configured to use secure, private cloud storage (Railway S3 Buckets) in production, while seamlessly falling back to local storage during development.
+MyYanga is fully configured to securely serve images from a **private cloud storage bucket** (like Railway/Tigris) in production without public access exposures or link expirations, while seamlessly falling back to local storage during development.
 
-### How it Works
-1. **Dynamic Configuration:** In `config/filesystems.php`, all application disks (`public`, `avatar`, `temp`, `posts`, `ads`) dynamically switch between the `local` driver and the `s3` driver based on your `FILESYSTEM_DRIVER` environment variable.
-2. **Uploading:** When uploading a file, Laravel automatically routes the file to the correct destination (either your local `storage/app/public` folder or directly into your Railway Bucket).
-3. **Serving Private Files:** Railway Buckets are private by default. To securely serve images without making the bucket public, MyYanga uses the `\App\Helpers\StorageHelper::getUrl()` helper method.
-   - **Locally:** It generates a standard local URL (`http://localhost/storage/avatar.jpg`).
-   - **In Production:** It authenticates with AWS/Railway and generates a secure, **24-hour temporary presigned URL**. This allows users to view the image directly from the bucket without incurring backend proxy bandwidth costs.
+### How it Works:
+1. **Dynamic Disk configuration:** All application disks in `config/filesystems.php` dynamically switch between local and S3 storage based on `FILESYSTEM_DRIVER`.
+2. **Unified Backend Proxy:** In production, files are securely fetched from the S3 bucket behind the scenes and streamed via a local `/storage/{path}` proxy route (`HomeController@serve_file`).
+3. **Database Portability:** We only save clean relative paths (e.g. `settings/logo.svg` or `products/image.jpg`) in the database.
+4. **Eloquent Accessor:** Settings like logos and background images are resolved on-the-fly dynamically via a Settings model accessor.
+5. **CDN Cacheable:** All URLs generated are static and permanent, allowing 100% efficient edge caching via CDNs (like Cloudflare) to completely eliminate repeating server egress charges.
 
-### Environment Setup for Storage
-To enable S3 storage on Railway, configure these variables in your environment:
-```env
-FILESYSTEM_DRIVER=s3
-AWS_ACCESS_KEY_ID=your_railway_access_key
-AWS_SECRET_ACCESS_KEY=your_railway_secret_key
-AWS_DEFAULT_REGION=us-east-1
-AWS_BUCKET=your_railway_bucket_name
-AWS_ENDPOINT=https://s3.railway.app
-AWS_URL=https://your_railway_bucket_public_url.up.railway.app
-```
+**📘 Detailed Architecture**: [IMAGES_README.md](IMAGES_README.md) - Complete documentation on uploads, serving logic, S3 proxy routing, and environment parameters.
 
 ---
 
